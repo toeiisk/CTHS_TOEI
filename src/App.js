@@ -1,10 +1,18 @@
 import React from "react";
-import { useRoutes } from "react-router-dom";
+import { useRoutes, BrowserRouter as Router } from "react-router-dom";
 import routes from "./routes";
 
 const App = () => {
   const routing = useRoutes(routes);
-  return { routing };
+  return  routing ;
 };
 
-export default App;
+const AppWrapper = () => {
+  return (
+    <Router>
+      <App />
+    </Router>
+  );
+};
+
+export default AppWrapper;

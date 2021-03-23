@@ -5,7 +5,7 @@ import Medicine from "./pages/Medicine";
 
 const routes = [
   {
-    path: "app",
+    path: "/",
     element: <Navbar />,
     children: [{ path: "medicine", element: <Medicine /> }],
   },

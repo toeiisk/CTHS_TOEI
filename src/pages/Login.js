@@ -111,6 +111,13 @@ export default function SignInSide() {
                 />
               </Grid>
               <Grid item>
+                <Link href="/register" variant="body2">
+                  <Typography component="subtitle1" variant="subtitle1" style={{marginRight: 10}}>
+                    Don't Have an Account?
+                  </Typography>
+                </Link>
+              </Grid>
+              <Grid item>
                 <Link href="#" variant="body2">
                   <Typography component="subtitle1" variant="subtitle1">
                     Forgot Password?

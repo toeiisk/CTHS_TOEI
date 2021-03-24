@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Outlet } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core';
-import Topbar from './Topbar';
-import Sidebar from './Sidebar';
+import TopBar from '../Topbar';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: theme.palette.background.dark,
+    backgroundColor: theme.palette.background.default,
     display: 'flex',
     height: '100%',
     overflow: 'hidden',
@@ -16,10 +15,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flex: '1 1 auto',
     overflow: 'hidden',
-    paddingTop: 64,
-    [theme.breakpoints.up('lg')]: {
-      paddingLeft: 256
-    }
+    paddingTop: 64
   },
   contentContainer: {
     display: 'flex',
@@ -30,21 +26,16 @@ const useStyles = makeStyles((theme) => ({
     flex: '1 1 auto',
     height: '100%',
     overflow: 'auto',
-    padding: theme.spacing(8)
+    minHeight: '100%',
   }
 }));
 
-const Navbar = () => {
+const MainLayout = () => {
   const classes = useStyles();
-  const [isMobileNavOpen, setMobileNavOpen] = useState(false);
 
   return (
     <div className={classes.root}>
-      <Topbar onMobileNavOpen={() => setMobileNavOpen(true)} />
-      <Sidebar
-        onMobileClose={() => setMobileNavOpen(false)}
-        openMobile={isMobileNavOpen}
-      />
+      <TopBar />
       <div className={classes.wrapper}>
         <div className={classes.contentContainer}>
           <div className={classes.content}>
@@ -56,4 +47,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default MainLayout;

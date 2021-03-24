@@ -36,16 +36,16 @@ const useStyles = makeStyles(() => ({
   },
   desktopDrawer: {
     width: 256,
-    top: 64,
-    height: "calc(100% - 64px)",
+    top: 105,
+    height: "calc(100% - 105px)",
   },
   avatar: {
     cursor: "pointer",
-    width: 64,
-    height: 64,
+    width: 105,
+    height: 105,
   },
   navTab: {
-    padding: 10
+    padding: 10,
   },
 }));
 
@@ -90,7 +90,7 @@ const Sidebar = ({ onMobileClose, openMobile }) => {
             button
             component={Link}
             className={classes.navTab}
-            to="/patients"
+            to="/app/patients"
           >
             <ListItemIcon>
               <SupervisorAccountIcon />
@@ -102,7 +102,7 @@ const Sidebar = ({ onMobileClose, openMobile }) => {
             button
             component={Link}
             className={classes.navTab}
-            to="/treatment"
+            to="/app/treatment"
           >
             <ListItemIcon>
               <BookIcon />
@@ -114,7 +114,7 @@ const Sidebar = ({ onMobileClose, openMobile }) => {
             button
             component={Link}
             className={classes.navTab}
-            to="/diagnosis"
+            to="/app/diagnosis"
           >
             <ListItemIcon>
               <LocalLibraryIcon />
@@ -126,7 +126,7 @@ const Sidebar = ({ onMobileClose, openMobile }) => {
             button
             component={Link}
             className={classes.navTab}
-            to="/medicine"
+            to="/app/medicine"
           >
             <ListItemIcon>
               <LocalHospitalIcon />
@@ -138,7 +138,7 @@ const Sidebar = ({ onMobileClose, openMobile }) => {
             button
             component={Link}
             className={classes.navTab}
-            to="/report"
+            to="/app/report"
           >
             <ListItemIcon>
               <EventNoteIcon />
@@ -150,7 +150,7 @@ const Sidebar = ({ onMobileClose, openMobile }) => {
             button
             component={Link}
             className={classes.navTab}
-            to="/administor"
+            to="/app/administor"
           >
             <ListItemIcon>
               <PermContactCalendarIcon />
@@ -160,21 +160,25 @@ const Sidebar = ({ onMobileClose, openMobile }) => {
         </List>
       </Box>
       <Box flexGrow={1} />
+      <Divider />
       <Box p={2} m={2} bgcolor="background.dark">
-        <Typography align="center" gutterBottom variant="h4">
-          Need more?
-        </Typography>
-        <Typography align="center" variant="body2">
-          Upgrade to PRO version and access 20 more screens
-        </Typography>
-        <Box display="flex" justifyContent="center" mt={2}>
+        <Box
+          display="flex"
+          flexDirection="column"
+          justifyContent="center"
+          mt={2}
+        >
           <Button
             color="primary"
             component="a"
-            href="https://react-material-kit.devias.io"
+            href="/login"
             variant="contained"
+            style={{ marginBottom: 10 }}
           >
-            See PRO version
+            LOG IN
+          </Button>
+          <Button component="a" href="/register">
+            Don't Have an Account?
           </Button>
         </Box>
       </Box>
@@ -187,6 +191,8 @@ const Sidebar = ({ onMobileClose, openMobile }) => {
         <Drawer
           anchor="left"
           classes={{ paper: classes.mobileDrawer }}
+          onClose={onMobileClose}
+          open={openMobile}
           variant="temporary"
         >
           {content}

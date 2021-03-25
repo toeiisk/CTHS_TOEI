@@ -1,6 +1,5 @@
 import React from "react";
 import { Navigate } from 'react-router-dom';
-//Components
 import Navbar from "./components/Navbar";
 import NavbarMain from "./components/Navbar/Main/index";
 
@@ -8,6 +7,7 @@ import NavbarMain from "./components/Navbar/Main/index";
 import Homepage from "./pages/Homepage";
 import Patients from "./pages/Patients/Patients";
 import CreatePatients from "./pages/Patients/Create";
+import PatientDetail from "./pages/Patients/Detail"
 import Administor from "./pages/Administor";
 import Diagnosis from "./pages/Diagnosis";
 import Medicine from "./pages/Medicine";
@@ -23,8 +23,9 @@ const routes = [
     children: [
       { path: "medicine", element: <Medicine /> },
       { path: "homepage", element: <Homepage /> },
-      { path: "Patients", element: <Patients /> },
+      { path: "patients", element: <Patients /> },
       { path: "createpatients", element: <CreatePatients /> },
+      { path: "detail/:id", element: <PatientDetail /> },
       { path: "administor", element: <Administor /> },
       { path: "diagnosis", element: <Diagnosis /> },
       { path: "treatment", element: <Treatment /> },

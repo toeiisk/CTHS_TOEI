@@ -1,42 +1,77 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import DataGrid from "react-data-grid";
 import { Box, Grid, Typography, Button } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { DataGrid  } from '@material-ui/data-grid';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    boxAdmin: {},
     display: "flex",
-    minHeight: "100%",
-    paddingTop: theme.spacing(3),
-    paddingBottom: theme.spacing(3),
+    "& div.MuiDataGrid-cell": {
+      color: "white",
+    },
+    "& div.MuiDataGrid-colCellTitle": {
+      color: "black",
+    },
+    "& div.MuiToolbar-root": {
+      color: "white",
+    },
+    "& div.MuiTablePagination-actions": {
+      color: "white",
+    },
+    "& div.MuiIconButton-label": {
+      color: "white",
+    },
+    "& div.MuiDataGrid-colCellWrapper": {
+      backgroundColor: "white",
+    },
   },
-  boxAdmin: {},
 }));
 
 const columns = [
-  { key: "id", name: "ID" },
-  { key: "firstname", name: "Firstname" },
-  { key: "lastname", name: "Lastname" },
-  { key: "idcard", name: "IDCard" },
+  { field: "id", headerName: "ID", width: 200, flex: 1, resizable: true },
+  {
+    field: "firstname",
+    headerName: "First Name",
+    width: 200,
+    flex: 1,
+    resizable: true,
+  },
+  {
+    field: "lastname",
+    headerName: "Last Lastname",
+    width: 200,
+    flex: 1,
+    resizable: true,
+  },
+  {
+    field: "idcard",
+    headerName: "ID Card",
+    width: 200,
+    flex: 1,
+    resizable: true,
+  },
 ];
 
 const rows = [
   { id: 0, firstname: "Test1", lastname: "Test1", idcard: "123456" },
   { id: 1, firstname: "Test2", lastname: "Test2", idcard: "123456" },
   { id: 2, firstname: "Test3", lastname: "Test3", idcard: "123456" },
-  { id: 1, firstname: "Test2", lastname: "Test2", idcard: "123456" },
-  { id: 1, firstname: "Test2", lastname: "Test2", idcard: "123456" },
-  { id: 1, firstname: "Test2", lastname: "Test2", idcard: "123456" },
-  { id: 1, firstname: "Test2", lastname: "Test2", idcard: "123456" },
-  { id: 1, firstname: "Test2", lastname: "Test2", idcard: "123456" },
-  { id: 1, firstname: "Test2", lastname: "Test2", idcard: "123456" },
+  { id: 3, firstname: "Test2", lastname: "Test2", idcard: "123456" },
+  { id: 4, firstname: "Test2", lastname: "Test2", idcard: "123456" },
+  { id: 5, firstname: "Test2", lastname: "Test2", idcard: "123456" },
+  { id: 6, firstname: "Test2", lastname: "Test2", idcard: "123456" },
+  { id: 7, firstname: "Test2", lastname: "Test2", idcard: "123456" },
+  { id: 8, firstname: "Test2", lastname: "Test2", idcard: "123456" },
   { id: 1, firstname: "Test2", lastname: "Test2", idcard: "123456" },
 ];
 
 const Patientpage = () => {
   const classes = useStyles();
+  let navigate = useNavigate();
   return (
     <React.Fragment className={classes.root}>
       <Box className={classes.boxAdmin}>
@@ -51,7 +86,7 @@ const Patientpage = () => {
           </Grid>
           <Grid item xs={6} align="right">
             <Box style={{ alignItems: "center", justifyContent: "flex-end" }}>
-              <Link to="/patients/create" style={{ textDecoration: "none" }}>
+              <Link to="/app/createpatients" style={{ textDecoration: "none" }}>
                 <Button
                   startIcon={<AddIcon />}
                   variant="contained"
@@ -63,11 +98,15 @@ const Patientpage = () => {
             </Box>
           </Grid>
           <Grid item xs={12}>
-            <DataGrid
-              columns={columns}
-              rows={rows}
-              style={{ height: "50vh" }}
-            />
+            <div style={{ height: 400, width: "100%" }}>
+              <DataGrid
+                rows={rows}
+                columns={columns}
+                pagination
+                pageSize={10}
+                onRowClick={(row) => navigate(`detail/${row.row.id}`)}
+              />
+            </div>
           </Grid>
         </Grid>
       </Box>

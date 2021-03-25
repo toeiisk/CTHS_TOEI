@@ -2,13 +2,16 @@ import React from "react";
 import { Navigate } from 'react-router-dom';
 import Navbar from "./components/Navbar";
 import NavbarMain from "./components/Navbar/Main/index";
-
 // Page
 import Homepage from "./pages/Homepage";
+
 import Patients from "./pages/Patients/Patients";
 import CreatePatients from "./pages/Patients/Create";
 import PatientDetail from "./pages/Patients/Detail"
-import Administor from "./pages/Administor";
+
+import User from "./pages/Admins/User";
+import UserCreate from "./pages/Admins/Creat"
+
 import Diagnosis from "./pages/Diagnosis";
 import Medicine from "./pages/Medicine";
 import Treatment from "./pages/Treatment";
@@ -24,9 +27,11 @@ const routes = [
       { path: "medicine", element: <Medicine /> },
       { path: "homepage", element: <Homepage /> },
       { path: "patients", element: <Patients /> },
-      { path: "createpatients", element: <CreatePatients /> },
-      { path: "detail/:id", element: <PatientDetail /> },
-      { path: "administor", element: <Administor /> },
+      { path: "patients/createpatients", element: <CreatePatients /> },
+      { path: "patients/detail/:id", element: <PatientDetail /> },
+      { path: "admin", element: <User /> },
+      { path: "admin/create", element: <UserCreate /> },
+      { path: "admin/detail/:id", element: <UserCreate /> },
       { path: "diagnosis", element: <Diagnosis /> },
       { path: "treatment", element: <Treatment /> },
       { path: "report", element: <Report /> },

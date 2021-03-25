@@ -150,7 +150,7 @@ const Sidebar = ({ onMobileClose, openMobile }) => {
             button
             component={Link}
             className={classes.navTab}
-            to="/app/administor"
+            to="/app/admin"
           >
             <ListItemIcon>
               <PermContactCalendarIcon />

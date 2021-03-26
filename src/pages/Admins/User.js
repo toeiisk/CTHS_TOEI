@@ -3,7 +3,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Box, Grid, Typography, Button } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { Link, useNavigate } from "react-router-dom";
-import { DataGrid  } from '@material-ui/data-grid';
+import { DataGrid } from '@material-ui/data-grid';
+import { useQuery } from '@apollo/client';
+import {GET_USERS} from './GraphQL/Querie'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -48,11 +50,11 @@ const columns = [
     resizable: true,
   },
   {
-    field: "idcard",
-    headerName: "ID Card",
+    field: "email",
+    headerName: "Email",
     width: 200,
     flex: 1,
-    resizable: true,
+    resizable: true
   },
   {
     field: "job",
@@ -63,22 +65,14 @@ const columns = [
   }
 ];
 
-const rows = [
-  { id: 0, firstname: "Test1", lastname: "Test1", idcard: "123456", job: "พยายาบาล" },
-  { id: 1, firstname: "Test2", lastname: "Test2", idcard: "123456", job: "พยายาบาล" },
-  { id: 2, firstname: "Test3", lastname: "Test3", idcard: "123456", job: "พยายาบาล" },
-  { id: 3, firstname: "Test2", lastname: "Test2", idcard: "123456", job: "หมอ" },
-  { id: 4, firstname: "Test2", lastname: "Test2", idcard: "123456", job: "หมอ" },
-  { id: 5, firstname: "Test2", lastname: "Test2", idcard: "123456", job: "หมอ" },
-  { id: 6, firstname: "Test2", lastname: "Test2", idcard: "123456", job: "หมอ" },
-  { id: 7, firstname: "Test2", lastname: "Test2", idcard: "123456", job: "เภสัช" },
-  { id: 8, firstname: "Test2", lastname: "Test2", idcard: "123456", job: "เภสัช" },
-  { id: 1, firstname: "Test2", lastname: "Test2", idcard: "123456", job: "เภสัช" },
-];
-
 const Userpage = () => {
   const classes = useStyles();
   let navigate = useNavigate();
+  const { loading, error, data } = useQuery(GET_USERS);
+
+  if (loading) return 'Loading...';
+  if (error) return `Error! ${error.message}`;
+
   return (
     <React.Fragment className={classes.root}>
       <Box className={classes.boxAdmin}>
@@ -107,7 +101,13 @@ const Userpage = () => {
           <Grid item xs={12}>
             <div style={{ height: 400, width: "100%" }}>
               <DataGrid
-                rows={rows}
+                rows={data.Users.map((item) => ({
+                  id: item._id,
+                  firstname: item.firstname,
+                  lastname: item.lastname,
+                  job: item.roles[0],
+                  email: item.email
+                }))}
                 columns={columns}
                 pagination
                 pageSize={10}

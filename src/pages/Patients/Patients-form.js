@@ -7,6 +7,7 @@ import {
     FormControlLabel,
     FormControl,
     FormLabel,
+    Button
 } from '@material-ui/core';
 import { Form, Field } from 'react-final-form';
 import { makeStyles } from '@material-ui/core/styles';
@@ -36,7 +37,7 @@ const PatientsForm = (props) => {
         <React.Fragment>
             <Form
                 onSubmit={onSubmit}
-                render={({ handleSubmit }) => (
+                render={({ handleSubmit, submitting }) => (
                     <form className={classes.root} noValidate autoComplete="true" onSubmit={handleSubmit}>
                         <Grid container spacing={2}>
                             <Grid item xs={6}>
@@ -355,6 +356,16 @@ const PatientsForm = (props) => {
                                     name="address"
                                     component={TextField}
                                 />
+                            </Grid>
+                            <Grid item xs={12} style={{ marginTop: 16, textAlign:'center', width: '100%'}}>
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    type="submit"
+                                    disabled={submitting}
+                                >
+                                    บันทึกข้อมูล
+                                </Button>
                             </Grid>
                         </Grid>
                     </form>

@@ -14,3 +14,18 @@ export const GET_USERS = gql`
     }
   }
 `
+export const GET_USER = gql`
+  query GetUser($id: MongoID!){
+    userById(_id: $id){
+      _id
+      username
+      email
+      firstname
+      lastname
+      phone
+      roles
+      address
+      
+    }
+  }
+`

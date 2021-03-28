@@ -11,6 +11,7 @@ import PatientDetail from "./pages/Patients/Detail"
 
 import User from "./pages/Admins/User";
 import UserCreate from "./pages/Admins/Creat"
+import UserDetail from "./pages/Admins/Detail"
 
 import Diagnosis from "./pages/Diagnosis";
 import Medicine from "./pages/Medicine";
@@ -31,7 +32,7 @@ const routes = [
       { path: "patients/detail/:id", element: <PatientDetail /> },
       { path: "admin", element: <User /> },
       { path: "admin/create", element: <UserCreate /> },
-      { path: "admin/detail/:id", element: <UserCreate /> },
+      { path: "admin/detail/:id", element: <UserDetail /> },
       { path: "diagnosis", element: <Diagnosis /> },
       { path: "treatment", element: <Treatment /> },
       { path: "report", element: <Report /> },

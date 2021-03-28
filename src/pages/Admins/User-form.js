@@ -10,15 +10,15 @@ import {
     NativeSelect,
     InputBase,
     InputLabel,
-    Button
+    Button,
 } from '@material-ui/core';
 import { Form, Field } from 'react-final-form';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-import { TextField, Radio, Select } from 'final-form-material-ui';
+import { TextField } from 'final-form-material-ui';
 import { useMutation } from '@apollo/client';
-import {ADD_USER} from './GraphQL/Mutation'
-import {GET_USERS} from './GraphQL/Querie'
-
+import { ADD_USER } from './GraphQL/Mutation'
+import { GET_USERS } from './GraphQL/Querie'
+import { useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -64,7 +64,38 @@ const BootstrapInput = withStyles((theme) => ({
     },
 }))(InputBase);
 
-const UserForm = () => {
+const validate = values => {
+    const errors = {}
+    if (!values.firstName) {
+        errors.firstName = 'Required'
+    }
+    if (!values.lastName) {
+        errors.lastName = 'Required'
+    }
+    if (!values.email) {
+        errors.email = 'Required'
+    }
+    if (!values.tell) {
+        errors.tell = 'Required'
+    }
+    if (!values.password) {
+        errors.password = 'Required'
+    }
+    if (!values.username) {
+        errors.username = 'Required'
+    }
+    if (!values.address) {
+        errors.address = 'Required'
+    }
+    if (!values.address) {
+        errors.address = 'Required'
+    }
+    return errors
+}
+
+const UserForm = (props) => {
+    const {mode, defaultdata} = props
+    let navigate = useNavigate();
     const classes = useStyles();
     const [select, setSelect] = React.useState('')
     const [addUser, { data }] = useMutation(ADD_USER);
@@ -85,112 +116,235 @@ const UserForm = () => {
                     password: value.password
                 }
             }
-            await addUser({ variables, refetchQueries: [{query : GET_USERS}] })
-            setSelect('')
+            try {
+                await addUser({ variables, refetchQueries: [{ query: GET_USERS }] })
+                setSelect('')
+                alert('บันทึกข้อมูลสำเร็จ')
+                navigate(`/app/admin/`)
+            } catch (err) {
+                console.log(err)
+                alert('เกิดข้อผิดพลาด')
+            }
         },
         [addUser, select]
     )
-
+    
     return (
         <React.Fragment>
             <Form
                 onSubmit={onSubmit}
+                validate={validate}
                 render={({ handleSubmit, submitting }) => (
                     <form className={classes.root} noValidate autoComplete="true" onSubmit={handleSubmit}>
                         <Grid container spacing={2}>
                             <Grid item xs={12}>
-                                <Field
-                                    fullWidth
-                                    required
-                                    name="username"
-                                    component={TextField}
-                                    type="text"
-                                    label="ยูซเซอร์เนม"
-                                    variant="outlined"
-                                    style={{ width: '100%' }}
-                                />
+                                {mode === 'update' ? (
+                                    <Field
+                                        fullWidth
+                                        required
+                                        name="username"
+                                        component={TextField}
+                                        type="text"
+                                        label="ยูซเซอร์เนม"
+                                        variant="outlined"
+                                        style={{ width: '100%' }}
+                                        defaultValue={defaultdata.userById.username}
+                                    />
+                                ): (
+                                    <Field
+                                        fullWidth
+                                        required
+                                        name="username"
+                                        component={TextField}
+                                        type="text"
+                                        label="ยูซเซอร์เนม"
+                                        variant="outlined"
+                                        style={{ width: '100%' }}
+                                    />
+                                )}
                             </Grid>
                             <Grid item xs={12}>
-                                <Field
-                                    name="password"
-                                    variant="outlined"
-                                    style={{ width: '100%' }}
-                                    required
-                                    type="password"
-                                    component={TextField}
-                                    label="รหัส"
-                                />
+                                {mode === 'update' ? (
+                                    <Field
+                                        name="password"
+                                        variant="outlined"
+                                        style={{ width: '100%' }}
+                                        required
+                                        type="password"
+                                        component={TextField}
+                                        label="รหัส"
+                                        defaultValue={defaultdata.userById.password}
+                                    />
+                                ):(
+                                    <Field
+                                        name="password"
+                                        variant="outlined"
+                                        style={{ width: '100%' }}
+                                        required
+                                        type="password"
+                                        component={TextField}
+                                        label="รหัส"
+                                    />
+                                )}
                             </Grid>
                             <Grid item xs={12}>
-                                <Field
-                                    fullWidth
-                                    required
-                                    name="firstName"
-                                    component={TextField}
-                                    type="text"
-                                    label="ชื่อ"
-                                    variant="outlined"
-                                    style={{ width: '100%' }}
-                                />
+                                {mode === "update" ? (
+                                     <Field
+                                        fullWidth
+                                        required
+                                        name="firstName"
+                                        component={TextField}
+                                        type="text"
+                                        label="ชื่อ"
+                                        variant="outlined"
+                                        style={{ width: '100%' }}
+                                        defaultValue={defaultdata.userById.firstname}
+                                     />
+                                ):(
+                                    <Field
+                                        fullWidth
+                                        required
+                                        name="firstName"
+                                        component={TextField}
+                                        type="text"
+                                        label="ชื่อ"
+                                        variant="outlined"
+                                        style={{ width: '100%' }}
+                                    />
+                                )}
                             </Grid>
                             <Grid item xs={12}>
-                                <Field
-                                    name="lastName"
-                                    variant="outlined"
-                                    style={{ width: '100%' }}
-                                    required
-                                    component={TextField}
-                                    label="นามสกุล"
-                                />
+                                {mode === "update" ? (
+                                    <Field
+                                        name="lastName"
+                                        variant="outlined"
+                                        style={{ width: '100%' }}
+                                        required
+                                        component={TextField}
+                                        label="นามสกุล"
+                                        defaultValue={defaultdata.userById.lastname}
+                                    />
+                                ):(
+                                    <Field
+                                        name="lastName"
+                                        variant="outlined"
+                                        style={{ width: '100%' }}
+                                        required
+                                        component={TextField}
+                                        label="นามสกุล"
+                                    />
+                                )}
                             </Grid>
                             <Grid item xs={12}>
-                                <Field
-                                    label="เบอร์โทร"
-                                    type="text"
-                                    variant="outlined"
-                                    style={{ width: '100%' }}
-                                    required
-                                    name="tell"
-                                    component={TextField}
-                                />
+                                {mode === 'update' ? (
+                                    <Field
+                                        label="เบอร์โทร"
+                                        type="text"
+                                        variant="outlined"
+                                        style={{ width: '100%' }}
+                                        required
+                                        name="tell"
+                                        component={TextField}
+                                        defaultValue={defaultdata.userById.phone}
+                                    />
+                                ):(
+                                    <Field
+                                        label="เบอร์โทร"
+                                        type="text"
+                                        variant="outlined"
+                                        style={{ width: '100%' }}
+                                        required
+                                        name="tell"
+                                        component={TextField}
+                                    />
+                                )}
                             </Grid>
                             <Grid item xs={12}>
-                                <Field
-                                    label="อีเมล"
-                                    type="text"
-                                    variant="outlined"
-                                    style={{ width: '100%' }}
-                                    required
-                                    name="email"
-                                    component={TextField}
-                                />
+                                {mode === 'update' ? (
+                                     <Field
+                                        label="อีเมล"
+                                        type="text"
+                                        variant="outlined"
+                                        style={{ width: '100%' }}
+                                        required
+                                        name="email"
+                                        component={TextField}
+                                        defaultValue={defaultdata.userById.email}
+                                     />
+                                ):(
+                                    <Field
+                                        label="อีเมล"
+                                        type="text"
+                                        variant="outlined"
+                                        style={{ width: '100%' }}
+                                        required
+                                        name="email"
+                                        component={TextField}
+                                    />
+                                )}
                             </Grid>
                             <Grid item xs={12}>
-                                <Field
-                                    label="ที่อยู่"
-                                    type="text"
-                                    variant="outlined"
-                                    style={{ width: '100%' }}
-                                    required
-                                    name="address"
-                                    component={TextField}
-                                />
+                                {mode === 'update' ? (
+                                    <Field
+                                        label="ที่อยู่"
+                                        type="text"
+                                        variant="outlined"
+                                        style={{ width: '100%' }}
+                                        required
+                                        name="address"
+                                        component={TextField}
+                                        multiline
+                                        rows={4}
+                                        defaultValue={defaultdata.userById.address}
+                                     />
+                                ):(
+                                    <Field
+                                        label="ที่อยู่"
+                                        type="text"
+                                        variant="outlined"
+                                        style={{ width: '100%' }}
+                                        required
+                                        name="address"
+                                        component={TextField}
+                                        multiline
+                                        rows={4}
+                                    />
+                                )}
                             </Grid>
                             <Grid item xs={12} >
-                                <FormControl style={{ width: "100%" }}>
-                                    <InputLabel htmlFor="demo-customized-select-native">หน้าที่</InputLabel>
-                                    <NativeSelect
-                                        id="demo-customized-select-native"
-                                        input={<BootstrapInput />}
-                                        value={select}
-                                        onChange={handleChange}
-                                    >
-                                        <option aria-label="None" value="" />
-                                        <option value={'หมอ'}>หมอ</option>
-                                        <option value={'พยาบาล'}>พยาบาล</option>
-                                        <option value={'เจ้าหน้าที่'}>เจ้าหน้าที่</option>
-                                    </NativeSelect>
-                                </FormControl>
+                                {mode === 'update' ? (
+                                    <FormControl style={{ width: "100%" }}>
+                                        <InputLabel htmlFor="demo-customized-select-native">หน้าที่</InputLabel>
+                                        <NativeSelect
+                                            id="demo-customized-select-native"
+                                            input={<BootstrapInput />}
+                                            value={select}
+                                            onChange={handleChange}
+                                            required={true}
+                                        >
+                                            <option aria-label="None" value="" />
+                                            <option value={'หมอ'}>หมอ</option>
+                                            <option value={'พยาบาล'}>พยาบาล</option>
+                                            <option value={'เจ้าหน้าที่'}>เจ้าหน้าที่</option>
+                                        </NativeSelect>
+                                    </FormControl>
+                                ):(
+                                    <FormControl style={{ width: "100%" }}>
+                                        <InputLabel htmlFor="demo-customized-select-native">หน้าที่</InputLabel>
+                                        <NativeSelect
+                                            id="demo-customized-select-native"
+                                            input={<BootstrapInput />}
+                                            value={select}
+                                            onChange={handleChange}
+                                            required={true}
+                                        >
+                                            <option aria-label="None" value="" />
+                                            <option value={'หมอ'}>หมอ</option>
+                                            <option value={'พยาบาล'}>พยาบาล</option>
+                                            <option value={'เจ้าหน้าที่'}>เจ้าหน้าที่</option>
+                                        </NativeSelect>
+                                    </FormControl>
+                                )}
                             </Grid>
                             <Grid item xs={12} style={{ marginTop: 16, textAlign: 'center', width: '100%' }}>
                                 <Button

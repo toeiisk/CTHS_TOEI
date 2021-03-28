@@ -1,33 +1,33 @@
-import React from 'react';
-import { Outlet } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core';
-import TopBar from '../Topbar';
+import React from "react";
+import { Outlet } from "react-router-dom";
+import { makeStyles } from "@material-ui/core";
+import TopBar from "../Topbar";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.default,
-    display: 'flex',
-    height: '100%',
-    overflow: 'hidden',
-    width: '100%'
+    display: "flex",
+    height: "100%",
+    overflow: "hidden",
+    width: "100%",
   },
   wrapper: {
-    display: 'flex',
-    flex: '1 1 auto',
-    overflow: 'hidden',
-    paddingTop: 64
+    display: "flex",
+    flex: "1 1 auto",
+    overflow: "hidden",
+    paddingTop: 64,
   },
   contentContainer: {
-    display: 'flex',
-    flex: '1 1 auto',
-    overflow: 'hidden'
+    display: "flex",
+    flex: "1 1 auto",
+    overflow: "hidden",
   },
   content: {
-    flex: '1 1 auto',
-    height: '100%',
-    overflow: 'auto',
-    minHeight: '100%',
-  }
+    flex: "1 1 auto",
+    height: "100%",
+    overflow: "auto",
+    minHeight: "100%",
+  },
 }));
 
 const MainLayout = () => {

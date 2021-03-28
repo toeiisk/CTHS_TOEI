@@ -15,14 +15,16 @@ import {
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import HomeIcon from "@material-ui/icons/Home";
-import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
-import BookIcon from "@material-ui/icons/Book";
-import LocalHospitalIcon from "@material-ui/icons/LocalHospital";
-import EventNoteIcon from "@material-ui/icons/EventNote";
-import PermContactCalendarIcon from "@material-ui/icons/PermContactCalendar";
-import LocalLibraryIcon from "@material-ui/icons/LocalLibrary";
 import { Link } from "react-router-dom";
+
+// icon
+import { HiHome } from 'react-icons/hi';
+import { FaUserInjured } from 'react-icons/fa';
+import { IoBandageSharp } from 'react-icons/io5';
+import { FaUserMd } from 'react-icons/fa';
+import { GiMedicines } from 'react-icons/gi';
+import { HiDocumentReport } from 'react-icons/hi';
+import { FaUserShield } from 'react-icons/fa';
 
 const user = {
   avatar: "",
@@ -36,17 +38,20 @@ const useStyles = makeStyles(() => ({
   },
   desktopDrawer: {
     width: 256,
-    top: 105,
-    height: "calc(100% - 105px)",
+    top: 90,
+    height: "calc(100% - 90px)",
   },
   avatar: {
     cursor: "pointer",
-    width: 105,
-    height: 105,
+    width: 90,
+    height: 90,
   },
   navTab: {
     padding: 10,
   },
+  name: {
+    margin: 5
+  }
 }));
 
 const Sidebar = ({ onMobileClose, openMobile }) => {
@@ -62,7 +67,7 @@ const Sidebar = ({ onMobileClose, openMobile }) => {
 
   const content = (
     <Box height="100%" display="flex" flexDirection="column">
-      <Box alignItems="center" display="flex" flexDirection="column" p={2}>
+      <Box alignItems="center" display="flex" flexDirection="column" p={5}>
         <Avatar
           className={classes.avatar}
           component={RouterLink}
@@ -72,7 +77,7 @@ const Sidebar = ({ onMobileClose, openMobile }) => {
         <Typography className={classes.name} color="textPrimary" variant="h5">
           {user.name}
         </Typography>
-        <Typography color="textSecondary" variant="body2">
+        <Typography className={classes.name} color="textSecondary" variant="body2">
           {user.jobTitle}
         </Typography>
       </Box>
@@ -81,7 +86,7 @@ const Sidebar = ({ onMobileClose, openMobile }) => {
         <List>
           <ListItem button component={Link} className={classes.navTab} to="/">
             <ListItemIcon>
-              <HomeIcon />
+              <HiHome fontSize={30}/>
             </ListItemIcon>
             <ListItemText>Home</ListItemText>
           </ListItem>
@@ -93,7 +98,7 @@ const Sidebar = ({ onMobileClose, openMobile }) => {
             to="/app/patients"
           >
             <ListItemIcon>
-              <SupervisorAccountIcon />
+              <FaUserInjured fontSize={30}/>
             </ListItemIcon>
             <ListItemText>Patients</ListItemText>
           </ListItem>
@@ -105,7 +110,7 @@ const Sidebar = ({ onMobileClose, openMobile }) => {
             to="/app/treatment"
           >
             <ListItemIcon>
-              <BookIcon />
+              <IoBandageSharp fontSize={30}/>
             </ListItemIcon>
             <ListItemText>Treatment</ListItemText>
           </ListItem>
@@ -117,7 +122,7 @@ const Sidebar = ({ onMobileClose, openMobile }) => {
             to="/app/diagnosis"
           >
             <ListItemIcon>
-              <LocalLibraryIcon />
+              <FaUserMd fontSize={30}/>
             </ListItemIcon>
             <ListItemText>Diagnosis</ListItemText>
           </ListItem>
@@ -129,7 +134,7 @@ const Sidebar = ({ onMobileClose, openMobile }) => {
             to="/app/medicine"
           >
             <ListItemIcon>
-              <LocalHospitalIcon />
+              <GiMedicines fontSize={30}/>
             </ListItemIcon>
             <ListItemText>Medicine</ListItemText>
           </ListItem>
@@ -141,7 +146,7 @@ const Sidebar = ({ onMobileClose, openMobile }) => {
             to="/app/report"
           >
             <ListItemIcon>
-              <EventNoteIcon />
+              <HiDocumentReport fontSize={30}/>
             </ListItemIcon>
             <ListItemText>Report</ListItemText>
           </ListItem>
@@ -153,7 +158,7 @@ const Sidebar = ({ onMobileClose, openMobile }) => {
             to="/app/admin"
           >
             <ListItemIcon>
-              <PermContactCalendarIcon />
+              <FaUserShield fontSize={30}/>
             </ListItemIcon>
             <ListItemText>Administor</ListItemText>
           </ListItem>

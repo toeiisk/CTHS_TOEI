@@ -9,7 +9,7 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-import Logo from "../img/icon.png";
+import Logouser from "../img/user.png";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
     backgroundColor: "#5780f7",
     color: "white",
+    padding: 8
   },
   logo: {
     display: "flex",
@@ -48,6 +49,7 @@ export default function SignInSide() {
 
   return (
     <Grid container component="main" className={classes.root}>
+      <fullWidthClassName />
       <CssBaseline />
       <Grid item xs={false} sm={4} md={6} className={classes.image} />
       <Grid
@@ -65,14 +67,14 @@ export default function SignInSide() {
       >
         <div className={classes.paper}>
           <div className={classes.logo}>
-            <img src={Logo} style={{ width: "60%", height: "auto" }} />
+            <img src={Logouser} style={{ width: "80%", height: "auto" }} />
           </div>
-          <Typography component="h1" variant="h5">
+          <Typography component="h1" variant="h5" style={{margin: 30}}>
             Clinic Treatment History System
           </Typography>
           <form className={classes.form} noValidate>
             <TextField
-              variant="outlined"
+              variant="filled"
               margin="normal"
               required
               fullWidth
@@ -81,9 +83,10 @@ export default function SignInSide() {
               name="email"
               autoComplete="email"
               autoFocus
+              // style={{ boxShadow: "5px 10px #777" }}
             />
             <TextField
-              variant="outlined"
+              variant="filled"
               margin="normal"
               required
               fullWidth
@@ -112,7 +115,11 @@ export default function SignInSide() {
               </Grid>
               <Grid item>
                 <Link href="/register" variant="body2">
-                  <Typography component="subtitle1" variant="subtitle1" style={{marginRight: 10}}>
+                  <Typography
+                    component="subtitle1"
+                    variant="subtitle1"
+                    style={{ marginRight: 10 }}
+                  >
                     Don't Have an Account?
                   </Typography>
                 </Link>

@@ -7,13 +7,14 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import Logo from "../img/icon.png";
+import Logouser from "../img/user.png";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing(10),
     display: "flex",
     flexDirection: "column",
+    justifyContent: "center",
     alignItems: "center",
   },
   avatar: {
@@ -44,9 +45,9 @@ export default function Register() {
       <CssBaseline />
       <div className={classes.paper}>
         <div className={classes.logo}>
-          <img src={Logo} style={{ width: "60%", height: "auto" }} />
+          <img src={Logouser} style={{ width: "80%", height: "auto" }} />
         </div>
-        <Typography component="h1" variant="h5">
+        <Typography component="h1" variant="h5" style={{ margin: 30 }}>
           Register
         </Typography>
         <form className={classes.form} noValidate>
@@ -55,7 +56,7 @@ export default function Register() {
               <TextField
                 autoComplete="fname"
                 name="firstName"
-                variant="outlined"
+                variant="filled"
                 required
                 fullWidth
                 id="firstName"
@@ -65,7 +66,7 @@ export default function Register() {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                variant="outlined"
+                variant="filled"
                 required
                 fullWidth
                 id="lastName"
@@ -76,7 +77,7 @@ export default function Register() {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                variant="outlined"
+                variant="filled"
                 required
                 fullWidth
                 id="email"
@@ -87,7 +88,7 @@ export default function Register() {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                variant="outlined"
+                variant="filled"
                 required
                 fullWidth
                 name="password"
@@ -99,7 +100,7 @@ export default function Register() {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                variant="outlined"
+                variant="filled"
                 required
                 fullWidth
                 name="confirm password"

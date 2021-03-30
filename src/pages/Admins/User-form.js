@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import {
     Grid,
     Typography,
@@ -16,7 +16,7 @@ import { Form, Field } from 'react-final-form';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { TextField } from 'final-form-material-ui';
 import { useMutation } from '@apollo/client';
-import { ADD_USER } from './GraphQL/Mutation'
+import { ADD_USER, UPDATE_USER_BY_ID} from './GraphQL/Mutation'
 import { GET_USERS } from './GraphQL/Querie'
 import { useNavigate } from "react-router-dom";
 
@@ -93,16 +93,29 @@ const validate = values => {
     return errors
 }
 
+
+
 const UserForm = (props) => {
     const {mode, defaultdata} = props
     let navigate = useNavigate();
     const classes = useStyles();
     const [select, setSelect] = React.useState('')
-    const [addUser, { data }] = useMutation(ADD_USER);
+    const [addUser] = useMutation(ADD_USER);
+    const [updateUser] = useMutation(UPDATE_USER_BY_ID);
     const handleChange = (event) => {
         setSelect(event.target.value);
     };
-    const onSubmit = useCallback(
+
+
+    useEffect(() => {
+        if(mode === 'update'){
+            setSelect(defaultdata.userById.roles[0])
+        }else{
+            return null
+        }
+    }, [])
+
+    const onSubmitCreate = useCallback(
         async (value) => {
             const variables = {
                 record: {
@@ -128,11 +141,41 @@ const UserForm = (props) => {
         },
         [addUser, select]
     )
+
+    const onSubmitUpdate = useCallback(
+        async (value) => {
+            const variables = {
+                id: defaultdata.userById._id,
+                record: {
+                    username: value.username,
+                    email: value.email,
+                    firstname: value.firstName,
+                    lastname: value.lastName,
+                    phone: value.tell,
+                    roles: select,
+                    address: value.address,
+                    password: value.password
+                }
+            }
+            try {
+                await updateUser({ variables, refetchQueries: [{ query: GET_USERS }] })
+                setSelect('')
+                alert('บันทึกข้อมูลสำเร็จ')
+                navigate(`/app/admin/`)
+            } catch (err) {
+                console.log(err)
+                console.log('update error')
+                alert('เกิดข้อผิดพลาด')
+            }
+        },
+        [addUser, select]
+    )
+    
     
     return (
         <React.Fragment>
             <Form
-                onSubmit={onSubmit}
+                onSubmit={mode === 'update' ? onSubmitUpdate : onSubmitCreate}
                 validate={validate}
                 render={({ handleSubmit, submitting }) => (
                     <form className={classes.root} noValidate autoComplete="true" onSubmit={handleSubmit}>
@@ -165,16 +208,7 @@ const UserForm = (props) => {
                             </Grid>
                             <Grid item xs={12}>
                                 {mode === 'update' ? (
-                                    <Field
-                                        name="password"
-                                        variant="outlined"
-                                        style={{ width: '100%' }}
-                                        required
-                                        type="password"
-                                        component={TextField}
-                                        label="รหัส"
-                                        defaultValue={defaultdata.userById.password}
-                                    />
+                                   null
                                 ):(
                                     <Field
                                         name="password"

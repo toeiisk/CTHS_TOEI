@@ -78,10 +78,11 @@ const Patientpage = () => {
         <Grid container spacing={0} alignItems="center" justify="center">
           <Grid item xs={6}>
             <Typography
+            variant="h5"
               paragraph
-              style={{ fontWeight: "bold", fontSize: "2em" }}
+              style={{ fontWeight: "bolder"}}
             >
-              รายชื่อผู้ป่วย
+              LIST PATIENTS
             </Typography>
           </Grid>
           <Grid item xs={6} align="right">
@@ -98,7 +99,7 @@ const Patientpage = () => {
             </Box>
           </Grid>
           <Grid item xs={12}>
-            <div style={{ height: 400, width: "100%" }}>
+            <div style={{ height: 400, width: "100%", backgroundColor: "white"}}>
               <DataGrid
                 rows={rows}
                 columns={columns}

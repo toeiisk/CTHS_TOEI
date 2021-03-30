@@ -18,13 +18,14 @@ import ListItemText from "@material-ui/core/ListItemText";
 import { Link } from "react-router-dom";
 
 // icon
-import { HiHome } from 'react-icons/hi';
-import { FaUserInjured } from 'react-icons/fa';
-import { IoBandageSharp } from 'react-icons/io5';
-import { FaUserMd } from 'react-icons/fa';
-import { GiMedicines } from 'react-icons/gi';
-import { HiDocumentReport } from 'react-icons/hi';
-import { FaUserShield } from 'react-icons/fa';
+import { IconContext } from "react-icons";
+import { HiHome } from "react-icons/hi";
+import { FaUserInjured } from "react-icons/fa";
+import { IoBandageSharp } from "react-icons/io5";
+import { FaUserMd } from "react-icons/fa";
+import { GiMedicines } from "react-icons/gi";
+import { HiDocumentReport } from "react-icons/hi";
+import { FaUserShield } from "react-icons/fa";
 
 const user = {
   avatar: "",
@@ -33,6 +34,9 @@ const user = {
 };
 
 const useStyles = makeStyles(() => ({
+  root: {
+    backgroundColor: "#0f123f",
+  },
   mobileDrawer: {
     width: 256,
   },
@@ -50,8 +54,13 @@ const useStyles = makeStyles(() => ({
     padding: 10,
   },
   name: {
-    margin: 5
-  }
+    margin: 5,
+    color: "white",
+  },
+  textsidebar: {
+    fontWeight: "bold",
+    color: "white",
+  },
 }));
 
 const Sidebar = ({ onMobileClose, openMobile }) => {
@@ -66,7 +75,12 @@ const Sidebar = ({ onMobileClose, openMobile }) => {
   }, [location.pathname]);
 
   const content = (
-    <Box height="100%" display="flex" flexDirection="column">
+    <Box
+      height="100%"
+      display="flex"
+      flexDirection="column"
+      className={classes.root}
+    >
       <Box alignItems="center" display="flex" flexDirection="column" p={5}>
         <Avatar
           className={classes.avatar}
@@ -77,18 +91,26 @@ const Sidebar = ({ onMobileClose, openMobile }) => {
         <Typography className={classes.name} color="textPrimary" variant="h5">
           {user.name}
         </Typography>
-        <Typography className={classes.name} color="textSecondary" variant="body2">
+        <Typography
+          className={classes.name}
+          color="textSecondary"
+          variant="body2"
+        >
           {user.jobTitle}
         </Typography>
       </Box>
-      <Divider />
+      <Divider style={{ backgroundColor: "white" }} />
       <Box p={2}>
         <List>
           <ListItem button component={Link} className={classes.navTab} to="/">
             <ListItemIcon>
-              <HiHome fontSize={30}/>
+              <IconContext.Provider value={{ color: "white", size: "30" }}>
+                <HiHome />
+              </IconContext.Provider>
             </ListItemIcon>
-            <ListItemText>Home</ListItemText>
+            <ListItemText>
+              <Typography className={classes.textsidebar}>Home</Typography>
+            </ListItemText>
           </ListItem>
 
           <ListItem
@@ -98,9 +120,13 @@ const Sidebar = ({ onMobileClose, openMobile }) => {
             to="/app/patients"
           >
             <ListItemIcon>
-              <FaUserInjured fontSize={30}/>
+              <IconContext.Provider value={{ color: "white", size: "30" }}>
+                <FaUserInjured />
+              </IconContext.Provider>
             </ListItemIcon>
-            <ListItemText>Patients</ListItemText>
+            <ListItemText>
+              <Typography className={classes.textsidebar}>Patients</Typography>
+            </ListItemText>
           </ListItem>
 
           <ListItem
@@ -110,9 +136,13 @@ const Sidebar = ({ onMobileClose, openMobile }) => {
             to="/app/treatment"
           >
             <ListItemIcon>
-              <IoBandageSharp fontSize={30}/>
+              <IconContext.Provider value={{ color: "white", size: "30" }}>
+                <IoBandageSharp />
+              </IconContext.Provider>
             </ListItemIcon>
-            <ListItemText>Treatment</ListItemText>
+            <ListItemText>
+              <Typography className={classes.textsidebar}>Treatment</Typography>
+            </ListItemText>
           </ListItem>
 
           <ListItem
@@ -122,9 +152,13 @@ const Sidebar = ({ onMobileClose, openMobile }) => {
             to="/app/diagnosis"
           >
             <ListItemIcon>
-              <FaUserMd fontSize={30}/>
+              <IconContext.Provider value={{ color: "white", size: "30" }}>
+                <FaUserMd />
+              </IconContext.Provider>
             </ListItemIcon>
-            <ListItemText>Diagnosis</ListItemText>
+            <ListItemText>
+              <Typography className={classes.textsidebar}>Diagnosis</Typography>
+            </ListItemText>
           </ListItem>
 
           <ListItem
@@ -134,9 +168,13 @@ const Sidebar = ({ onMobileClose, openMobile }) => {
             to="/app/medicine"
           >
             <ListItemIcon>
-              <GiMedicines fontSize={30}/>
+              <IconContext.Provider value={{ color: "white", size: "30" }}>
+                <GiMedicines />
+              </IconContext.Provider>
             </ListItemIcon>
-            <ListItemText>Medicine</ListItemText>
+            <ListItemText>
+              <Typography className={classes.textsidebar}>Medicine</Typography>
+            </ListItemText>
           </ListItem>
 
           <ListItem
@@ -146,9 +184,13 @@ const Sidebar = ({ onMobileClose, openMobile }) => {
             to="/app/report"
           >
             <ListItemIcon>
-              <HiDocumentReport fontSize={30}/>
+              <IconContext.Provider value={{ color: "white", size: "30" }}>
+                <HiDocumentReport />
+              </IconContext.Provider>
             </ListItemIcon>
-            <ListItemText>Report</ListItemText>
+            <ListItemText>
+              <Typography className={classes.textsidebar}>Report</Typography>
+            </ListItemText>
           </ListItem>
 
           <ListItem
@@ -158,14 +200,20 @@ const Sidebar = ({ onMobileClose, openMobile }) => {
             to="/app/admin"
           >
             <ListItemIcon>
-              <FaUserShield fontSize={30}/>
+              <IconContext.Provider value={{ color: "white", size: "30" }}>
+                <FaUserShield />
+              </IconContext.Provider>
             </ListItemIcon>
-            <ListItemText>Administor</ListItemText>
+            <ListItemText>
+              <Typography className={classes.textsidebar}>
+                Administor
+              </Typography>
+            </ListItemText>
           </ListItem>
         </List>
       </Box>
       <Box flexGrow={1} />
-      <Divider />
+      <Divider style={{ backgroundColor: "white" }} />
       <Box p={2} m={2} bgcolor="background.dark">
         <Box
           display="flex"
@@ -174,15 +222,23 @@ const Sidebar = ({ onMobileClose, openMobile }) => {
           mt={2}
         >
           <Button
-            color="primary"
             component="a"
             href="/login"
             variant="contained"
-            style={{ marginBottom: 10 }}
+            style={{
+              marginBottom: 10,
+              fontWeight: "bold",
+              backgroundColor: "#017efa",
+              color: "white",
+            }}
           >
             LOG IN
           </Button>
-          <Button component="a" href="/register">
+          <Button
+            component="a"
+            href="/register"
+            className={classes.textsidebar}
+          >
             Don't Have an Account?
           </Button>
         </Box>

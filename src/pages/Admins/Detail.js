@@ -21,7 +21,6 @@ const UserDetailPage = () => {
     if (loading) return "...Loading";
     if (error) return `Error! ${error}`;
 
-    console.log(data)
     return (
         <React.Fragment>
             <Box >

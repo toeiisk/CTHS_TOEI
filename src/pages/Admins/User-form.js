@@ -1,12 +1,7 @@
 import React, { useCallback, useEffect } from 'react'
 import {
     Grid,
-    Typography,
-    MenuItem,
-    RadioGroup,
-    FormControlLabel,
     FormControl,
-    FormLabel,
     NativeSelect,
     InputBase,
     InputLabel,
@@ -43,7 +38,6 @@ const BootstrapInput = withStyles((theme) => ({
         width: "100%",
         padding: '10px 26px 10px 12px',
         transition: theme.transitions.create(['border-color', 'box-shadow']),
-        // Use the system font instead of the default Roboto font.
         fontFamily: [
             '-apple-system',
             'BlinkMacSystemFont',
@@ -96,10 +90,13 @@ const validate = values => {
 
 
 const UserForm = (props) => {
+    
     const {mode, defaultdata} = props
+    
     let navigate = useNavigate();
     const classes = useStyles();
     const [select, setSelect] = React.useState('')
+   
     const [addUser] = useMutation(ADD_USER);
     const [updateUser] = useMutation(UPDATE_USER_BY_ID);
     const handleChange = (event) => {
@@ -132,6 +129,7 @@ const UserForm = (props) => {
             try {
                 await addUser({ variables, refetchQueries: [{ query: GET_USERS }] })
                 setSelect('')
+                console.log('create')
                 alert('บันทึกข้อมูลสำเร็จ')
                 navigate(`/app/admin/`)
             } catch (err) {
@@ -141,7 +139,6 @@ const UserForm = (props) => {
         },
         [addUser, select]
     )
-
     const onSubmitUpdate = useCallback(
         async (value) => {
             const variables = {
@@ -164,21 +161,19 @@ const UserForm = (props) => {
                 navigate(`/app/admin/`)
             } catch (err) {
                 console.log(err)
-                console.log('update error')
                 alert('เกิดข้อผิดพลาด')
             }
         },
-        [addUser, select]
+        [updateUser]
     )
-    
-    
+    const onSubmit = mode === 'update' ? onSubmitUpdate : onSubmitCreate 
     return (
         <React.Fragment>
             <Form
-                onSubmit={mode === 'update' ? onSubmitUpdate : onSubmitCreate}
-                validate={validate}
-                render={({ handleSubmit, submitting }) => (
-                    <form className={classes.root} noValidate autoComplete="true" onSubmit={handleSubmit}>
+                onSubmit={onSubmit}
+                render={({ handleSubmit, submitting, submitError }) => {
+                    return (
+                        <form className={classes.root} noValidate autoComplete="true" onSubmit={handleSubmit}>
                         <Grid container spacing={2}>
                             <Grid item xs={12}>
                                 {mode === 'update' ? (
@@ -392,7 +387,8 @@ const UserForm = (props) => {
                             </Grid>
                         </Grid>
                     </form>
-                )}
+                    )
+                }}
             />
         </React.Fragment>
     )

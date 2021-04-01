@@ -27,7 +27,7 @@ const UserDetailPage = () => {
                 <Grid container spacing={0} alignItems="center" justify="center">
                     <Grid item xs={6}>
                         <Typography paragraph style={{ fontWeight: 'bold', fontSize: '2em' }} >
-                            <DescriptionIcon color="primary" fontSize="small" /> รายละเอียดผู้ใช้ {id}
+                            <DescriptionIcon color="primary" fontSize="small" /> รายละเอียดผู้ใช้ 
                         </Typography>
                     </Grid>
                     <Grid item xs={6} align='right'>
@@ -35,7 +35,7 @@ const UserDetailPage = () => {
                         </Box>
                     </Grid>
                     <Grid item xs={12}>
-                        <InfoCard title='ข้อมูลผู้ใช้' actionTopRight={
+                        <InfoCard title={`ข้อมูลผู้ใช้ ${data.userById.firstname}${' '}${data.userById.lastname}`} actionTopRight={
                             <Button variant="contained" color="primary" onClick={() => navigate(-1)}>
                                 ย้อนกลับ
                             </Button>

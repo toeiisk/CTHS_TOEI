@@ -5,11 +5,12 @@ import TopBar from "../Topbar";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: "white",
     display: "flex",
     height: "100%",
     overflow: "hidden",
     width: "100%",
+    borderRadius: 20
   },
   wrapper: {
     display: "flex",

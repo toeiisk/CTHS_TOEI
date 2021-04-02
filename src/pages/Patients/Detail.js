@@ -3,11 +3,25 @@ import { Box, Grid, Typography, Button } from '@material-ui/core';
 import { InfoCard } from '@mystiny/ui';
 import DescriptionIcon from '@material-ui/icons/Description';
 import PatientsForm from './Patients-form'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import {GET_PATIENT} from './GraphQL/Querie'
+import { useQuery } from '@apollo/client';
 
 
 const PatientDetailPage = () => {
     const navigate = useNavigate();
+    let { id } = useParams();
+    const { loading, error, data } = useQuery(GET_PATIENT, {
+        variables: {
+            id
+        },
+        fetchPolicy: 'cache-and-network',
+    });
+
+    if (loading) return "...Loading";
+    if (error) return `Error! ${error}`;
+    
+    console.log(data)
     return (
         <React.Fragment>
             <Box >
@@ -27,7 +41,7 @@ const PatientDetailPage = () => {
                                 ย้อนกลับ
                             </Button>
                         }>
-                            <PatientsForm />
+                            <PatientsForm defaultdata={data} mode={'update'}/>
                         </InfoCard>
                     </Grid>
                 </Grid>

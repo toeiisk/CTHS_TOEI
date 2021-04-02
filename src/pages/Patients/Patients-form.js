@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import {
     Grid,
     Typography,
@@ -7,13 +7,23 @@ import {
     FormControlLabel,
     FormControl,
     FormLabel,
-    Button
+    Button,
+    Chip,
+    NativeSelect,
+    InputBase,
+    InputLabel,
 } from '@material-ui/core';
 import { Form, Field } from 'react-final-form';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { CountryRegionData } from "react-country-region-selector";
 import { TextField, Radio, Select } from 'final-form-material-ui';
-
+import MultiSelect from "../../MulitiSelect";
+import "../../App.css"
+import { ADD_PATIENT } from './GraphQL/Mutation'
+import { useMutation } from '@apollo/client';
+import { GET_PATIENTS } from './GraphQL/Querie'
+import { useNavigate } from "react-router-dom";
+import moment from 'moment';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -22,15 +32,132 @@ const useStyles = makeStyles((theme) => ({
             width: '25ch',
         },
     },
+    formControl: {
+        margin: theme.spacing(1),
+        minWidth: 120,
+        maxWidth: 300,
+    },
+    chips: {
+        display: 'flex',
+        flexWrap: 'wrap',
+    },
+    chip: {
+        margin: 2,
+    },
 }));
 
-
+const BootstrapInput = withStyles((theme) => ({
+    root: {
+        'label + &': {
+            marginTop: theme.spacing(3),
+        },
+    },
+    input: {
+        borderRadius: 4,
+        position: 'relative',
+        backgroundColor: theme.palette.background.paper,
+        border: '1px solid #ced4da',
+        fontSize: 16,
+        width: "100%",
+        padding: '10px 26px 10px 12px',
+        transition: theme.transitions.create(['border-color', 'box-shadow']),
+        fontFamily: [
+            '-apple-system',
+            'BlinkMacSystemFont',
+            '"Segoe UI"',
+            'Roboto',
+            '"Helvetica Neue"',
+            'Arial',
+            'sans-serif',
+            '"Apple Color Emoji"',
+            '"Segoe UI Emoji"',
+            '"Segoe UI Symbol"',
+        ].join(','),
+        '&:focus': {
+            borderRadius: 4,
+            borderColor: '#80bdff',
+            boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
+        },
+    },
+}))(InputBase);
 
 const PatientsForm = (props) => {
+    const { mode, defaultdata } = props
     const classes = useStyles();
-    const GroupBlood = ['A', 'B', "AB", 'O']
-    const onSubmit = (value) => {
-        console.log(value)
+    let navigate = useNavigate();
+    const test = ['โรคหัวใจ', 'โรคความดัน', 'โรคเบาหวาน', 'โรคสมอง'];
+    const [select, setSelect] = React.useState('')
+    const [status, setStatus] = React.useState('')
+    const [addPatient] = useMutation(ADD_PATIENT);
+    const [nationality, setNationality] = React.useState([])
+    const [selectNationality, setSelectNationality] = React.useState('')
+    const [selectRace, setSelectRace] = React.useState('')
+    
+    let data = require('npm-nationality-list')
+    
+    useEffect(() => {
+        if (mode === 'update') {
+            setSelect(defaultdata.patientById.bloodType)
+            setStatus(defaultdata.patientById.status)
+            setSelectNationality(defaultdata.patientById.nationality)
+            setSelectRace(defaultdata.patientById.race)
+        } else {
+            return null
+        }
+    }, [])
+
+    useEffect(() => {
+        data.getList().map((item) => setNationality((prev) => [...prev, item]))
+    }, [])
+
+    const onSubmitCreate =
+        useCallback(
+            async (value) => {
+                const variables = {
+                    record: {
+                        firstname: value.firstname,
+                        lastname: value.lastname,
+                        idcardNumber: value.idcardNumber,
+                        birthdate: value.birthdate,
+                        nationality: selectNationality,
+                        race: selectRace,
+                        status: status,
+                        bloodType: select,
+                        phone: value.phone,
+                        address: value.address,
+                        hospitalRefer: value.hospitalRefer,
+                        congenitalDisease: value.congenitalDisease,
+                    }
+                }
+                try {
+                    await addPatient({ variables, refetchQueries: [{ query: GET_PATIENTS }] })
+                    alert('บันทึกข้อมูลสำเร็จ')
+                    setSelectNationality('')
+                    setSelectRace('')
+                    navigate(`/app/patients`)
+                } catch (err) {
+                    console.log(err)
+                    alert('เกิดข้อผิดพลาด     '+err.message)
+                }
+            },
+            [addPatient, select]
+        )
+
+    const onSubmit = onSubmitCreate
+
+    const handleChangeblood = (event) => {
+        setSelect(event.target.value);
+    };
+
+    const handleChangestatus = (event) => {
+        setStatus(event.target.value)
+    }
+
+    const handleSelectNationality = (event) => {
+        setSelectNationality(event.target.value)
+    }
+    const handleSelectRace = (event) => {
+        setSelectRace(event.target.value)
     }
 
     return (
@@ -41,337 +168,320 @@ const PatientsForm = (props) => {
                     <form className={classes.root} noValidate autoComplete="true" onSubmit={handleSubmit}>
                         <Grid container spacing={2}>
                             <Grid item xs={6}>
-                                <Field
-                                    fullWidth
-                                    required
-                                    name="firstName"
-                                    component={TextField}
-                                    type="text"
-                                    label="ชื่อ"
-                                    variant="outlined"
-                                    style={{ width: '100%' }}
-                                />
+                                {mode === 'update' ? (
+                                    <Field
+                                        fullWidth
+                                        required
+                                        name="firstname"
+                                        component={TextField}
+                                        type="text"
+                                        label="ชื่อ"
+                                        variant="outlined"
+                                        style={{ width: '100%' }}
+                                        initialValue={defaultdata.patientById.firstname}
+                                    />
+                                ) : (
+                                    <Field
+                                        fullWidth
+                                        required
+                                        name="firstname"
+                                        component={TextField}
+                                        type="text"
+                                        label="ชื่อ"
+                                        variant="outlined"
+                                        style={{ width: '100%' }}
+                                    />
+                                )}
                             </Grid>
                             <Grid item xs={6}>
-                                <Field
-                                    name="lastName"
-                                    variant="outlined"
-                                    style={{ width: '100%' }}
-                                    required
-                                    component={TextField}
-                                    label="นามสกุล"
-                                />
+                                {mode === 'update' ? (
+                                    <Field
+                                        name="lastname"
+                                        variant="outlined"
+                                        style={{ width: '100%' }}
+                                        required
+                                        component={TextField}
+                                        label="นามสกุล"
+                                        initialValue={defaultdata.patientById.lastname}
+                                    />
+                                ) : (
+                                    <Field
+                                        name="lastname"
+                                        variant="outlined"
+                                        style={{ width: '100%' }}
+                                        required
+                                        component={TextField}
+                                        label="นามสกุล"
+                                    />
+                                )}
                             </Grid>
-                            <Grid item xs={12}>
-                                <Field
-                                    label="รหัสบัตรประชาชน"
-                                    type="text"
-                                    variant="outlined"
-                                    style={{ width: '100%' }}
-                                    required
-                                    name="IDCard"
-                                    component={TextField}
-                                />
+                            <Grid item xs={6}>
+                                {mode === 'update' ? (
+                                    <Field
+                                        label="รหัสบัตรประชาชน"
+                                        type="text"
+                                        variant="outlined"
+                                        style={{ width: '100%' }}
+                                        required
+                                        name="idcardNumber"
+                                        component={TextField}
+                                        initialValue={defaultdata.patientById.idcardNumber}
+                                    />
+                                ) : (
+                                    <Field
+                                        label="รหัสบัตรประชาชน"
+                                        type="text"
+                                        variant="outlined"
+                                        style={{ width: '100%' }}
+                                        required    
+                                        name="idcardNumber"
+                                        component={TextField}
+                                    />
+                                )}
                             </Grid>
-                            <Grid item xs={4}>
-                                <Typography paragraph >
-                                    วัน/เดือน/ปี เกิด
-                            </Typography>
-                                <Field
-                                    id="outlined-password-input"
-                                    type="date"
-                                    variant="outlined"
-                                    style={{ width: '100%' }}
-                                    required={true}
-                                    component={TextField}
-                                    name='date'
-                                />
+                            <Grid item xs={6}>
+                                {mode === 'update' ? (
+                                    <Field
+                                        id="date"
+                                        type="date"
+                                        label="วัน/เดือน/ปีเกิด"
+                                        variant="outlined"
+                                        style={{ width: '100%' }}
+                                        required={true}
+                                        component={TextField}
+                                        name='birthdate'
+                                        defaultValue={`${moment(defaultdata.patientById.birthdate).format("YYYY-MM-DD")}`}
+                                    />
+                                ) : (
+                                    <Field
+                                        id="date"
+                                        type="date"
+                                        variant="outlined"
+                                        label="วัน/เดือน/ปีเกิด"
+                                        style={{ width: '100%' }}
+                                        required={true}
+                                        component={TextField}
+                                        name='birthdate'
+                                        defaultValue={`${moment(new Date() ).format("YYYY-MM-DD")}`}
+                                    />
+                                )}
                             </Grid>
-                            <Grid item xs={4}>
-                                <Typography paragraph >
-                                    สัญชาติ
-                                </Typography>
-                                <Field
-                                    id="country"
-                                    select
-                                    variant="outlined"
-                                    required={true}
-                                    style={{ width: '100%' }}
-                                    isplayEmpty
-                                    component={Select}
-                                    name="country"
-                                    formControlProps={{ fullWidth: true }}
-                                // onChange={props.handleChange("country")}
-                                >
-                                    {CountryRegionData.map((option, index) => (
-                                        <MenuItem key={option[0]} value={option}>
-                                            {option[0]}
-                                        </MenuItem>
-                                    ))}
-                                </Field>
-                            </Grid>
-                            <Grid item xs={4}>
-                                <Typography paragraph >
-                                    สัญชาติ
-                                </Typography>
-                                <Field
-                                    id="country2"
-                                    select
-                                    variant="outlined"
-                                    required={true}
-                                    style={{ width: '100%' }}
-                                    isplayEmpty
-                                    component={Select}
-                                    name="country2"
-                                    formControlProps={{ fullWidth: true }}
-                                // onChange={props.handleChange("country")}
-                                >
-                                    {CountryRegionData.map((option, index) => (
-                                        <MenuItem key={option[0]} value={option}>
-                                            {option[0]}
-                                        </MenuItem>
-                                    ))}
-                                </Field>
-                            </Grid>
-                            <Grid item xs={4} >
-                                <FormControl component="fieldset">
-                                    <FormLabel component="legend">สิทธิการรักษา</FormLabel>
-                                    <RadioGroup column>
-                                        <FormControlLabel
-                                            label="นักศึกษา"
-                                            control={
-                                                <Field
-                                                    name="stooge"
-                                                    component={Radio}
-                                                    type="radio"
-                                                    value="student"
-                                                />
-                                            }
-                                        />
-                                        <FormControlLabel
-                                            label="พนักงานเงินงบประมาณ"
-                                            control={
-                                                <Field
-                                                    name="stooge"
-                                                    component={Radio}
-                                                    type="radio"
-                                                    value="employees"
-                                                />
-                                            }
-                                        />
-                                        <FormControlLabel
-                                            label="ข้าราชการ"
-                                            control={
-                                                <Field
-                                                    name="stooge"
-                                                    component={Radio}
-                                                    type="radio"
-                                                    value="official"
-                                                />
-                                            }
-                                        />
-                                        <FormControlLabel
-                                            label="พนักงานเงินได้"
-                                            control={
-                                                <Field
-                                                    name="stooge"
-                                                    component={Radio}
-                                                    type="radio"
-                                                    value="incomeEmployee"
-                                                />
-                                            }
-                                        />
-                                        <FormControlLabel
-                                            label="ประกันสังคม"
-                                            control={
-                                                <Field
-                                                    name="stooge"
-                                                    component={Radio}
-                                                    type="radio"
-                                                    value="socialSecurity"
-                                                />
-                                            }
-                                        />
-                                        <FormControlLabel
-                                            label="พนักงานพิเศษ"
-                                            control={
-                                                <Field
-                                                    name="stooge"
-                                                    component={Radio}
-                                                    type="radio"
-                                                    value="specialStaff"
-                                                />
-                                            }
-                                        />
-                                        <FormControlLabel
-                                            label="พนักงานเปลี่ยนสภาพ"
-                                            control={
-                                                <Field
-                                                    name="stooge"
-                                                    component={Radio}
-                                                    type="radio"
-                                                    value="employeesChangeCondition"
-                                                />
-                                            }
-                                        />
-                                        <FormControlLabel
-                                            label="อื่นๆ"
-                                            control={
-                                                <Field
-                                                    name="stooge"
-                                                    component={Radio}
-                                                    type="radio"
-                                                    value="other"
-                                                />
-                                            }
-                                        />
-                                    </RadioGroup>
+                            <Grid item xs={6}>
+                                <FormControl style={{ width: "100%" }}>
+                                    <FormLabel component="legend">สัญชาติ</FormLabel>
+                                    <NativeSelect
+                                        id="demo-customized-select-native"
+                                        input={<BootstrapInput />}
+                                        value={selectNationality}
+                                        onChange={handleSelectNationality}
+                                        required={true}
+                                    >   
+                                        <option aria-label="None" value="" />
+                                        {nationality?.map((data, index) => (
+                                            <option value={`${data.nationality}`}>
+                                                {data.nationality}
+                                            </option>
+                                        ))}
+                                    </NativeSelect>
                                 </FormControl>
                             </Grid>
-                            <Grid item xs={4} >
-                                <FormControl component="fieldset">
+                            <Grid item xs={6}>
+                                <FormControl style={{ width: "100%" }}>
+                                    <FormLabel component="legend">เชื้อชาติ</FormLabel>
+                                    <NativeSelect
+                                        id="demo-customized-select-native"
+                                        input={<BootstrapInput />}
+                                        value={selectRace}
+                                        onChange={handleSelectRace}
+                                        required={true}
+                                    >   
+                                        <option aria-label="None" value="" />
+                                        {nationality?.map((data, index) => (
+                                            <option value={`${data.nationality}`}>
+                                                {data.nationality}
+                                            </option>
+                                        ))}
+                                    </NativeSelect>
+                                </FormControl>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <FormControl style={{ width: "100%" }}>
                                     <FormLabel component="legend">สถานะ</FormLabel>
-                                    <RadioGroup column>
-                                        <FormControlLabel
-                                            label="โสด"
-                                            control={
-                                                <Field
-                                                    name="stooge"
-                                                    component={Radio}
-                                                    type="radio"
-                                                    value="single"
-                                                />
-                                            }
-                                        />
-                                        <FormControlLabel
-                                            label="สมรส"
-                                            control={
-                                                <Field
-                                                    name="stooge"
-                                                    component={Radio}
-                                                    type="radio"
-                                                    value="marry"
-                                                />
-                                            }
-                                        />
-                                        <FormControlLabel
-                                            label="อื่น ๆ"
-                                            control={
-                                                <Field
-                                                    name="stooge"
-                                                    component={Radio}
-                                                    type="radio"
-                                                    value="other"
-                                                />
-                                            }
-                                        />
-                                    </RadioGroup>
+                                    <NativeSelect
+                                        id="demo-customized-select-native"
+                                        input={<BootstrapInput />}
+                                        value={status}
+                                        onChange={handleChangestatus}
+                                        required={true}
+                                    >
+                                        <option aria-label="None" value="เลือกสถานะ" />
+                                        <option value={'SINGLE'}>โสด</option>
+                                        <option value={'MARRIED'}>สมรส</option>
+                                        <option value={'OTHER'}>อื่น ๆ</option>
+                                    </NativeSelect>
                                 </FormControl>
                             </Grid>
-                            <Grid item xs={4}>
-                                <Field
-                                    label="รหัสบัตรประจำตัว"
-                                    type="text"
-                                    variant="outlined"
-                                    style={{ width: '100%' }}
-                                    required
-                                    name="idss"
-                                    component={TextField}
-                                />
-                                <Field
-                                    name="blood"
-                                    component={Select}
-                                    label="กลุ่มเลือด"
-                                    variant="outlined"
-                                    type="text"
-                                    style={{marginTop: 20}}
-                                    formControlProps={{ fullWidth: true }}
-                                >
-                                    {GroupBlood.map((item, index) => (
-                                        <MenuItem key={item[0]} value={item}>
-                                            {item}
-                                        </MenuItem>
-                                    ))}
-                                </Field>
+                            <Grid item xs={6}>
+                                <FormControl style={{ width: "100%" }}>
+                                    <FormLabel component="legend">กรุ๊ปเลือด</FormLabel>
+                                    <NativeSelect
+                                        id="demo-customized-select-native"
+                                        input={<BootstrapInput />}
+                                        value={select}
+                                        onChange={handleChangeblood}
+                                        required={true}
+                                    >
+                                        <option aria-label="None" value="" />
+                                        <option value={'O'}>O</option>
+                                        <option value={'A'}>A</option>
+                                        <option value={'B'}>B</option>
+                                        <option value={'AB'}>AB</option>
+                                    </NativeSelect>
+                                </FormControl>
                             </Grid>
                             <Grid item xs={6}>
-                                <Field
-                                    label="เบอร์โทรศัพท์"
-                                    type="text"
-                                    variant="outlined"
-                                    style={{ width: '100%' }}
-                                    required
-                                    name="tell"
-                                    component={TextField}
-                                />
+                                {mode === 'update' ? (
+                                    <Field
+                                        label="เบอร์โทรศัพท์"
+                                        type="text"
+                                        variant="outlined"
+                                        style={{ width: '100%' }}
+                                        required
+                                        name="phone"
+                                        component={TextField}
+                                        initialValue={defaultdata.patientById.phone}
+                                    />
+                                ) : (
+                                    <Field
+                                        label="เบอร์โทรศัพท์"
+                                        type="text"
+                                        variant="outlined"
+                                        style={{ width: '100%' }}
+                                        required
+                                        name="phone"
+                                        component={TextField}
+                                    />
+                                )}
                             </Grid>
                             <Grid item xs={6}>
-                                <Field
-                                    label="โรงพยาบาลที่ส่งต่อ"
-                                    type="text"
-                                    variant="outlined"
-                                    style={{ width: '100%' }}
-                                    required
-                                    name="to_hospital"
-                                    component={TextField}
-                                />
-                            </Grid>
-                            <Grid item xs={6}>
-                                <Typography paragraph >
-                                    เลขบัตรทอง
-                                </Typography>
-                                <Field
-                                    label="เลขบัตรทอง"
-                                    type="text"
-                                    variant="outlined"
-                                    style={{ width: '100%' }}
-                                    required
-                                    name="idGoldCard"
-                                    component={TextField}
-                                />
-                            </Grid>
-                            <Grid item xs={6}>
-                                <Typography paragraph >
-                                    วันหมดอายุบัตรทอง
-                                </Typography>
-                                <Field
-                                    id="outlined-password-input"
-                                    formControlProps={{ fullWidth: true }}
-                                    type="date"
-                                    variant="outlined"
-                                    style={{ width: '100%' }}
-                                    required={true}
-                                    component={TextField}
-                                    name='dateExpGorldCard'
-                                    
-                                />
+                                {mode === 'update' ? (
+                                    <Field
+                                        label="โรงพยาบาลที่ส่งต่อ"
+                                        type="text"
+                                        variant="outlined"
+                                        style={{ width: '100%' }}
+                                        required
+                                        name="hospitalRefer"
+                                        component={TextField}
+                                        initialValue={defaultdata.patientById.hospitalRefer}
+                                    />
+                                ) : (
+                                    <Field
+                                        label="โรงพยาบาลที่ส่งต่อ"
+                                        type="text"
+                                        variant="outlined"
+                                        style={{ width: '100%' }}
+                                        required
+                                        name="hospitalRefer"
+                                        component={TextField}
+                                    />
+                                )}
                             </Grid>
                             <Grid item xs={12}>
-                                <Field
-                                    label="ที่อยู่"
-                                    type="text"
-                                    variant="outlined"
-                                    style={{ width: '100%' }}
-                                    required
-                                    name="address"
-                                    component={TextField}
-                                />
+                                {mode === 'update' ? (
+                                    <Field
+                                        name="congenitalDisease"
+                                        styling="field"
+                                        labelname="โรคประจำตัว"
+                                        component={MultiSelect}
+                                        variant="outlined"
+                                        defaultValue={defaultdata.patientById.congenitalDisease}
+                                        renderValue={selected => (
+                                            <div className="multi-select-chips">
+                                            {selected.map(value => (
+                                                <Chip
+                                                    key={value}
+                                                    label={value}
+                                                    className="multi-select-chip"
+                                                />
+                                            ))}
+                                            </div>
+                                        )}
+                                        >
+                                        {test.map((data, index) => (
+                                            <MenuItem key={index} value={data}>
+                                                {data}
+                                            </MenuItem>
+                                        ))}
+                                    </Field>
+                                ):(
+                                    <Field
+                                        name="congenitalDisease"
+                                        styling="field"
+                                        labelname="โรคประจำตัว"
+                                        component={MultiSelect}
+                                        variant="outlined"
+                                        renderValue={selected => (
+                                            <div className="multi-select-chips">
+                                            {selected.map(value => (
+                                                <Chip
+                                                    key={value}
+                                                    label={value}
+                                                    className="multi-select-chip"
+                                                />
+                                            ))}
+                                            </div>
+                                        )}
+                                        >
+                                        {test.map((data, index) => (
+                                            <MenuItem key={index} value={data}>
+                                                {data}
+                                            </MenuItem>
+                                        ))}
+                                    </Field>
+                                )}
                             </Grid>
-                            <Grid item xs={12} style={{ marginTop: 16, textAlign:'center', width: '100%'}}>
+                            <Grid item xs={12}>
+                                {mode === 'update' ? (
+                                    <Field
+                                        label="ที่อยู่"
+                                        type="text"
+                                        variant="outlined"
+                                        style={{ width: '100%' }}
+                                        required
+                                        name="address"
+                                        component={TextField}
+                                        initialValue={defaultdata.patientById.address}
+
+                                    />
+                                ) : (
+                                    <Field
+                                        label="ที่อยู่"
+                                        type="text"
+                                        variant="outlined"
+                                        style={{ width: '100%' }}
+                                        required
+                                        name="address"
+                                        component={TextField}
+                                    />
+                                )}
+                            </Grid>
+                            <Grid item xs={12} style={{ marginTop: 16, textAlign: 'center', width: '100%' }}>
                                 <Button
                                     variant="contained"
                                     color="primary"
                                     type="submit"
                                     disabled={submitting}
                                 >
-                                    บันทึกข้อมูล
+                            บันทึกข้อมูล
                                 </Button>
                             </Grid>
                         </Grid>
                     </form>
-                )}
-            />
-        </React.Fragment>
+    )
+}
+/>
+        </React.Fragment >
     )
 }
 export default PatientsForm

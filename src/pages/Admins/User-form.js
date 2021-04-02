@@ -106,7 +106,8 @@ const UserForm = (props) => {
 
     useEffect(() => {
         if(mode === 'update'){
-            setSelect(defaultdata.userById.roles[0])
+            setSelect(defaultdata.userById.roles)
+            console.log(defaultdata.userById)
         }else{
             return null
         }
@@ -123,7 +124,8 @@ const UserForm = (props) => {
                     phone: value.tell,
                     roles: select,
                     address: value.address,
-                    password: value.password
+                    password: value.password,
+                    isStaff: true
                 }
             }
             try {
@@ -151,7 +153,8 @@ const UserForm = (props) => {
                     phone: value.tell,
                     roles: select,
                     address: value.address,
-                    password: value.password
+                    password: value.password,
+                    isStaff: true
                 }
             }
             try {
@@ -161,12 +164,12 @@ const UserForm = (props) => {
                 navigate(`/app/admin/`)
             } catch (err) {
                 console.log(err)
-                alert('เกิดข้อผิดพลาด')
+                alert('เกิดข้อผิดพลาด' + select)
             }
         },
-        [updateUser]
+        [updateUser, select]
     )
-    const onSubmit = mode === 'update' ? onSubmitUpdate : onSubmitCreate 
+    const onSubmit = mode === 'update' ? onSubmitUpdate : onSubmitCreate
     return (
         <React.Fragment>
             <Form
@@ -185,8 +188,7 @@ const UserForm = (props) => {
                                         type="text"
                                         label="ยูซเซอร์เนม"
                                         variant="outlined"
-                                        style={{ width: '100%' }}
-                                        defaultValue={defaultdata.userById.username}
+                                        initialValue={defaultdata.userById.username}
                                     />
                                 ): (
                                     <Field
@@ -227,7 +229,7 @@ const UserForm = (props) => {
                                         label="ชื่อ"
                                         variant="outlined"
                                         style={{ width: '100%' }}
-                                        defaultValue={defaultdata.userById.firstname}
+                                        initialValue={defaultdata.userById.firstname}
                                      />
                                 ):(
                                     <Field
@@ -251,7 +253,7 @@ const UserForm = (props) => {
                                         required
                                         component={TextField}
                                         label="นามสกุล"
-                                        defaultValue={defaultdata.userById.lastname}
+                                        initialValue={defaultdata.userById.lastname}
                                     />
                                 ):(
                                     <Field
@@ -274,7 +276,7 @@ const UserForm = (props) => {
                                         required
                                         name="tell"
                                         component={TextField}
-                                        defaultValue={defaultdata.userById.phone}
+                                        initialValue={defaultdata.userById.phone}
                                     />
                                 ):(
                                     <Field
@@ -298,7 +300,7 @@ const UserForm = (props) => {
                                         required
                                         name="email"
                                         component={TextField}
-                                        defaultValue={defaultdata.userById.email}
+                                        initialValue={defaultdata.userById.email}
                                      />
                                 ):(
                                     <Field
@@ -324,7 +326,7 @@ const UserForm = (props) => {
                                         component={TextField}
                                         multiline
                                         rows={4}
-                                        defaultValue={defaultdata.userById.address}
+                                        initialValue={defaultdata.userById.address}
                                      />
                                 ):(
                                     <Field
@@ -352,9 +354,9 @@ const UserForm = (props) => {
                                             required={true}
                                         >
                                             <option aria-label="None" value="" />
-                                            <option value={'หมอ'}>หมอ</option>
-                                            <option value={'พยาบาล'}>พยาบาล</option>
-                                            <option value={'เจ้าหน้าที่'}>เจ้าหน้าที่</option>
+                                            <option value={'DOCTOR'}>หมอ</option>
+                                            <option value={'NURSE'}>พยาบาล</option>
+                                            <option value={'STAFF'}>เจ้าหน้าที่</option>
                                         </NativeSelect>
                                     </FormControl>
                                 ):(
@@ -368,9 +370,9 @@ const UserForm = (props) => {
                                             required={true}
                                         >
                                             <option aria-label="None" value="" />
-                                            <option value={'หมอ'}>หมอ</option>
-                                            <option value={'พยาบาล'}>พยาบาล</option>
-                                            <option value={'เจ้าหน้าที่'}>เจ้าหน้าที่</option>
+                                            <option value={'DOCTOR'}>หมอ</option>
+                                            <option value={'NURSE'}>พยาบาล</option>
+                                            <option value={'STAFF'}>เจ้าหน้าที่</option>
                                         </NativeSelect>
                                     </FormControl>
                                 )}
@@ -394,3 +396,4 @@ const UserForm = (props) => {
     )
 }
 export default UserForm
+

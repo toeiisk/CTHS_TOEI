@@ -39,6 +39,7 @@ const useStyles = makeStyles(() => ({
 	},
 	navTab: {
 		padding: 10,
+		paddingBottom: 20,
 	},
 	name: {
 		margin: 5,
@@ -71,7 +72,7 @@ const Sidebar = ({ onMobileClose, openMobile }) => {
 	}, [location.pathname]);
 
 	const content = (
-		<Box display="flex" flexDirection="column" style={{backgroundColor: '#0f123f'}}>
+		<Box height="100vh" display="flex" flexDirection="column" style={{ backgroundColor: '#0f123f' }}>
 			<Box alignItems="center" display="flex" flexDirection="column" p={5}>
 				<Avatar className={classes.avatar} component={RouterLink} src={user.avatar} to="" />
 				<Typography className={classes.name} color="textPrimary" variant="h5">
@@ -84,28 +85,6 @@ const Sidebar = ({ onMobileClose, openMobile }) => {
 			<Divider style={{ backgroundColor: 'white' }} />
 			<Box p={2}>
 				<List>
-					<ListItem button component={Link} className={classes.navTab} to="/">
-						<ListItemIcon>
-							<IconContext.Provider value={{ color: 'white', size: '30' }}>
-								<HiHome />
-							</IconContext.Provider>
-						</ListItemIcon>
-						<ListItemText>
-							<Typography className={classes.textsidebar}>Home</Typography>
-						</ListItemText>
-					</ListItem>
-
-					<ListItem button component={Link} className={classes.navTab} to="/">
-						<ListItemIcon>
-							<IconContext.Provider value={{ color: 'white', size: '30' }}>
-								<HiHome />
-							</IconContext.Provider>
-						</ListItemIcon>
-						<ListItemText>
-							<Typography className={classes.textsidebar}>Home</Typography>
-						</ListItemText>
-					</ListItem>
-
 					<ListItem button component={Link} className={classes.navTab} to="/">
 						<ListItemIcon>
 							<IconContext.Provider value={{ color: 'white', size: '30' }}>
@@ -224,7 +203,6 @@ const Sidebar = ({ onMobileClose, openMobile }) => {
 					</ListItem>
 				</List>
 			</Box>
-
 			<Divider style={{ backgroundColor: 'white' }} />
 			<Box p={2} m={2} bgcolor="background.dark">
 				<Box display="flex" flexDirection="column" justifyContent="center" mt={2}>

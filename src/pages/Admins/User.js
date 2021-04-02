@@ -69,7 +69,6 @@ const Userpage = () => {
   const classes = useStyles();
   let navigate = useNavigate();
   const { loading, error, data } = useQuery(GET_USERS);
-
   if (loading) return 'Loading...';
   if (error) return `Error! ${error.message}`;
 
@@ -101,11 +100,11 @@ const Userpage = () => {
           <Grid item xs={12}>
             <div style={{ height: 400, width: "100%" }}>
               <DataGrid
-                rows={data.Users.map((item) => ({
+                rows={data.allUsers.map((item) => ({
                   id: item._id,
                   firstname: item.firstname,
                   lastname: item.lastname,
-                  job: item.roles[0],
+                  job: item.roles,
                   email: item.email
                 }))}
                 columns={columns}

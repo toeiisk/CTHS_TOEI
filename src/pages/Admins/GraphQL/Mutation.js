@@ -8,9 +8,10 @@ export const ADD_USER = gql`
         email
         firstname
         lastname
+        address
         phone
         roles
-        address
+        isStaff
     }
   }
 }
@@ -27,6 +28,7 @@ export const UPDATE_USER_BY_ID = gql`
         phone
         roles
         address
+        isStaff
       }
     }
   }

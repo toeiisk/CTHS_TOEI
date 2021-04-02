@@ -1,0 +1,14 @@
+multi-select-chips {
+  display: "flex";
+  flex-wrap: "wrap";
+}
+multi-select-chip {
+  margin: 2px;
+}
+
+.field {
+  margin-top: 16px;
+  margin-left: 0px;
+  margin-bottom: 40px;
+  width: 100%;
+}

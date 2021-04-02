@@ -4,6 +4,8 @@ import { Box, Grid, Typography, Button } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import { Link, useNavigate } from 'react-router-dom';
 import { DataGrid } from '@material-ui/data-grid';
+import {GET_PATIENTS} from './GraphQL/Querie'
+import { useQuery } from '@apollo/client';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -48,26 +50,23 @@ const columns = [
 		field: 'idcard',
 		headerName: 'ID Card',
 		width: 400,
+  },
+  {
+		field: 'phone',
+		headerName: 'Phone',
+		width: 200,
 		resizable: true,
 	},
-];
-
-const rows = [
-	{ id: 0, firstname: 'Test1', lastname: 'Test1', idcard: '123456' },
-	{ id: 1, firstname: 'Test2', lastname: 'Test2', idcard: '123456' },
-	{ id: 2, firstname: 'Test3', lastname: 'Test3', idcard: '123456' },
-	{ id: 3, firstname: 'Test2', lastname: 'Test2', idcard: '123456' },
-	{ id: 4, firstname: 'Test2', lastname: 'Test2', idcard: '123456' },
-	{ id: 5, firstname: 'Test2', lastname: 'Test2', idcard: '123456' },
-	{ id: 6, firstname: 'Test2', lastname: 'Test2', idcard: '123456' },
-	{ id: 7, firstname: 'Test2', lastname: 'Test2', idcard: '123456' },
-	{ id: 8, firstname: 'Test2', lastname: 'Test2', idcard: '123456' },
-	{ id: 1, firstname: 'Test2', lastname: 'Test2', idcard: '123456' },
 ];
 
 const Patientpage = () => {
 	const classes = useStyles();
 	let navigate = useNavigate();
+	const { loading, error, data } = useQuery(GET_PATIENTS);
+	if (loading) return 'Loading...';
+  	if (error) return `Error! ${error.message}`;
+
+	console.log(data)
 	return (
 		<React.Fragment className={classes.root}>
 			<Box className={classes.boxAdmin}>
@@ -96,7 +95,13 @@ const Patientpage = () => {
 					<Grid item xs={12}>
 						<div style={{ height: 500, width: '100%', backgroundColor: 'white' }}>
 							<DataGrid
-								rows={rows}
+								rows={data.allPatients.map((item) => ({
+									id: item._id,
+									idcardNumber: item.idcardNumber,
+									firstname: item.firstname,
+									lastname: item.lastname,
+									phone: item.phone
+								}))}
 								columns={columns}
 								pagination
 								pageSize={10}

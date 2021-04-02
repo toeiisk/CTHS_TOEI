@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Avatar, Box, Button, Divider, Drawer, Hidden, List, Typography, makeStyles } from '@material-ui/core';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import { Link } from 'react-router-dom';
 import Collapse from '@material-ui/core/Collapse';
 
 // icon
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
 import { IconContext } from 'react-icons';
 import { HiHome, HiDocumentReport } from 'react-icons/hi';
 import { FaUserInjured, FaUserShield, FaUserMd } from 'react-icons/fa';
@@ -24,10 +24,6 @@ const user = {
 };
 
 const useStyles = makeStyles(() => ({
-	root: {
-		backgroundColor: '#0f123f',
-		minHeight: '100vh',
-	},
 	mobileDrawer: {
 		width: 256,
 	},
@@ -43,6 +39,7 @@ const useStyles = makeStyles(() => ({
 	},
 	navTab: {
 		padding: 10,
+		paddingBottom: 20,
 	},
 	name: {
 		margin: 5,
@@ -75,7 +72,7 @@ const Sidebar = ({ onMobileClose, openMobile }) => {
 	}, [location.pathname]);
 
 	const content = (
-		<Box display="flex" flexDirection="column" className={classes.root}>
+		<Box height="120vh" display="flex" flexDirection="column" style={{ backgroundColor: '#0f123f' }} >
 			<Box alignItems="center" display="flex" flexDirection="column" p={5}>
 				<Avatar className={classes.avatar} component={RouterLink} src={user.avatar} to="" />
 				<Typography className={classes.name} color="textPrimary" variant="h5">
@@ -206,9 +203,8 @@ const Sidebar = ({ onMobileClose, openMobile }) => {
 					</ListItem>
 				</List>
 			</Box>
-			
 			<Divider style={{ backgroundColor: 'white' }} />
-			<Box p={2} m={2} bgcolor="background.dark">
+			<Box p={2} m={2}>
 				<Box display="flex" flexDirection="column" justifyContent="center" mt={2}>
 					<Button
 						component="a"

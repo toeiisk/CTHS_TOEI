@@ -10,13 +10,12 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
     overflow: "hidden",
     width: "100%",
-    borderRadius: 20
   },
   wrapper: {
     display: "flex",
     flex: "1 1 auto",
     overflow: "hidden",
-    paddingTop: 64,
+    paddingTop: 90,
   },
   contentContainer: {
     display: "flex",
@@ -27,7 +26,6 @@ const useStyles = makeStyles((theme) => ({
     flex: "1 1 auto",
     height: "100%",
     overflow: "auto",
-    minHeight: "100%",
   },
 }));
 

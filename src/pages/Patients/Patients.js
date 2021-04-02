@@ -33,33 +33,28 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const columns = [
-	{ field: "id", headerName: "ID", width: 200, flex: 1, resizable: true },
-	{
-		field: 'idcardNumber',
-		headerName: 'ID Card',
-		width: 200,
-		flex: 1,
-		resizable: true,
-	},
+	{ field: 'id', headerName: 'ID', width: 200, resizable: true },
 	{
 		field: 'firstname',
 		headerName: 'First Name',
-		width: 200,
-		flex: 1,
+		width: 450,
 		resizable: true,
 	},
 	{
 		field: 'lastname',
 		headerName: 'Last Lastname',
-		width: 200,
-		flex: 1,
+		width: 450,
 		resizable: true,
 	},
 	{
+		field: 'idcard',
+		headerName: 'ID Card',
+		width: 400,
+  },
+  {
 		field: 'phone',
 		headerName: 'Phone',
 		width: 200,
-		flex: 1,
 		resizable: true,
 	},
 ];
@@ -76,12 +71,12 @@ const Patientpage = () => {
 		<React.Fragment className={classes.root}>
 			<Box className={classes.boxAdmin}>
 				<Grid container spacing={0} alignItems="center" justify="center">
-					<Grid item xs={6}>
+					<Grid item xs={12} md={6}>
 						<Typography variant="h5" paragraph style={{ fontWeight: 'bolder' }}>
 							Patient list
 						</Typography>
 					</Grid>
-					<Grid item xs={6} align="right">
+					<Grid item xs={12} md={6} align="right">
 						<Box style={{ alignItems: 'center', justifyContent: 'flex-end' }}>
 							<Link to="/app/patients/createpatients" style={{ textDecoration: 'none' }}>
 								<Button startIcon={<AddIcon />} variant="contained" color="primary">
@@ -91,14 +86,14 @@ const Patientpage = () => {
 						</Box>
 					</Grid>
 				</Grid>
-				<Grid container spacing={0} alignItems="center" justify="center" style={{marginTop: 20}}>
-        <Grid item xs={12}>
+				<Grid container spacing={0} alignItems="center" justify="center" style={{ marginTop: 20 }}>
+					<Grid item xs={12} >
 						<Typography variant="h6" paragraph style={{ fontWeight: 'light' }}>
 							Patients for today
 						</Typography>
 					</Grid>
 					<Grid item xs={12}>
-						<div style={{ height: 400, width: '100%', backgroundColor: 'white' }}>
+						<div style={{ height: 500, width: '100%', backgroundColor: 'white' }}>
 							<DataGrid
 								rows={data.allPatients.map((item) => ({
 									id: item._id,

@@ -31,26 +31,23 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const columns = [
-	{ field: 'id', headerName: 'ID', width: 200, flex: 1, resizable: true },
+	{ field: 'id', headerName: 'ID', width: 200, resizable: true },
 	{
 		field: 'firstname',
 		headerName: 'First Name',
-		width: 200,
-		flex: 1,
+		width: 450,
 		resizable: true,
 	},
 	{
 		field: 'lastname',
 		headerName: 'Last Lastname',
-		width: 200,
-		flex: 1,
+		width: 450,
 		resizable: true,
 	},
 	{
 		field: 'idcard',
 		headerName: 'ID Card',
-		width: 200,
-		flex: 1,
+		width: 400,
 		resizable: true,
 	},
 ];
@@ -90,8 +87,8 @@ const Patientpage = () => {
 						</Box>
 					</Grid>
 				</Grid>
-				<Grid container spacing={0} alignItems="center" justify="center" style={{marginTop: 20}}>
-        <Grid item xs={12}>
+				<Grid container spacing={0} alignItems="center" justify="center" style={{ marginTop: 20 }}>
+					<Grid item xs={12}>
 						<Typography variant="h6" paragraph style={{ fontWeight: 'light' }}>
 							Patients for today
 						</Typography>

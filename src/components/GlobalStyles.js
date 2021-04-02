@@ -6,11 +6,11 @@ const useStyles = makeStyles(() => createStyles({
       boxSizing: 'border-box',
       margin: 0,
       padding: 0,
-      '-ms-overflow-style': 'none',
+      // '-ms-overflow-style': 'none',
     },
-    '::-webkit-scrollbar': {
-      display: 'none'
-    },
+    // '::-webkit-scrollbar': {
+    //   display: 'none'
+    // },
     html: {
       '-webkit-font-smoothing': 'antialiased',
       '-moz-osx-font-smoothing': 'grayscale',

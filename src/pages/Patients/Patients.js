@@ -33,29 +33,29 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const columns = [
-	{ field: 'id', headerName: 'ID', width: 250, resizable: true },
+	{ field: 'id', headerName: 'ID', width: 300, resizable: true },
 	{
 		field: 'firstname',
 		headerName: 'First Name',
-		width: 200,
+		width: 300,
 		resizable: true,
 	},
 	{
 		field: 'lastname',
 		headerName: 'Last Lastname',
-		width: 200,
+		width: 300,
 		resizable: true,
 	},
 	{
 		field: 'idcardNumber',
 		headerName: 'ID Card',
-		width: 200,
+		width: 300,
 	},
 	{
 		field: 'phone',
 		headerName: 'Phone',
 		resizable: true,
-		width: 200,
+		width: 300,
 
 	},
 ];

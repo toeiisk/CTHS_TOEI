@@ -1,21 +1,22 @@
 import React from 'react';
-import { Box, Grid, Typography, Button } from '@material-ui/core';
+import { Box, Grid, Typography, Button, TextField as MuiTextField } from '@material-ui/core';
 import { InfoCard } from '@mystiny/ui';
 import DescriptionIcon from '@material-ui/icons/Description';
-import { useNavigate, useParams} from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { green } from '@material-ui/core/colors';
 import { useQuery } from '@apollo/client';
-import {GET_PATIENT} from '../Patients/GraphQL/Querie'
-
+import { GET_PATIENT } from '../Patients/GraphQL/Querie'
+import moment from 'moment';
+import TreatmentForm from './Treatment-form'
 const useStyles = makeStyles((theme) => ({
     create: {
-      backgroundColor: green[500],
-      '&:hover': {
-        backgroundColor: green[700],
-      },
+        backgroundColor: green[500],
+        '&:hover': {
+            backgroundColor: green[700],
+        },
     },
-  }));
+}));
 
 
 const CreateTreatmentPage = () => {
@@ -48,29 +49,86 @@ const CreateTreatmentPage = () => {
                     <Grid item xs={12}>
                         <InfoCard title={
                             <React.Fragment>
-                                <Typography paragraph style={{ fontSize: '1em'}} >
-                                   ข้อมูลผู้ป่วย
-                                    <Button variant="contained" color="secondary" onClick={() => navigate(-1)} style={{marginLeft: 20}} className={classes.create}>
+                                <Box display="flex " style={{ fontSize: '1em', justifyContent: 'center', alignItems: 'center' }}>
+                                    <h4>ข้อมูลผู้ป่วย</h4>
+                                    <Button variant="contained" color="secondary" onClick={() => navigate(-1)} style={{ marginLeft: 20 }} className={classes.create}>
                                         ดูข้อมูลเพิ่มเติม
                                     </Button>
-                                </Typography>
+                                </Box>
                             </React.Fragment>
+                        }
+                        actionTopRight={
+                            <Box display="flex">
+                                <Button variant="contained" color="secondary" onClick={() => navigate(-1)} >
+                                    ย้อนกลับ
+                                </Button>
+                            </Box>
                         }>
                             <Grid container spacing={2}>
                                 <Grid item xs={6}>
-
+                                    <MuiTextField
+                                        id="standard-read-only-input"
+                                        label="ชื่อ"
+                                        defaultValue={data.patientById.firstname}
+                                        InputProps={{
+                                            readOnly: true,
+                                        }}
+                                        variant="outlined"
+                                        fullWidth
+                                    />
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <MuiTextField
+                                        id="standard-read-only-input"
+                                        label="นามสกุล"
+                                        defaultValue={data.patientById.lastname}
+                                        InputProps={{
+                                            readOnly: true,
+                                        }}
+                                        variant="outlined"
+                                        fullWidth
+                                    />
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <MuiTextField
+                                        id="standard-read-only-input"
+                                        label="โรคประจำตัว"
+                                        defaultValue={data.patientById.congenitalDisease.toString()}
+                                        InputProps={{
+                                            readOnly: true,
+                                        }}
+                                        variant="outlined"
+                                        fullWidth
+                                    />
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <MuiTextField
+                                        id="standard-read-only-input"
+                                        label="วัน/เดือน/ปีเกิด"
+                                        defaultValue={`${moment(new Date(data.patientById.birthdate)).format("DD-MM-YYYY")}`}
+                                        InputProps={{
+                                            readOnly: true,
+                                        }}
+                                        variant="outlined"
+                                        fullWidth
+                                    />
                                 </Grid>
                             </Grid>
                         </InfoCard>
                     </Grid>
-                    {/* <Grid item xs={12}>
-                        <InfoCard title='ประวัติการรักษา' actionTopRight={
-                            <Button variant="contained" color="secondary" onClick={() => navigate(-1)}>
-                                ย้อนกลับ
-                            </Button>
-                        }>
+                    <Grid item xs={12} style={{ marginTop: 20 }}>
+                        <InfoCard
+                            title={
+                                <React.Fragment>
+                                    <Box display="flex " style={{ fontSize: '1em', justifyContent: 'center', alignItems: 'center' }}>
+                                        <h4>ประวัติการรักษา</h4>
+                                    </Box>
+                                </React.Fragment>
+                            }
+                        >
+                            <TreatmentForm />
                         </InfoCard>
-                    </Grid> */}
+                    </Grid>
                 </Grid>
             </Box>
         </React.Fragment>

@@ -18,3 +18,24 @@ export const ADD_TREATMENT = gql`
   }
 }
 `
+
+export const UPDATE_TREATMENT = gql`
+ mutation UpdateTreatment($record: UpdateByIdTreatmentInput!, $id: MongoID!){
+  updateTreatmentById(record: $record, _id: $id){
+    record{
+      patientId
+      weight
+      height
+      bloodPressure
+      pulseRate
+      tempurature
+      respiratoryRate
+      bmi
+      oxygenSaturation
+      medicalCertificate
+    }
+  }
+}
+`
+
+

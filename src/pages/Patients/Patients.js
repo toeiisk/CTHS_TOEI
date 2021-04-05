@@ -33,29 +33,29 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const columns = [
-	{ field: 'id', headerName: 'ID', width: 300, resizable: true },
+	{ field: 'id', headerName: 'ID', width: 250, resizable: true },
 	{
 		field: 'firstname',
 		headerName: 'First Name',
-		width: 300,
+		width: 200,
 		resizable: true,
 	},
 	{
 		field: 'lastname',
 		headerName: 'Last Lastname',
-		width: 300,
+		width: 200,
 		resizable: true,
 	},
 	{
 		field: 'idcardNumber',
 		headerName: 'ID Card',
-		width: 300,
+		width: 200,
 	},
 	{
 		field: 'phone',
 		headerName: 'Phone',
 		resizable: true,
-		width: 300,
+		width: 200,
 
 	},
 ];
@@ -66,8 +66,6 @@ const Patientpage = () => {
 	const { loading, error, data } = useQuery(GET_PATIENTS);
 	if (loading) return 'Loading...';
 	if (error) return `Error! ${error.message}`;
-
-	console.log(data)
 	return (
 		<React.Fragment className={classes.root}>
 			<Box className={classes.boxAdmin}>

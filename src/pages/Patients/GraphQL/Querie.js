@@ -36,6 +36,19 @@ export const GET_PATIENT = gql`
       address
       hospitalRefer
       congenitalDisease
+      treatment{
+        _id
+        weight
+        height
+        bloodPressure
+        pulseRate
+        tempurature
+        respiratoryRate
+        bmi
+        oxygenSaturation
+        medicalCertificate
+        createdAt
+      }
     }
   }
 `

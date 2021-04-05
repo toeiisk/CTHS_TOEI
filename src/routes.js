@@ -19,8 +19,9 @@ import CreateMedicine from './pages/Medicine/DrugStore/Create';
 
 import Prescription from './pages/Medicine/Prescription/Prescription';
 
-import Treatment from './pages/Treatment';
+import Treatment from './pages/Treatment/Treatments';
 import CreateTreatment from './pages/Treatment/Create';
+import DetailTreatment from './pages/Treatment/Detail'
 
 import Diagnosis from './pages/Diagnosis';
 import Report from './pages/Report';
@@ -45,6 +46,7 @@ const routes = [
 			{ path: 'admin/detail/:id', element: <UserDetail /> },
 			{ path: 'diagnosis', element: <Diagnosis /> },
 			{ path: '/treatment/create/patientId/:id', element: <CreateTreatment /> },
+			{ path: 'treatment/detail/:id', element: <DetailTreatment /> },
 			{ path: 'treatment', element: <Treatment /> },
 			{ path: 'report', element: <Report /> },
 		],

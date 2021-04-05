@@ -52,7 +52,7 @@ const DetailTreatmentPage = () => {
                 <Grid container spacing={0} alignItems="center" justify="center">
                     <Grid item xs={6}>
                         <Typography paragraph style={{ fontWeight: 'bold', fontSize: '2em' }} >
-                            <DescriptionIcon color="primary" fontSize="small" /> รายละเอียดการรักษา
+                            <DescriptionIcon color="primary" fontSize="small" /> รายละเอียดการรักษา 
                     </Typography>
                     </Grid>
                     <Grid item xs={6} align='right'>

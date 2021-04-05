@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 import { Link, useNavigate } from 'react-router-dom';
 import { DataGrid } from '@material-ui/data-grid';
-import { GET_MEDICINES } from './graphql/Queries';
+import { GET_MEDICINES } from './GraphQL/Queries';
 import { useQuery } from '@apollo/client';
 
 const useStyles = makeStyles(() => ({

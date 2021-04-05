@@ -20,3 +20,24 @@ export const ADD_PATIENT = gql`
   }
 }
 `
+
+export const UPDATE_PATIENT_BY_ID = gql`
+  mutation UpdatePatient($record: UpdateByIdPatientInput!,  $id: MongoID!){
+    updatePatientById(record: $record, _id: $id){
+      record{
+        firstname
+        lastname
+        idcardNumber
+        birthdate
+        nationality
+        race
+        status
+        bloodType
+        phone
+        address
+        hospitalRefer
+        congenitalDisease
+      }
+    }
+  }
+`

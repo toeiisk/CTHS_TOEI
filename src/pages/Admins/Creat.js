@@ -25,7 +25,7 @@ const CreateUserPage = () => {
                     </Grid>
                     <Grid item xs={12}>
                         <InfoCard title='ข้อมูลผู้ใช้' actionTopRight={
-                            <Button variant="contained" color="primary" onClick={() => navigate(-1)}>
+                            <Button variant="contained" color="secondary" onClick={() => navigate(-1)}>
                                 ย้อนกลับ
                             </Button>
                         }>

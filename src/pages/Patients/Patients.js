@@ -4,7 +4,7 @@ import { Box, Grid, Typography, Button } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import { Link, useNavigate } from 'react-router-dom';
 import { DataGrid } from '@material-ui/data-grid';
-import {GET_PATIENTS} from './GraphQL/Querie'
+import { GET_PATIENTS } from './GraphQL/Querie'
 import { useQuery } from '@apollo/client';
 
 const useStyles = makeStyles((theme) => ({
@@ -33,29 +33,30 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const columns = [
-	{ field: 'id', headerName: 'ID', width: 200, resizable: true },
+	{ field: 'id', headerName: 'ID', width: 250, resizable: true },
 	{
 		field: 'firstname',
 		headerName: 'First Name',
-		width: 450,
+		width: 200,
 		resizable: true,
 	},
 	{
 		field: 'lastname',
 		headerName: 'Last Lastname',
-		width: 450,
+		width: 200,
 		resizable: true,
 	},
 	{
-		field: 'idcard',
+		field: 'idcardNumber',
 		headerName: 'ID Card',
-		width: 400,
-  },
-  {
+		width: 200,
+	},
+	{
 		field: 'phone',
 		headerName: 'Phone',
-		width: 200,
 		resizable: true,
+		width: 200,
+
 	},
 ];
 
@@ -64,7 +65,7 @@ const Patientpage = () => {
 	let navigate = useNavigate();
 	const { loading, error, data } = useQuery(GET_PATIENTS);
 	if (loading) return 'Loading...';
-  	if (error) return `Error! ${error.message}`;
+	if (error) return `Error! ${error.message}`;
 
 	console.log(data)
 	return (
@@ -73,25 +74,18 @@ const Patientpage = () => {
 				<Grid container spacing={0} alignItems="center" justify="center">
 					<Grid item xs={12} md={6}>
 						<Typography variant="h5" paragraph style={{ fontWeight: 'bolder' }}>
-							Patient list
+						Patients for today
 						</Typography>
 					</Grid>
 					<Grid item xs={12} md={6} align="right">
-						<Box style={{ alignItems: 'center', justifyContent: 'flex-end' }}>
-							<Link to="/app/patients/createpatients" style={{ textDecoration: 'none' }}>
-								<Button startIcon={<AddIcon />} variant="contained" color="primary">
-									Create new patients
-								</Button>
-							</Link>
-						</Box>
+						<Link to="/app/patients/createpatients" style={{ textDecoration: 'none' }}>
+							<Button startIcon={<AddIcon />} variant="contained" color="primary">
+								Create new patients
+							</Button>
+						</Link>
 					</Grid>
 				</Grid>
 				<Grid container spacing={0} alignItems="center" justify="center" style={{ marginTop: 20 }}>
-					<Grid item xs={12} >
-						<Typography variant="h6" paragraph style={{ fontWeight: 'light' }}>
-							Patients for today
-						</Typography>
-					</Grid>
 					<Grid item xs={12}>
 						<div style={{ height: 500, width: '100%', backgroundColor: 'white' }}>
 							<DataGrid

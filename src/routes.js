@@ -13,9 +13,15 @@ import User from "./pages/Admins/User";
 import UserCreate from "./pages/Admins/Creat"
 import UserDetail from "./pages/Admins/Detail"
 
-import Diagnosis from "./pages/Diagnosis";
-import Medicine from "./pages/Medicine";
+import Medicine from "./pages/Medicine/DrugStore/Medicine";
+import CreateMedicine from './pages/Medicine/DrugStore/Create'
+
+import Prescription from './pages/Medicine/Prescription/Prescription'
+
 import Treatment from "./pages/Treatment";
+import CreateTreatment from './pages/Treatment/Create'
+
+import Diagnosis from "./pages/Diagnosis";
 import Report from "./pages/Report";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -25,7 +31,9 @@ const routes = [
     path: "app",
     element: <Navbar />,
     children: [
-      { path: "medicine", element: <Medicine /> },
+      { path: "medicine", element: <Prescription /> },
+      { path: "medicine/drugstore", element: <Medicine /> },
+      { path: "medicine/drugstore/create", element: <CreateMedicine /> },
       { path: "homepage", element: <Homepage /> },
       { path: "patients", element: <Patients /> },
       { path: "patients/createpatients", element: <CreatePatients /> },
@@ -34,6 +42,7 @@ const routes = [
       { path: "admin/create", element: <UserCreate /> },
       { path: "admin/detail/:id", element: <UserDetail /> },
       { path: "diagnosis", element: <Diagnosis /> },
+      { path: "/treatment/create/patientId/:id", element: <CreateTreatment /> },
       { path: "treatment", element: <Treatment /> },
       { path: "report", element: <Report /> },
     ],

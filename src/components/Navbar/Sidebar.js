@@ -164,17 +164,17 @@ const Sidebar = ({ onMobileClose, openMobile }) => {
 									</IconContext.Provider>
 								</ListItemIcon>
 								<ListItemText>
-									<Typography className={classes.textsidebar}>Medicine 1</Typography>
+									<Typography className={classes.textsidebar}>ห้องจ่ายยา</Typography>
 								</ListItemText>
 							</ListItem>
-							<ListItem button component={Link} className={classes.nested} to="/app/medicine">
+							<ListItem button component={Link} className={classes.nested} to="/app/medicine/drugstore">
 								<ListItemIcon>
 									<IconContext.Provider value={{ color: 'white', size: '30' }}>
 										<GiMedicines />
 									</IconContext.Provider>
 								</ListItemIcon>
 								<ListItemText>
-									<Typography className={classes.textsidebar}>Medicine 2</Typography>
+									<Typography className={classes.textsidebar}>คลังยา</Typography>
 								</ListItemText>
 							</ListItem>
 						</List>

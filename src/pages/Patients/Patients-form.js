@@ -19,7 +19,7 @@ import { CountryRegionData } from "react-country-region-selector";
 import { TextField, Radio, Select } from 'final-form-material-ui';
 import MultiSelect from "../../MulitiSelect";
 import "../../App.css"
-import { ADD_PATIENT } from './GraphQL/Mutation'
+import { ADD_PATIENT, UPDATE_PATIENT_BY_ID } from './GraphQL/Mutation'
 import { useMutation } from '@apollo/client';
 import { GET_PATIENTS } from './GraphQL/Querie'
 import { useNavigate } from "react-router-dom";
@@ -89,12 +89,13 @@ const PatientsForm = (props) => {
     const [select, setSelect] = React.useState('')
     const [status, setStatus] = React.useState('')
     const [addPatient] = useMutation(ADD_PATIENT);
+    const [updatePatient] = useMutation(UPDATE_PATIENT_BY_ID)
     const [nationality, setNationality] = React.useState([])
     const [selectNationality, setSelectNationality] = React.useState('')
     const [selectRace, setSelectRace] = React.useState('')
-    
+
     let data = require('npm-nationality-list')
-    
+
     useEffect(() => {
         if (mode === 'update') {
             setSelect(defaultdata.patientById.bloodType)
@@ -110,40 +111,72 @@ const PatientsForm = (props) => {
         data.getList().map((item) => setNationality((prev) => [...prev, item]))
     }, [])
 
-    const onSubmitCreate =
-        useCallback(
-            async (value) => {
-                const variables = {
-                    record: {
-                        firstname: value.firstname,
-                        lastname: value.lastname,
-                        idcardNumber: value.idcardNumber,
-                        birthdate: value.birthdate,
-                        nationality: selectNationality,
-                        race: selectRace,
-                        status: status,
-                        bloodType: select,
-                        phone: value.phone,
-                        address: value.address,
-                        hospitalRefer: value.hospitalRefer,
-                        congenitalDisease: value.congenitalDisease,
-                    }
+    const onSubmitCreate = useCallback(
+        async (value) => {
+            const variables = {
+                record: {
+                    firstname: value.firstname,
+                    lastname: value.lastname,
+                    idcardNumber: value.idcardNumber,
+                    birthdate: value.birthdate,
+                    nationality: selectNationality,
+                    race: selectRace,
+                    status: status,
+                    bloodType: select,
+                    phone: value.phone,
+                    address: value.address,
+                    hospitalRefer: value.hospitalRefer,
+                    congenitalDisease: value.congenitalDisease,
                 }
-                try {
-                    await addPatient({ variables, refetchQueries: [{ query: GET_PATIENTS }] })
-                    alert('บันทึกข้อมูลสำเร็จ')
-                    setSelectNationality('')
-                    setSelectRace('')
-                    navigate(`/app/patients`)
-                } catch (err) {
-                    console.log(err)
-                    alert('เกิดข้อผิดพลาด     '+err.message)
-                }
-            },
-            [addPatient, select]
-        )
+            }
+            try {
+                await addPatient({ variables, refetchQueries: [{ query: GET_PATIENTS }] })
+                alert('บันทึกข้อมูลสำเร็จ')
+                setSelectNationality('')
+                setSelectRace('')
+                navigate(`/app/patients`)
+            } catch (err) {
+                console.log(err)
+                alert('เกิดข้อผิดพลาด' + err.message)
+            }
+        },
+        [addPatient, select]
+    )
 
-    const onSubmit = onSubmitCreate
+    const onSubmitUpdate = useCallback(
+        async (value) => {
+            const variables = {
+                id: defaultdata.patientById._id,
+                record: {
+                    firstname: value.firstname,
+                    lastname: value.lastname,
+                    idcardNumber: value.idcardNumber,
+                    birthdate: value.birthdate,
+                    nationality: selectNationality,
+                    race: selectRace,
+                    status: status,
+                    bloodType: select,
+                    phone: value.phone,
+                    address: value.address,
+                    hospitalRefer: value.hospitalRefer,
+                    congenitalDisease: value.congenitalDisease,
+                }
+            }
+            try {
+                await updatePatient({ variables, refetchQueries: [{ query: GET_PATIENTS }] })
+                alert('บันทึกข้อมูลสำเร็จ')
+                setSelectNationality('')
+                setSelectRace('')
+                navigate(`/app/patients`)
+            } catch (err) {
+                console.log(err)
+                alert('เกิดข้อผิดพลาด     ' + err.message)
+            }
+        },
+        [addPatient, select, selectNationality, selectRace]
+    )
+
+    const onSubmit = mode === 'update' ? onSubmitUpdate : onSubmitCreate
 
     const handleChangeblood = (event) => {
         setSelect(event.target.value);
@@ -159,6 +192,19 @@ const PatientsForm = (props) => {
     const handleSelectRace = (event) => {
         setSelectRace(event.target.value)
     }
+
+    const normalizeIdcard = value => {
+        if (!value) return value;
+        const onlyNums = value.replace(/[^\d]/g, "");
+        if (onlyNums.length <= 13) return onlyNums;
+    }
+
+    const normalizePhone = value => {
+        if (!value) return value;
+        const onlyNums = value.replace(/[^\d]/g, "");
+        if (onlyNums.length <= 10) return onlyNums;
+    }
+
 
     return (
         <React.Fragment>
@@ -226,6 +272,7 @@ const PatientsForm = (props) => {
                                         name="idcardNumber"
                                         component={TextField}
                                         initialValue={defaultdata.patientById.idcardNumber}
+                                        parse={normalizeIdcard}
                                     />
                                 ) : (
                                     <Field
@@ -233,9 +280,10 @@ const PatientsForm = (props) => {
                                         type="text"
                                         variant="outlined"
                                         style={{ width: '100%' }}
-                                        required    
+                                        required
                                         name="idcardNumber"
                                         component={TextField}
+                                        parse={normalizeIdcard}
                                     />
                                 )}
                             </Grid>
@@ -262,21 +310,21 @@ const PatientsForm = (props) => {
                                         required={true}
                                         component={TextField}
                                         name='birthdate'
-                                        defaultValue={`${moment(new Date() ).format("YYYY-MM-DD")}`}
+                                        defaultValue={`${moment(new Date()).format("YYYY-MM-DD")}`}
                                     />
                                 )}
                             </Grid>
                             <Grid item xs={6}>
                                 <FormControl style={{ width: "100%" }}>
-                                    <FormLabel component="legend">สัญชาติ</FormLabel>
+                                    <InputLabel id="demo-mutiple-name-label">สัญชาติ</InputLabel>
                                     <NativeSelect
                                         id="demo-customized-select-native"
                                         input={<BootstrapInput />}
                                         value={selectNationality}
                                         onChange={handleSelectNationality}
                                         required={true}
-                                    >   
-                                        <option aria-label="None" value="" />
+                                    >
+                                        <option aria-label="None" value=" " />
                                         {nationality?.map((data, index) => (
                                             <option value={`${data.nationality}`}>
                                                 {data.nationality}
@@ -287,15 +335,15 @@ const PatientsForm = (props) => {
                             </Grid>
                             <Grid item xs={6}>
                                 <FormControl style={{ width: "100%" }}>
-                                    <FormLabel component="legend">เชื้อชาติ</FormLabel>
+                                    <InputLabel id="demo-mutiple-name-label">เชื้อชาติ</InputLabel>
                                     <NativeSelect
                                         id="demo-customized-select-native"
                                         input={<BootstrapInput />}
                                         value={selectRace}
                                         onChange={handleSelectRace}
                                         required={true}
-                                    >   
-                                        <option aria-label="None" value="" />
+                                    >
+                                        <option aria-label="None" value=" " />
                                         {nationality?.map((data, index) => (
                                             <option value={`${data.nationality}`}>
                                                 {data.nationality}
@@ -306,7 +354,7 @@ const PatientsForm = (props) => {
                             </Grid>
                             <Grid item xs={6}>
                                 <FormControl style={{ width: "100%" }}>
-                                    <FormLabel component="legend">สถานะ</FormLabel>
+                                    <InputLabel id="demo-mutiple-name-label">สถานะ</InputLabel>
                                     <NativeSelect
                                         id="demo-customized-select-native"
                                         input={<BootstrapInput />}
@@ -323,7 +371,7 @@ const PatientsForm = (props) => {
                             </Grid>
                             <Grid item xs={6}>
                                 <FormControl style={{ width: "100%" }}>
-                                    <FormLabel component="legend">กรุ๊ปเลือด</FormLabel>
+                                    <InputLabel id="demo-mutiple-name-label">กรุ๊ปเลือด</InputLabel>
                                     <NativeSelect
                                         id="demo-customized-select-native"
                                         input={<BootstrapInput />}
@@ -331,7 +379,7 @@ const PatientsForm = (props) => {
                                         onChange={handleChangeblood}
                                         required={true}
                                     >
-                                        <option aria-label="None" value="" />
+                                        <option aria-label="None" value=" " />
                                         <option value={'O'}>O</option>
                                         <option value={'A'}>A</option>
                                         <option value={'B'}>B</option>
@@ -350,6 +398,8 @@ const PatientsForm = (props) => {
                                         name="phone"
                                         component={TextField}
                                         initialValue={defaultdata.patientById.phone}
+                                        parse={normalizePhone}
+
                                     />
                                 ) : (
                                     <Field
@@ -360,6 +410,7 @@ const PatientsForm = (props) => {
                                         required
                                         name="phone"
                                         component={TextField}
+                                        parse={normalizePhone}
                                     />
                                 )}
                             </Grid>
@@ -395,26 +446,26 @@ const PatientsForm = (props) => {
                                         labelname="โรคประจำตัว"
                                         component={MultiSelect}
                                         variant="outlined"
-                                        defaultValue={defaultdata.patientById.congenitalDisease}
+                                        initialValue={defaultdata.patientById.congenitalDisease}
                                         renderValue={selected => (
                                             <div className="multi-select-chips">
-                                            {selected.map(value => (
-                                                <Chip
-                                                    key={value}
-                                                    label={value}
-                                                    className="multi-select-chip"
-                                                />
-                                            ))}
+                                                {selected.map(value => (
+                                                    <Chip
+                                                        key={value}
+                                                        label={value}
+                                                        className="multi-select-chip"
+                                                    />
+                                                ))}
                                             </div>
                                         )}
-                                        >
+                                    >
                                         {test.map((data, index) => (
                                             <MenuItem key={index} value={data}>
                                                 {data}
                                             </MenuItem>
                                         ))}
                                     </Field>
-                                ):(
+                                ) : (
                                     <Field
                                         name="congenitalDisease"
                                         styling="field"
@@ -423,16 +474,16 @@ const PatientsForm = (props) => {
                                         variant="outlined"
                                         renderValue={selected => (
                                             <div className="multi-select-chips">
-                                            {selected.map(value => (
-                                                <Chip
-                                                    key={value}
-                                                    label={value}
-                                                    className="multi-select-chip"
-                                                />
-                                            ))}
+                                                {selected.map(value => (
+                                                    <Chip
+                                                        key={value}
+                                                        label={value}
+                                                        className="multi-select-chip"
+                                                    />
+                                                ))}
                                             </div>
                                         )}
-                                        >
+                                    >
                                         {test.map((data, index) => (
                                             <MenuItem key={index} value={data}>
                                                 {data}
@@ -473,14 +524,14 @@ const PatientsForm = (props) => {
                                     type="submit"
                                     disabled={submitting}
                                 >
-                            บันทึกข้อมูล
+                                    บันทึกข้อมูล
                                 </Button>
                             </Grid>
                         </Grid>
                     </form>
-    )
-}
-/>
+                )
+                }
+            />
         </React.Fragment >
     )
 }

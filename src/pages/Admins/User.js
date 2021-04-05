@@ -92,7 +92,7 @@ const Userpage = () => {
                   variant="contained"
                   color="primary"
                 >
-                  สร้างผู้ใช้ในระบบ
+                  CREATE NEW USER
                 </Button>
               </Link>
             </Box>

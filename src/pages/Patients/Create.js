@@ -25,7 +25,7 @@ const CreatePatientsPage = () => {
                     </Grid>
                     <Grid item xs={12}>
                         <InfoCard title='ข้อมูลผู้ป่วย' actionTopRight={
-                            <Button variant="contained" color="primary" onClick={() => navigate(-1)}>
+                            <Button variant="contained" color="secondary" onClick={() => navigate(-1)}>
                                 ย้อนกลับ
                             </Button>
                         }>

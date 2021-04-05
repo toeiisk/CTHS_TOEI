@@ -58,37 +58,6 @@ const BootstrapInput = withStyles((theme) => ({
     },
 }))(InputBase);
 
-const validate = values => {
-    const errors = {}
-    if (!values.firstName) {
-        errors.firstName = 'Required'
-    }
-    if (!values.lastName) {
-        errors.lastName = 'Required'
-    }
-    if (!values.email) {
-        errors.email = 'Required'
-    }
-    if (!values.tell) {
-        errors.tell = 'Required'
-    }
-    if (!values.password) {
-        errors.password = 'Required'
-    }
-    if (!values.username) {
-        errors.username = 'Required'
-    }
-    if (!values.address) {
-        errors.address = 'Required'
-    }
-    if (!values.address) {
-        errors.address = 'Required'
-    }
-    return errors
-}
-
-
-
 const UserForm = (props) => {
     
     const {mode, defaultdata} = props
@@ -189,6 +158,7 @@ const UserForm = (props) => {
                                         label="ยูซเซอร์เนม"
                                         variant="outlined"
                                         initialValue={defaultdata.userById.username}
+                                        style={{ width: '100%' }}
                                     />
                                 ): (
                                     <Field
@@ -345,7 +315,7 @@ const UserForm = (props) => {
                             <Grid item xs={12} >
                                 {mode === 'update' ? (
                                     <FormControl style={{ width: "100%" }}>
-                                        <InputLabel htmlFor="demo-customized-select-native">หน้าที่</InputLabel>
+                                        <InputLabel id="demo-mutiple-name-label">หน้าที่</InputLabel>
                                         <NativeSelect
                                             id="demo-customized-select-native"
                                             input={<BootstrapInput />}
@@ -353,7 +323,7 @@ const UserForm = (props) => {
                                             onChange={handleChange}
                                             required={true}
                                         >
-                                            <option aria-label="None" value="" />
+                                             <option aria-label="None" value=" " />
                                             <option value={'DOCTOR'}>หมอ</option>
                                             <option value={'NURSE'}>พยาบาล</option>
                                             <option value={'STAFF'}>เจ้าหน้าที่</option>
@@ -361,7 +331,7 @@ const UserForm = (props) => {
                                     </FormControl>
                                 ):(
                                     <FormControl style={{ width: "100%" }}>
-                                        <InputLabel htmlFor="demo-customized-select-native">หน้าที่</InputLabel>
+                                        <InputLabel id="demo-mutiple-name-label">หน้าที่</InputLabel>
                                         <NativeSelect
                                             id="demo-customized-select-native"
                                             input={<BootstrapInput />}
@@ -369,7 +339,7 @@ const UserForm = (props) => {
                                             onChange={handleChange}
                                             required={true}
                                         >
-                                            <option aria-label="None" value="" />
+                                             <option aria-label="None" value=" " />
                                             <option value={'DOCTOR'}>หมอ</option>
                                             <option value={'NURSE'}>พยาบาล</option>
                                             <option value={'STAFF'}>เจ้าหน้าที่</option>

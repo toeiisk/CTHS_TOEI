@@ -36,6 +36,7 @@ const useStyles = makeStyles(() => ({
 		cursor: 'pointer',
 		width: 90,
 		height: 90,
+		margin: 10
 	},
 	navTab: {
 		padding: 10,
@@ -75,7 +76,7 @@ const Sidebar = ({ onMobileClose, openMobile }) => {
 		<Box height="120vh" display="flex" flexDirection="column" style={{ backgroundColor: '#0f123f' }} >
 			<Box alignItems="center" display="flex" flexDirection="column" p={5}>
 				<Avatar className={classes.avatar} component={RouterLink} src={user.avatar} to="" />
-				<Typography className={classes.name} color="textPrimary" variant="h5">
+				<Typography className={classes.name} color="textPrimary" variant="h6">
 					{user.name}
 				</Typography>
 				<Typography className={classes.name} color="textSecondary" variant="body2">
@@ -164,7 +165,7 @@ const Sidebar = ({ onMobileClose, openMobile }) => {
 									</IconContext.Provider>
 								</ListItemIcon>
 								<ListItemText>
-									<Typography className={classes.textsidebar}>Medicine 1</Typography>
+									<Typography className={classes.textsidebar}>Pharmacy</Typography>
 								</ListItemText>
 							</ListItem>
 							<ListItem button component={Link} className={classes.nested} to="/app/medicine">
@@ -174,7 +175,7 @@ const Sidebar = ({ onMobileClose, openMobile }) => {
 									</IconContext.Provider>
 								</ListItemIcon>
 								<ListItemText>
-									<Typography className={classes.textsidebar}>Medicine 2</Typography>
+									<Typography className={classes.textsidebar}>Drug storage</Typography>
 								</ListItemText>
 							</ListItem>
 						</List>

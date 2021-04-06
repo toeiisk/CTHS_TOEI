@@ -76,12 +76,6 @@ const BootstrapInput = withStyles((theme) => ({
 	},
 }))(InputBase);
 
-const normalizeAmount = (value) => {
-	if (!value) return value;
-	const onlyNums = value.replace(/[^\d]/g, '');
-	return onlyNums;
-};
-
 const MedicineForm = (props) => {
 	const { mode, defaultdata } = props;
 
@@ -111,6 +105,27 @@ const MedicineForm = (props) => {
 			return null;
 		}
 	}, []);
+
+	const validate = values => {
+		const errors = {}
+		if (!values.name) {
+			errors.name = 'Required'
+		}
+		if (!values.description) {
+			errors.description = 'Required'
+		}
+		if (!values.amount) {
+			errors.amount = 'Required'
+		}
+		if (!values.medType) {
+			errors.medType = 'Required'
+		}
+		if (!values.unitType) {
+			errors.unitType = 'Required'
+		}
+
+		return errors
+	}
 
 	const onSubmitCreate = useCallback(
 		async (value) => {
@@ -166,6 +181,7 @@ const MedicineForm = (props) => {
 		<React.Fragment>
 			<Form
 				onSubmit={onSubmit}
+				validate={validate}
 				render={({ handleSubmit, submitting }) => (
 					<form className={classes.root} noValidate autoComplete="true" onSubmit={handleSubmit}>
 						<Grid container spacing={2}>
@@ -284,7 +300,7 @@ const MedicineForm = (props) => {
 											input={<BootstrapInput />}
 											value={metType}
 											onChange={handleChange}
-											required={true}
+											required
 										>
 											<option aria-label="None" value=" " />
 											<option value={'MEDICINE'}>ยา</option>
@@ -299,7 +315,7 @@ const MedicineForm = (props) => {
 											input={<BootstrapInput />}
 											value={metType}
 											onChange={handleChange}
-											required={true}
+											required
 										>
 											<option aria-label="None" value=" " />
 											<option value={'MEDICINE'}>ยา</option>

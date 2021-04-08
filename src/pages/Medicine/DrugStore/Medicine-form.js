@@ -78,7 +78,6 @@ const BootstrapInput = withStyles((theme) => ({
 
 const MedicineForm = (props) => {
 	const { mode, defaultdata } = props;
-
 	let navigate = useNavigate();
 	const classes = useStyles();
 	const [metType, setMedType] = useState('');
@@ -117,9 +116,6 @@ const MedicineForm = (props) => {
 		if (!values.amount) {
 			errors.amount = 'Required'
 		}
-		if (!values.medType) {
-			errors.medType = 'Required'
-		}
 		if (!values.unitType) {
 			errors.unitType = 'Required'
 		}
@@ -129,6 +125,7 @@ const MedicineForm = (props) => {
 
 	const onSubmitCreate = useCallback(
 		async (value) => {
+			console.log('create ja')
 			const variables = {
 				record: {
 					medType: metType,
@@ -141,9 +138,8 @@ const MedicineForm = (props) => {
 			try {
 				await addMedicine({ variables, refetchQueries: [{ query: GET_MEDICINES }] });
 				setMedType('');
-				console.log('create');
 				alert('บันทึกข้อมูลสำเร็จ');
-				navigate(`/app/medicine/`);
+				navigate(`/app/medicine/drugstore`);
 			} catch (err) {
 				console.log(err);
 				alert('เกิดข้อผิดพลาด');
@@ -183,7 +179,7 @@ const MedicineForm = (props) => {
 				onSubmit={onSubmit}
 				validate={validate}
 				render={({ handleSubmit, submitting }) => (
-					<form className={classes.root} noValidate autoComplete="true" onSubmit={handleSubmit}>
+					<form className={classes.root}  autoComplete="true" onSubmit={handleSubmit}>
 						<Grid container spacing={2}>
 							<Grid item xs={6}>
 								{mode === 'update' ? (

@@ -1,0 +1,192 @@
+import React from 'react'
+import {
+    Grid,
+    FormControlLabel,
+    Button,
+} from '@material-ui/core';
+import { Form, Field } from 'react-final-form';
+import { TextField, Checkbox, Radio, Select } from 'final-form-material-ui';
+
+
+const EyeForm = () => {
+    return (
+        <React.Fragment>
+            <Grid container={'true'} item sx={12} spacing={2} >
+                <Grid item={'true'} xs={6} direction="column" >
+                    <Grid style={{ marginLeft: '42%' }}>
+                        <FormControlLabel
+                            label="ตาซ้าย"
+                            control={
+                                <Field
+                                    name="leftEye"
+                                    component={Checkbox}
+                                    type="checkbox"
+                                />
+                            }
+                        />
+                    </Grid>
+                    <Grid style={{ marginLeft: '42%' }}>
+                        <FormControlLabel
+                            label="ตาขวา"
+                            control={
+                                <Field
+                                    name="rightEye"
+                                    component={Checkbox}
+                                    type="checkbox"
+                                />
+                            }
+                        />
+                    </Grid>
+                    <Grid style={{ marginLeft: '42%' }}>
+                        <FormControlLabel
+                            label="มีอาการปวด"
+                            control={
+                                <Field
+                                    name="isPain"
+                                    component={Checkbox}
+                                    type="checkbox"
+                                />
+                            }
+                        />
+                    </Grid>
+                    <Grid style={{ marginLeft: '42%' }}>
+                        <FormControlLabel
+                            label="มีอาการคัน"
+                            control={
+                                <Field
+                                    name="isItching"
+                                    component={Checkbox}
+                                    type="checkbox"
+                                />
+                            }
+                        />
+                    </Grid>
+                    <Grid style={{ marginLeft: '42%' }}>
+                        <FormControlLabel
+                            label="เป็นโรคตาแดง"
+                            control={
+                                <Field
+                                    name="isConjunctivitis"
+                                    component={Checkbox}
+                                    type="checkbox"
+                                />
+                            }
+                        />
+                    </Grid>
+                    <Grid style={{ marginLeft: '42%' }}>
+                        <FormControlLabel
+                            label="มีอาการเจ็บ"
+                            control={
+                                <Field
+                                    name="isSore"
+                                    component={Checkbox}
+                                    type="checkbox"
+                                />
+                            }
+                        />
+                    </Grid>
+                    <Grid style={{ marginLeft: '42%' }}>
+                        <FormControlLabel
+                            label="มีอาการระคายเคือง"
+                            control={
+                                <Field
+                                    name="isIrritation"
+                                    component={Checkbox}
+                                    type="checkbox"
+                                />
+                            }
+                        />
+                    </Grid>
+                </Grid>
+                <Grid item={'true'} xs={6}>
+                    <Grid style={{ marginLeft: '42%' }}>
+                        <FormControlLabel
+                            label="มีอาการบวม"
+                            control={
+                                <Field
+                                    name="isSwelling"
+                                    component={Checkbox}
+                                    type="checkbox"
+                                />
+                            }
+                        />
+                    </Grid>
+                    <Grid style={{ marginLeft: '42%' }}>
+                        <FormControlLabel
+                            label="น้ำตาไหล"
+                            control={
+                                <Field
+                                    name="isTear"
+                                    component={Checkbox}
+                                    type="checkbox"
+                                />
+                            }
+                        />
+                    </Grid>
+                    <Grid style={{ marginLeft: '42%' }}>
+                        <FormControlLabel
+                            label="ตาพร่ามัว"
+                            control={
+                                <Field
+                                    name="isBlurred"
+                                    component={Checkbox}
+                                    type="checkbox"
+                                />
+                            }
+                        />
+                    </Grid>
+                    <Grid style={{ marginLeft: '42%' }}>
+                        <FormControlLabel
+                            label="ขี้ตาเยอะ"
+                            control={
+                                <Field
+                                    name="isGum"
+                                    component={Checkbox}
+                                    type="checkbox"
+                                />
+                            }
+                        />
+                    </Grid>
+                    <Grid style={{ marginLeft: '42%' }}>
+                        <FormControlLabel
+                            label="เป็นหนอง"
+                            control={
+                                <Field
+                                    name="isPurulent"
+                                    component={Checkbox}
+                                    type="checkbox"
+                                />
+                            }
+                        />
+                    </Grid>
+                    <Grid style={{ marginLeft: '42%' }}>
+                        <FormControlLabel
+                            label="สิ่งเเปลกปลอมเข้าดวงตา"
+                            control={
+                                <Field
+                                    name="isMatter"
+                                    component={Checkbox}
+                                    type="checkbox"
+                                />
+                            }
+                        />
+                    </Grid>
+                </Grid>
+                <Grid item={'true'} xs={12}>
+                        <Field
+                            fullWidth
+                            required
+                            name="physicalExamination"
+                            component={TextField}
+                            type="text"
+                            label="การตรวจสอบทางกายภาพ"
+                            variant="outlined"
+                            style={{ width: '100%' }}
+                        />
+                    </Grid>
+            </Grid>
+
+        </React.Fragment>
+    )
+}
+export default EyeForm

@@ -51,7 +51,7 @@ const CreateTreatmentPage = () => {
                             <React.Fragment>
                                 <Box display="flex " style={{ fontSize: '1em', justifyContent: 'center', alignItems: 'center' }}>
                                     <h4>ข้อมูลผู้ป่วย</h4>
-                                    <Button variant="contained" color="secondary" onClick={() => navigate(-1)} style={{ marginLeft: 20 }} className={classes.create}>
+                                    <Button variant="contained" color="secondary" onClick={() => navigate(`/app/patients/detail/${id}`)} style={{ marginLeft: 20 }} className={classes.create}>
                                         ดูข้อมูลเพิ่มเติม
                                     </Button>
                                 </Box>

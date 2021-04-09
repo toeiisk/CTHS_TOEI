@@ -9,6 +9,12 @@ import { TextField, Checkbox, Radio, Select } from 'final-form-material-ui';
 
 
 const PainForm = () => {
+    const normalizeFloat= value => {
+        if (!value) return value;
+        const onlyNums = value.replace(/[^\d]/g, "");
+        let number = parseFloat(onlyNums);
+        return number;
+    }    
     return (
         <React.Fragment>
             <Grid item={'true'} xs={6}>
@@ -33,6 +39,7 @@ const PainForm = () => {
                     label="เป็นมานาน (วัน)"
                     variant="outlined"
                     style={{ width: '100%' }}
+                    parse={normalizeFloat}
                 />
             </Grid>
             <Grid item={'true'} xs={6}>
@@ -45,6 +52,7 @@ const PainForm = () => {
                     label="Pain score"
                     variant="outlined"
                     style={{ width: '100%' }}
+                    parse={normalizeFloat}
                 />
             </Grid>
             <Grid item={'true'} xs={6}>

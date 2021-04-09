@@ -18,8 +18,8 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { TextField, Radio, Select } from 'final-form-material-ui';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
-import { ADD_MEDICINE, UPDATE_MEDICINE_BY_ID } from './GraphQL/Mutation';
-import { GET_MEDICINES } from './GraphQL/Queries';
+import { ADD_MEDICINE, UPDATE_MEDICINE_BY_ID } from './graphql/Mutation';
+import { GET_MEDICINES } from './graphql/Queries';
 
 const useStyles = makeStyles((theme) => ({
 	root: {

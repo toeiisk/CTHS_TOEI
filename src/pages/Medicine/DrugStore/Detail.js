@@ -4,7 +4,7 @@ import { InfoCard } from '@mystiny/ui';
 import DescriptionIcon from '@material-ui/icons/Description';
 import MedicineForm from './Medicine-form';
 import { useNavigate, useParams } from 'react-router-dom';
-import { GET_MEDICINE } from './GraphQL/Queries';
+import { GET_MEDICINE } from './graphql/Queries';
 import { useQuery } from '@apollo/client';
 import { green } from '@material-ui/core/colors';
 

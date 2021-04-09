@@ -7,6 +7,12 @@ import {
 import { Form, Field } from 'react-final-form';
 import { TextField, Checkbox, Radio, Select } from 'final-form-material-ui';
 
+const Rashdatenormalization = (value) => {
+    if (!value) return value;
+    const onlyNums = value.replace(/[^\d]/g, "");
+    let number = parseFloat(onlyNums);
+    return number;
+  };
 
 const SkinForm = () => {
     return (
@@ -37,6 +43,7 @@ const SkinForm = () => {
                     style={{ width: '100%' }}
                     multiline
                     rows={2}
+                    parse={Rashdatenormalization}
                 />
             </Grid>
             <Grid item={'true'} xs={6}>

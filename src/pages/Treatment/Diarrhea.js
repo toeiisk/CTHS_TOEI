@@ -9,6 +9,12 @@ import { TextField, Checkbox, Radio, Select } from 'final-form-material-ui';
 
 
 const DiarrheaForm = () => {
+    const normalizeAmountdiarrhea = value => {
+        if (!value) return value;
+        const onlyNums = value.replace(/[^\d]/g, "");
+        let number = parseFloat(onlyNums);
+        return number;
+    }    
     return (
         <React.Fragment>
             <Grid item={'true'} xs={6}>
@@ -21,6 +27,7 @@ const DiarrheaForm = () => {
                     label="จำนวนครั้งในการถ่าย"
                     variant="outlined"
                     style={{ width: '100%' }}
+                    parse={normalizeAmountdiarrhea}
                 />
             </Grid>
             <Grid item={'true'} xs={6}>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { Box, Grid, Typography, Button, makeStyles } from '@material-ui/core';
 import { InfoCard } from '@mystiny/ui';
 import DescriptionIcon from '@material-ui/icons/Description';
@@ -28,21 +28,16 @@ const columns = [
         resizable: true,
     },
     {
-        field: 'weight',
-        headerName: 'Weight',
+        field: 'type',
+        headerName: 'Type',
         width: 200,
         resizable: true,
     },
     {
-        field: 'height',
-        headerName: 'Height',
-        width: 200,
+        field: 'status',
+        headerName: 'Status',
+        width: 250,
         resizable: true,
-    },
-    {
-        field: 'tempurature',
-        headerName: 'Tempurature',
-        width: 200,
     },
 ];
 
@@ -54,8 +49,9 @@ const PatientDetailPage = () => {
         variables: {
             id
         },
-        fetchPolicy: 'cache-and-network',
+        fetchPolicy: 'cache-and-network'
     });
+ 
 
     if (loading) return "...Loading";
     if (error) return `Error! ${error}`;
@@ -96,9 +92,8 @@ const PatientDetailPage = () => {
                                             rows={data.patientById.treatment?.map((item) => ({
                                                 id: item._id,
                                                 createdAt: moment(new Date(item.createdAt)).format('DD/MM/YYYY'),
-                                                weight: item.weight,
-                                                height: item.height,
-                                                tempurature: item.tempurature
+                                                type: item.type,
+                                                status: item.status,
                                             }))}
                                             columns={columns}
                                             pagination

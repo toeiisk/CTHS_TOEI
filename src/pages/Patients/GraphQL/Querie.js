@@ -48,6 +48,8 @@ export const GET_PATIENT = gql`
         oxygenSaturation
         medicalCertificate
         createdAt
+        status
+        type
       }
     }
   }

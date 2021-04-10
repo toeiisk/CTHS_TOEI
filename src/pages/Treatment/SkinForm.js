@@ -1,132 +1,236 @@
-import React from 'react'
-import {
-    Grid,
-    FormControlLabel,
-    Button,
-} from '@material-ui/core';
-import { Form, Field } from 'react-final-form';
-import { TextField, Checkbox, Radio, Select } from 'final-form-material-ui';
+import React from "react";
+import { Grid, FormControlLabel, Button } from "@material-ui/core";
+import { Form, Field } from "react-final-form";
+import { TextField, Checkbox, Radio, Select } from "final-form-material-ui";
 
 const Rashdatenormalization = (value) => {
-    if (!value) return value;
-    const onlyNums = value.replace(/[^\d]/g, "");
-    let number = parseFloat(onlyNums);
-    return number;
-  };
+  if (!value) return value;
+  const onlyNums = value.replace(/[^\d]/g, "");
+  let number = parseFloat(onlyNums);
+  return number;
+};
 
-const SkinForm = () => {
-    return (
-        <React.Fragment>
-            <Grid item={'true'} xs={6}>
+const SkinForm = (props) => {
+  const { mode, defaultdata } = props;
+  return (
+    <React.Fragment>
+      <Grid item={"true"} xs={6}>
+        {mode === "update" ? (
+          <Field
+            fullWidth
+            required
+            name="rashArea"
+            component={TextField}
+            type="text"
+            label="บริเวณผื่น"
+            variant="outlined"
+            style={{ width: "100%" }}
+            multiline
+            rows={2}
+            initialValue={defaultdata.treatmentById.rashArea}
+          />
+        ) : (
+          <Field
+            fullWidth
+            required
+            name="rashArea"
+            component={TextField}
+            type="text"
+            label="บริเวณผื่น"
+            variant="outlined"
+            style={{ width: "100%" }}
+            multiline
+            rows={2}
+          />
+        )}
+      </Grid>
+      <Grid item={"true"} xs={6}>
+        {mode === "update" ? (
+          <Field
+            fullWidth
+            required
+            name="rashDate"
+            component={TextField}
+            type="text"
+            label="เป็นมานาน (วัน)"
+            variant="outlined"
+            style={{ width: "100%" }}
+            multiline
+            rows={2}
+            parse={Rashdatenormalization}
+            initialValue={defaultdata.treatmentById.rashDate}
+          />
+        ) : (
+          <Field
+            fullWidth
+            required
+            name="rashDate"
+            component={TextField}
+            type="text"
+            label="เป็นมานาน (วัน)"
+            variant="outlined"
+            style={{ width: "100%" }}
+            multiline
+            rows={2}
+            parse={Rashdatenormalization}
+          />
+        )}
+      </Grid>
+      <Grid item={"true"} xs={6}>
+        {mode === "update" ? (
+          <Field
+            fullWidth
+            required
+            name="rashDetail"
+            component={TextField}
+            type="text"
+            label="สัมผัสโดน"
+            variant="outlined"
+            style={{ width: "100%" }}
+            multiline
+            rows={2}
+            initialValue={defaultdata.treatmentById.rashDetail}
+          />
+        ) : (
+          <Field
+            fullWidth
+            required
+            name="rashDetail"
+            component={TextField}
+            type="text"
+            label="สัมผัสโดน"
+            variant="outlined"
+            style={{ width: "100%" }}
+            multiline
+            rows={2}
+          />
+        )}
+      </Grid>
+      <Grid item={"true"} xs={6}>
+        {mode === "update" ? (
+          <Field
+            fullWidth
+            required
+            name="physicalExamination"
+            component={TextField}
+            type="text"
+            label="การตรวจสอบทางกายภาพ"
+            variant="outlined"
+            style={{ width: "100%" }}
+            multiline
+            rows={2}
+            initialValue={defaultdata.treatmentById.physicalExamination}
+          />
+        ) : (
+          <Field
+            fullWidth
+            required
+            name="physicalExamination"
+            component={TextField}
+            type="text"
+            label="การตรวจสอบทางกายภาพ"
+            variant="outlined"
+            style={{ width: "100%" }}
+            multiline
+            rows={2}
+          />
+        )}
+      </Grid>
+      <Grid item={"true"} xs={12} align="center">
+        {mode === "update" ? (
+          <React.Fragment>
+            <FormControlLabel
+              label="มีอาการคัน"
+              control={
                 <Field
-                    fullWidth
-                    required
-                    name="rashArea"
-                    component={TextField}
-                    type="text"
-                    label="บริเวณผื่น"
-                    variant="outlined"
-                    style={{ width: '100%' }}
-                    multiline
-                    rows={2}
+                  name="isItching"
+                  component={Checkbox}
+                  type="checkbox"
+                  initialValue={defaultdata.treatmentById.isItching}
                 />
-            </Grid>
-            <Grid item={'true'} xs={6}>
+              }
+            />
+            <FormControlLabel
+              label="มีอาการปวด"
+              control={
                 <Field
-                    fullWidth
-                    required
-                    name="rashDate"
-                    component={TextField}
-                    type="text"
-                    label="เป็นมานาน (วัน)"
-                    variant="outlined"
-                    style={{ width: '100%' }}
-                    multiline
-                    rows={2}
-                    parse={Rashdatenormalization}
+                  name="isPain"
+                  component={Checkbox}
+                  type="checkbox"
+                  initialValue={defaultdata.treatmentById.isPain}
                 />
-            </Grid>
-            <Grid item={'true'} xs={6}>
+              }
+            />
+            <FormControlLabel
+              label="มีอารการแสบ"
+              control={
                 <Field
-                    fullWidth
-                    required
-                    name="rashDetail"
-                    component={TextField}
-                    type="text"
-                    label="สัมผัสโดน"
-                    variant="outlined"
-                    style={{ width: '100%' }}
-                    multiline
-                    rows={2}
+                  name="isStinging"
+                  component={Checkbox}
+                  type="checkbox"
+                  initialValue={defaultdata.treatmentById.isStinging}
                 />
-            </Grid>
-            <Grid item={'true'} xs={6}>
+              }
+            />
+            <FormControlLabel
+              label="มีอาการปวด"
+              control={
                 <Field
-                    fullWidth
-                    required
-                    name="physicalExamination"
-                    component={TextField}
-                    type="text"
-                    label="การตรวจสอบทางกายภาพ"
-                    variant="outlined"
-                    style={{ width: '100%' }}
-                    multiline
-                    rows={2}
+                  name="isSwelling"
+                  component={Checkbox}
+                  type="checkbox"
+                  initialValue={defaultdata.treatmentById.isSwelling}
                 />
-            </Grid>
-            <Grid item={'true'} xs={12} align='center'>
-                <FormControlLabel
-                    label="มีอาการคัน"
-                    control={
-                        <Field
-                            name="isItching"
-                            component={Checkbox}
-                            type="checkbox"
-                        />
-                    }
+              }
+            />
+            <FormControlLabel
+              label="มีไข้"
+              control={
+                <Field
+                  name="isFever"
+                  component={Checkbox}
+                  type="checkbox"
+                  initialValue={defaultdata.treatmentById.isFever}
                 />
-                <FormControlLabel
-                    label="มีอาการปวด"
-                    control={
-                        <Field
-                            name="isPain"
-                            component={Checkbox}
-                            type="checkbox"
-                        />
-                    }
-                />
-                <FormControlLabel
-                    label="มีอารการแสบ"
-                    control={
-                        <Field
-                            name="isStinging"
-                            component={Checkbox}
-                            type="checkbox"
-                        />
-                    }
-                />
-                <FormControlLabel
-                    label="มีอาการปวด"
-                    control={
-                        <Field
-                            name="isSwelling"
-                            component={Checkbox}
-                            type="checkbox"
-                        />
-                    }
-                />
-                <FormControlLabel
-                    label="มีไข้"
-                    control={
-                        <Field
-                            name="isFever"
-                            component={Checkbox}
-                            type="checkbox"
-                        />
-                    }
-                />
-            </Grid>
-        </React.Fragment>
-    )
-}
-export default SkinForm
+              }
+            />
+          </React.Fragment>
+        ) : (
+          <React.Fragment>
+            <FormControlLabel
+              label="มีอาการคัน"
+              control={
+                <Field name="isItching" component={Checkbox} type="checkbox" />
+              }
+            />
+            <FormControlLabel
+              label="มีอาการปวด"
+              control={
+                <Field name="isPain" component={Checkbox} type="checkbox" />
+              }
+            />
+            <FormControlLabel
+              label="มีอารการแสบ"
+              control={
+                <Field name="isStinging" component={Checkbox} type="checkbox" />
+              }
+            />
+            <FormControlLabel
+              label="มีอาการปวด"
+              control={
+                <Field name="isSwelling" component={Checkbox} type="checkbox" />
+              }
+            />
+            <FormControlLabel
+              label="มีไข้"
+              control={
+                <Field name="isFever" component={Checkbox} type="checkbox" />
+              }
+            />
+          </React.Fragment>
+        )}
+      </Grid>
+    </React.Fragment>
+  );
+};
+export default SkinForm;

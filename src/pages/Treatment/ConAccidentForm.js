@@ -48,35 +48,68 @@ const BootstrapInput = withStyles((theme) => ({
 }))(InputBase);
 
 const ConAccidentForm = (props) => {
+  const { mode, defaultdata, conAccident } = props;
   return (
     <React.Fragment>
       <Grid item={"true"} xs={6}>
-        <Field
-          fullWidth
-          required
-          name="moreDetail"
-          component={TextField}
-          type="text"
-          label="ลักษณะบาดเเผล"
-          variant="outlined"
-          style={{ width: "100%" }}
-          multiline
-          rows={3}
-        />
+        {mode === "update" ? (
+          <Field
+            fullWidth
+            required
+            name="moreDetail"
+            component={TextField}
+            type="text"
+            label="ลักษณะบาดเเผล"
+            variant="outlined"
+            style={{ width: "100%" }}
+            multiline
+            rows={3}
+            initialValue={defaultdata.treatmentById.moreDetail}
+          />
+        ) : (
+          <Field
+            fullWidth
+            required
+            name="moreDetail"
+            component={TextField}
+            type="text"
+            label="ลักษณะบาดเเผล"
+            variant="outlined"
+            style={{ width: "100%" }}
+            multiline
+            rows={3}
+          />
+        )}
       </Grid>
       <Grid item={"true"} xs={6}>
-        <Field
-          fullWidth
-          required
-          name="advice"
-          component={TextField}
-          type="text"
-          label="คำแนะนำ"
-          variant="outlined"
-          style={{ width: "100%" }}
-          multiline
-          rows={3}
-        />
+        {mode === "update" ? (
+          <Field
+            fullWidth
+            required
+            name="advice"
+            component={TextField}
+            type="text"
+            label="คำแนะนำ"
+            variant="outlined"
+            style={{ width: "100%" }}
+            multiline
+            rows={3}
+            initialValue={defaultdata.treatmentById.advice}
+          />
+        ) : (
+          <Field
+            fullWidth
+            required
+            name="advice"
+            component={TextField}
+            type="text"
+            label="คำแนะนำ"
+            variant="outlined"
+            style={{ width: "100%" }}
+            multiline
+            rows={3}
+          />
+        )}
       </Grid>
       <Grid item xs={12}>
         <FormControl style={{ width: "100%" }}>
@@ -84,7 +117,7 @@ const ConAccidentForm = (props) => {
           <NativeSelect
             id="demo-customized-select-native"
             input={<BootstrapInput />}
-            // value={status}
+            value={conAccident}
             onChange={props.handleChangeAccident}
             required={true}
             name="Symthom"
@@ -97,12 +130,21 @@ const ConAccidentForm = (props) => {
         </FormControl>
       </Grid>
       <Grid item={"true"} xs={6}>
-        <FormControlLabel
-          label="ผู้ป่วยเบิกประกัน"
-          control={
-            <Field name="isInsurance" component={Checkbox} type="checkbox" />
-          }
-        />
+        {mode === "update" ? (
+          <FormControlLabel
+            label="ผู้ป่วยเบิกประกัน"
+            control={
+              <Field name="isInsurance" component={Checkbox} type="checkbox" initialValue={defaultdata.treatmentById.isInsurance}/>
+            }
+          />
+        ) : (
+          <FormControlLabel
+            label="ผู้ป่วยเบิกประกัน"
+            control={
+              <Field name="isInsurance" component={Checkbox} type="checkbox" />
+            }
+          />
+        )}
       </Grid>
     </React.Fragment>
   );

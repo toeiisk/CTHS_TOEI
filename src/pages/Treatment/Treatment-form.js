@@ -25,7 +25,8 @@ import {
   ADD_DIARRHEA_FORM,
   ADD_PAIN_FORM
 } from "./GraphQL/Mutation";
-import { GET_TREATMENT_BY_ID } from "./GraphQL/Querie";
+import { GET_TREATMENT_BY_ID, GET_TREATMENTS } from "./GraphQL/Querie";
+import { GET_PATIENT } from '../Patients/GraphQL/Querie'
 import GeneralForm from "./GenaralForm";
 import EyesForm from "./EyesForm";
 import SkinForm from "./SkinForm";
@@ -93,6 +94,7 @@ const BootstrapInput = withStyles((theme) => ({
 
 const TreatmentForm = (props) => {
   const { mode, defaultdata } = props;
+  console.log(defaultdata)
   const classes = useStyles();
   let navigate = useNavigate();
   const [addGeneralForm] = useMutation(ADD_GENERAL_FORM);
@@ -108,6 +110,21 @@ const TreatmentForm = (props) => {
   const [status, setStatus] = useState("DIAGNOSIS");
   const [form, setForm] = useState("General");
   const [conAccident, setConaccident] = useState("");
+
+  useEffect(() => {
+    if (mode === 'update') {
+        setForm(defaultdata.treatmentById.__typename)
+        setStatus(defaultdata.treatmentById.status)
+        if(defaultdata.treatmentById.lesion){
+          setConaccident(defaultdata.treatmentById.lesion)
+        }else{
+          return null
+        }
+        
+    } else {
+        return null
+    }
+}, [])
 
   const normalizeheight = (value) => {
     if (!value) return value;
@@ -811,23 +828,26 @@ const TreatmentForm = (props) => {
               </Grid>
               <Grid container={"true"} item sx={12} spacing={2}>
                 {form === "General" ? (
-                  <GeneralForm />
+                  <GeneralForm mode={mode} defaultdata={defaultdata}/>
                 ) : form === "Eyes" ? (
-                  <EyesForm />
+                  <EyesForm  mode={mode} defaultdata={defaultdata}/>
                 ) : form === "Skin" ? (
-                  <SkinForm />
+                  <SkinForm mode={mode} defaultdata={defaultdata}/>
                 ) : form === "Accident" ? (
-                  <AccidentForm />
+                  <AccidentForm mode={mode} defaultdata={defaultdata}/>
                 ) : form === "ContinueAccident" ? (
                   <ConAccidentForm
                     handleChangeAccident={handleChangeAccident}
+                    mode={mode} 
+                    defaultdata={defaultdata}
+                    conAccident={conAccident}
                   />
                 ) : form === "Fever" ? (
-                  <FeverForm />
+                    <FeverForm mode={mode}  defaultdata={defaultdata}/>
                 ) : form === "Diarrhea" ? (
-                  <DiarrheaForm />
+                  <DiarrheaForm mode={mode}  defaultdata={defaultdata}/>
                 ) : form === "Pain" ? (
-                  <PainForm />
+                  <PainForm mode={mode}  defaultdata={defaultdata}/>
                 ) : null}
               </Grid>
               <Grid item xs={12}>

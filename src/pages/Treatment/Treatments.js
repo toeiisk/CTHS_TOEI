@@ -7,6 +7,7 @@ import { DataGrid } from '@material-ui/data-grid';
 import { GET_TREATMENTS } from './GraphQL/Querie'
 import { useQuery } from '@apollo/client';
 import moment from 'moment'
+import { isObjectType } from 'graphql';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -42,6 +43,11 @@ const columns = [
         resizable: true,
     },
     {
+        field: 'type',
+        headerName: 'Type',
+        width: 200,
+    },
+    {
         field: 'name',
         headerName: 'Name',
         width: 200,
@@ -66,7 +72,6 @@ const Treatmentpage = () => {
     const { loading, error, data } = useQuery(GET_TREATMENTS);
     if (loading) return 'Loading...';
     if (error) return `Error! ${error.message}`;
-    console.log(data)
     return (
         <React.Fragment className={classes.root}>
             <Box className={classes.boxAdmin}>
@@ -91,7 +96,8 @@ const Treatmentpage = () => {
                                     createdAt: moment(new Date(item.createdAt)).format('DD/MM/YYYY'),
                                     name: item.patient.firstname,
                                     lastname: item.patient.lastname,
-                                    idcardNumber: item.patient.idcardNumber
+                                    idcardNumber: item.patient.idcardNumber,
+                                    type: item.type
                                 }))}
                                 columns={columns}
                                 pagination

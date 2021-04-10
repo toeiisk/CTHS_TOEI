@@ -23,7 +23,8 @@ import Treatment from './pages/Treatment/Treatments';
 import CreateTreatment from './pages/Treatment/Create';
 import DetailTreatment from './pages/Treatment/Detail'
 
-import Diagnosis from './pages/Diagnosis';
+import Diagnosis from './pages/Dianosis/Dianosis';
+
 import Report from './pages/Report';
 import Login from './pages/Login';
 import Register from './pages/Register';

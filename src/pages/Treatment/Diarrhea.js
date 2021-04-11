@@ -1,5 +1,10 @@
 import React from "react";
-import { Grid, FormControlLabel, Button } from "@material-ui/core";
+import {
+  Grid,
+  FormControlLabel,
+  Checkbox as CheckboxDianosis,
+  TextField as MuiTextField,
+} from "@material-ui/core";
 import { Form, Field } from "react-final-form";
 import { TextField, Checkbox, Radio, Select } from "final-form-material-ui";
 
@@ -26,6 +31,18 @@ const DiarrheaForm = (props) => {
             style={{ width: "100%" }}
             parse={normalizeAmountdiarrhea}
             initialValue={defaultdata.treatmentById.diarrheaAmount}
+          />
+        ) : mode === "diagnosis" ? (
+          <MuiTextField
+            id="standard-read-only-input"
+            label="จำนวนครั้งในการถ่าย"
+            defaultValue={defaultdata.treatmentById.diarrheaAmount}
+            InputProps={{
+              readOnly: true,
+            }}
+            variant="outlined"
+            fullWidth
+            style={{ width: "100%" }}
           />
         ) : (
           <Field
@@ -54,6 +71,18 @@ const DiarrheaForm = (props) => {
             style={{ width: "100%" }}
             initialValue={defaultdata.treatmentById.diarrheaDetail}
           />
+        ) : mode === "diagnosis" ? (
+          <MuiTextField
+            id="standard-read-only-input"
+            label="ลักษณะอุจจาระ"
+            defaultValue={defaultdata.treatmentById.diarrheaDetail}
+            InputProps={{
+              readOnly: true,
+            }}
+            variant="outlined"
+            fullWidth
+            style={{ width: "100%" }}
+          />
         ) : (
           <Field
             fullWidth
@@ -80,6 +109,18 @@ const DiarrheaForm = (props) => {
             style={{ width: "100%" }}
             initialValue={defaultdata.treatmentById.stomachache}
           />
+        ) : mode === "diagnosis" ? (
+          <MuiTextField
+            id="standard-read-only-input"
+            label="ลักษณะการปวดท้อง"
+            defaultValue={defaultdata.treatmentById.stomachache}
+            InputProps={{
+              readOnly: true,
+            }}
+            variant="outlined"
+            fullWidth
+            style={{ width: "100%" }}
+          />
         ) : (
           <Field
             fullWidth
@@ -105,6 +146,18 @@ const DiarrheaForm = (props) => {
             variant="outlined"
             style={{ width: "100%" }}
             initialValue={defaultdata.treatmentById.bowelSound}
+          />
+        ) : mode === "diagnosis" ? (
+          <MuiTextField
+            id="standard-read-only-input"
+            label="bowelSound"
+            defaultValue={defaultdata.treatmentById.bowelSound}
+            InputProps={{
+              readOnly: true,
+            }}
+            variant="outlined"
+            fullWidth
+            style={{ width: "100%" }}
           />
         ) : (
           <Field
@@ -156,6 +209,27 @@ const DiarrheaForm = (props) => {
               }
             />
           </React.Fragment>
+        ) : mode === "diagnosis" ? (
+          <React.Fragment>
+            <FormControlLabel
+              disabled
+              control={<CheckboxDianosis name="medicalCertificate" />}
+              checked={defaultdata.treatmentById.isVomit}
+              label="คลื่นไส้/อาเจียน"
+            />
+            <FormControlLabel
+              disabled
+              control={<CheckboxDianosis name="medicalCertificate" />}
+              checked={defaultdata.treatmentById.isFluxStool}
+              label="อุจาระมีมูลเลือด"
+            />
+            <FormControlLabel
+              disabled
+              control={<CheckboxDianosis name="medicalCertificate" />}
+              checked={defaultdata.treatmentById.isFever}
+              label="มีไข้"
+            />
+          </React.Fragment>
         ) : (
           <React.Fragment>
             <FormControlLabel
@@ -195,6 +269,18 @@ const DiarrheaForm = (props) => {
             variant="outlined"
             style={{ width: "100%" }}
             initialValue={defaultdata.treatmentById.physicalExamination}
+          />
+        ) : mode === "diagnosis" ? (
+          <MuiTextField
+            id="standard-read-only-input"
+            label="การตรวจสอบทางกายภาพ"
+            defaultValue={defaultdata.treatmentById.physicalExamination}
+            InputProps={{
+              readOnly: true,
+            }}
+            variant="outlined"
+            fullWidth
+            style={{ width: "100%" }}
           />
         ) : (
           <Field

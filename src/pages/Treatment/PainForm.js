@@ -1,7 +1,7 @@
 import React from "react";
-import { Grid, FormControlLabel, Button } from "@material-ui/core";
-import { Form, Field } from "react-final-form";
-import { TextField, Checkbox, Radio, Select } from "final-form-material-ui";
+import { Grid, TextField as MuiTextField } from "@material-ui/core";
+import { Field } from "react-final-form";
+import { TextField } from "final-form-material-ui";
 
 const PainForm = (props) => {
   const { mode, defaultdata } = props;
@@ -25,6 +25,18 @@ const PainForm = (props) => {
             variant="outlined"
             style={{ width: "100%" }}
             initialValue={defaultdata.treatmentById.acheArea}
+          />
+        ) : mode === "diagnosis" ? (
+          <MuiTextField
+            id="standard-read-only-input"
+            label="ปวดบริเวณ"
+            defaultValue={defaultdata.treatmentById.acheArea}
+            InputProps={{
+              readOnly: true,
+            }}
+            variant="outlined"
+            fullWidth
+            style={{ width: "100%" }}
           />
         ) : (
           <Field
@@ -52,6 +64,18 @@ const PainForm = (props) => {
             style={{ width: "100%" }}
             parse={normalizeFloat}
             initialValue={defaultdata.treatmentById.acheDate}
+          />
+        ) : mode === "diagnosis" ? (
+          <MuiTextField
+            id="standard-read-only-input"
+            label="เป็นมานาน (วัน)"
+            defaultValue={defaultdata.treatmentById.acheDate}
+            InputProps={{
+              readOnly: true,
+            }}
+            variant="outlined"
+            fullWidth
+            style={{ width: "100%" }}
           />
         ) : (
           <Field
@@ -81,6 +105,18 @@ const PainForm = (props) => {
             parse={normalizeFloat}
             initialValue={defaultdata.treatmentById.painScore}
           />
+        ) : mode === "diagnosis" ? (
+          <MuiTextField
+            id="standard-read-only-input"
+            label="Pain score"
+            defaultValue={defaultdata.treatmentById.painScore}
+            InputProps={{
+              readOnly: true,
+            }}
+            variant="outlined"
+            fullWidth
+            style={{ width: "100%" }}
+          />
         ) : (
           <Field
             fullWidth
@@ -108,6 +144,18 @@ const PainForm = (props) => {
             style={{ width: "100%" }}
             initialValue={defaultdata.treatmentById.acheDetail}
           />
+        ) : mode === "diagnosis" ? (
+          <MuiTextField
+            id="standard-read-only-input"
+            label="ลักษณะการปวด"
+            defaultValue={defaultdata.treatmentById.acheDetail}
+            InputProps={{
+              readOnly: true,
+            }}
+            variant="outlined"
+            fullWidth
+            style={{ width: "100%" }}
+          />
         ) : (
           <Field
             fullWidth
@@ -133,6 +181,18 @@ const PainForm = (props) => {
             variant="outlined"
             style={{ width: "100%" }}
             initialValue={defaultdata.treatmentById.trigger}
+          />
+        ) : mode === "diagnosis" ? (
+          <MuiTextField
+            id="standard-read-only-input"
+            label="สิ่งที่กระตุ้น/สิ่งที่บรรเทา"
+            defaultValue={defaultdata.treatmentById.trigger}
+            InputProps={{
+              readOnly: true,
+            }}
+            variant="outlined"
+            fullWidth
+            style={{ width: "100%" }}
           />
         ) : (
           <Field
@@ -160,6 +220,18 @@ const PainForm = (props) => {
             style={{ width: "100%" }}
             initialValue={defaultdata.treatmentById.crackDetail}
           />
+        ) : mode === "diagnosis" ? (
+          <MuiTextField
+            id="standard-read-only-input"
+            label="ร้าวไป"
+            defaultValue={defaultdata.treatmentById.crackDetail}
+            InputProps={{
+              readOnly: true,
+            }}
+            variant="outlined"
+            fullWidth
+            style={{ width: "100%" }}
+          />
         ) : (
           <Field
             fullWidth
@@ -174,20 +246,32 @@ const PainForm = (props) => {
         )}
       </Grid>
       <Grid item={"true"} xs={12}>
-          {mode === 'update' ? (
-               <Field
-               fullWidth
-               required
-               name="physicalExamination"
-               component={TextField}
-               type="text"
-               label="การตรวจสอบทางกายภาพ"
-               variant="outlined"
-               style={{ width: "100%" }}
-               initialValue={defaultdata.treatmentById.physicalExamination}
-             />
-          ):(
-            <Field
+        {mode === "update" ? (
+          <Field
+            fullWidth
+            required
+            name="physicalExamination"
+            component={TextField}
+            type="text"
+            label="การตรวจสอบทางกายภาพ"
+            variant="outlined"
+            style={{ width: "100%" }}
+            initialValue={defaultdata.treatmentById.physicalExamination}
+          />
+        ) : mode === "diagnosis" ? (
+          <MuiTextField
+            id="standard-read-only-input"
+            label="การตรวจสอบทางกายภาพ"
+            defaultValue={defaultdata.treatmentById.physicalExamination}
+            InputProps={{
+              readOnly: true,
+            }}
+            variant="outlined"
+            fullWidth
+            style={{ width: "100%" }}
+          />
+        ) : (
+          <Field
             fullWidth
             required
             name="physicalExamination"
@@ -197,7 +281,7 @@ const PainForm = (props) => {
             variant="outlined"
             style={{ width: "100%" }}
           />
-          )}
+        )}
       </Grid>
     </React.Fragment>
   );

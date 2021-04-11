@@ -1,5 +1,10 @@
 import React from "react";
-import { Grid, FormControlLabel, Button } from "@material-ui/core";
+import {
+  Grid,
+  FormControlLabel,
+  TextField as MuiTextField,
+  Checkbox as CheckboxDianosis,
+} from "@material-ui/core";
 import { Form, Field } from "react-final-form";
 import { TextField, Checkbox, Radio, Select } from "final-form-material-ui";
 import moment from "moment";
@@ -22,6 +27,20 @@ const AccidentForm = (props) => {
             multiline
             rows={5}
             initialValue={defaultdata.treatmentById.woundArea}
+          />
+        ) : mode === "diagnosis" ? (
+          <MuiTextField
+            id="standard-read-only-input"
+            label="อาการสำคัญ"
+            defaultValue={defaultdata.treatmentById.woundArea}
+            InputProps={{
+              readOnly: true,
+            }}
+            variant="outlined"
+            fullWidth
+            style={{ width: "100%" }}
+            multiline
+            rows={5}
           />
         ) : (
           <Field
@@ -53,6 +72,20 @@ const AccidentForm = (props) => {
             rows={5}
             initialValue={defaultdata.treatmentById.woundLocation}
           />
+        ) : mode === "diagnosis" ? (
+          <MuiTextField
+            id="standard-read-only-input"
+            label="สถานที่เกิดเหตุ"
+            defaultValue={defaultdata.treatmentById.woundLocation}
+            InputProps={{
+              readOnly: true,
+            }}
+            variant="outlined"
+            fullWidth
+            style={{ width: "100%" }}
+            multiline
+            rows={5}
+          />
         ) : (
           <Field
             fullWidth
@@ -83,6 +116,18 @@ const AccidentForm = (props) => {
               "YYYY-MM-DD"
             )}`}
           />
+        ) : mode === "diagnosis" ? (
+          <MuiTextField
+            id="standard-read-only-input"
+            label="วันที่เกิดเหตุ"
+            defaultValue={`${moment(new Date()).format("YYYY-MM-DD")}`}
+            InputProps={{
+              readOnly: true,
+            }}
+            variant="outlined"
+            fullWidth
+            style={{ width: "100%" }}
+          />
         ) : (
           <Field
             id="date"
@@ -110,6 +155,13 @@ const AccidentForm = (props) => {
               />
             }
           />
+        ) : mode === "diagnosis" ? (
+          <FormControlLabel
+            disabled
+            control={<CheckboxDianosis name="medicalCertificate" />}
+            checked={defaultdata.treatmentById.isTreatBefore}
+            label="เคยเข้ารับการรักษามาเเล้ว"
+          />
         ) : (
           <FormControlLabel
             label="เคยเข้ารับการรักษามาเเล้ว"
@@ -136,6 +188,18 @@ const AccidentForm = (props) => {
             style={{ width: "100%" }}
             multiline
             initialValue={defaultdata.treatmentById.treatBeforeDetail}
+          />
+        ) : mode === "diagnosis" ? (
+          <MuiTextField
+            id="standard-read-only-input"
+            label="ที่"
+            defaultValue={defaultdata.treatmentById.treatBeforeDetail}
+            InputProps={{
+              readOnly: true,
+            }}
+            variant="outlined"
+            fullWidth
+            style={{ width: "100%" }}
           />
         ) : (
           <Field
@@ -165,6 +229,20 @@ const AccidentForm = (props) => {
             defaultValue={`${moment(
               defaultdata.treatmentById.treatBeforeDate
             ).format("YYYY-MM-DD")}`}
+          />
+        ) : mode === "diagnosis" ? (
+          <MuiTextField
+            id="standard-read-only-input"
+            label="เมื่อวันที่"
+            defaultValue={`${moment(
+              defaultdata.treatmentById.treatBeforeDate
+            ).format("YYYY-MM-DD")}`}
+            InputProps={{
+              readOnly: true,
+            }}
+            variant="outlined"
+            fullWidth
+            style={{ width: "100%" }}
           />
         ) : (
           <Field
@@ -208,13 +286,34 @@ const AccidentForm = (props) => {
             <FormControlLabel
               label="สวมหมวกันน็อค/คาดเข็มขัด"
               control={
-                <Field 
-                name="isSafety" 
-                component={Checkbox} 
-                type="checkbox"
-                initialValue={defaultdata.treatmentById.isSafety} 
+                <Field
+                  name="isSafety"
+                  component={Checkbox}
+                  type="checkbox"
+                  initialValue={defaultdata.treatmentById.isSafety}
                 />
               }
+            />
+          </React.Fragment>
+        ) : mode === "diagnosis" ? (
+          <React.Fragment>
+            <FormControlLabel
+              disabled
+              control={<CheckboxDianosis name="medicalCertificate" />}
+              checked={defaultdata.treatmentById.isEmergency}
+              label="ผู้ป่วยฉุกเฉิน"
+            />
+            <FormControlLabel
+              disabled
+              control={<CheckboxDianosis name="medicalCertificate" />}
+              checked={defaultdata.treatmentById.isInsurance}
+              label="เบิกประกันอุบัติเหตุ"
+            />
+            <FormControlLabel
+              disabled
+              control={<CheckboxDianosis name="medicalCertificate" />}
+              checked={defaultdata.treatmentById.isSafety}
+              label="สวมหมวกันน็อค/คาดเข็มขัด"
             />
           </React.Fragment>
         ) : (

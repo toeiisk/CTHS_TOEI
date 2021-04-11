@@ -24,6 +24,7 @@ import CreateTreatment from './pages/Treatment/Create';
 import DetailTreatment from './pages/Treatment/Detail'
 
 import Diagnosis from './pages/Dianosis/Dianosis';
+import DetailDiagnosis from './pages/Dianosis/Detail'
 
 import Report from './pages/Report';
 import Login from './pages/Login';
@@ -46,6 +47,7 @@ const routes = [
 			{ path: 'admin/create', element: <UserCreate /> },
 			{ path: 'admin/detail/:id', element: <UserDetail /> },
 			{ path: 'diagnosis', element: <Diagnosis /> },
+			{ path: 'diagnosis/detail/:id', element: <DetailDiagnosis/> },
 			{ path: '/treatment/create/patientId/:id', element: <CreateTreatment /> },
 			{ path: 'treatment/detail/:id', element: <DetailTreatment /> },
 			{ path: 'treatment', element: <Treatment /> },

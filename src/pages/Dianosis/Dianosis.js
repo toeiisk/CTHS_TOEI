@@ -100,7 +100,7 @@ const Dianosispage = () => {
                                 columns={columns}
                                 pagination
                                 pageSize={10}
-                                // onRowClick={(row) => navigate(`/app/treatment/detail/${row.row.id}`)}
+                                onRowClick={(row) => navigate(`/app/diagnosis/detail/${row.row.id}`)}
 							/>
                         </div>
                     </Grid>

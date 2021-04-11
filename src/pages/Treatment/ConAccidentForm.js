@@ -2,16 +2,18 @@ import React from "react";
 import {
   Grid,
   FormControlLabel,
-  Button,
   InputBase,
   FormControl,
   InputLabel,
   NativeSelect,
+  Checkbox as CheckboxDianosis,
+  TextField as MuiTextField,
+  MenuItem,
+  Select as SelectDiagnosis,
 } from "@material-ui/core";
 import { Form, Field } from "react-final-form";
 import { TextField, Checkbox, Radio, Select } from "final-form-material-ui";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
-
 const BootstrapInput = withStyles((theme) => ({
   root: {
     "label + &": {
@@ -66,6 +68,20 @@ const ConAccidentForm = (props) => {
             rows={3}
             initialValue={defaultdata.treatmentById.moreDetail}
           />
+        ) : mode === "diagnosis" ? (
+          <MuiTextField
+            id="standard-read-only-input"
+            label="ลักษณะบาดเเผล"
+            defaultValue={defaultdata.treatmentById.moreDetail}
+            InputProps={{
+              readOnly: true,
+            }}
+            variant="outlined"
+            fullWidth
+            multiline
+            rows={3}
+            style={{ width: "100%" }}
+          />
         ) : (
           <Field
             fullWidth
@@ -96,6 +112,20 @@ const ConAccidentForm = (props) => {
             rows={3}
             initialValue={defaultdata.treatmentById.advice}
           />
+        ) : mode === "diagnosis" ? (
+          <MuiTextField
+            id="standard-read-only-input"
+            label="คำแนะนำ"
+            defaultValue={defaultdata.treatmentById.advice}
+            InputProps={{
+              readOnly: true,
+            }}
+            variant="outlined"
+            fullWidth
+            multiline
+            rows={3}
+            style={{ width: "100%" }}
+          />
         ) : (
           <Field
             fullWidth
@@ -112,32 +142,57 @@ const ConAccidentForm = (props) => {
         )}
       </Grid>
       <Grid item xs={12}>
-        <FormControl style={{ width: "100%" }}>
-          <InputLabel id="demo-mutiple-name-label">อาการ</InputLabel>
-          <NativeSelect
-            id="demo-customized-select-native"
-            input={<BootstrapInput />}
-            value={conAccident}
-            onChange={props.handleChangeAccident}
-            required={true}
-            name="Symthom"
-          >
-            <option aria-label="None" value=" " />
-            <option value={"WORSE"}>แย่ลง</option>
-            <option value={"SAME"}>เท่าเดิม</option>
-            <option value={"BETTER"}>ดีขึ้น</option>
-          </NativeSelect>
-        </FormControl>
+        {mode === "diagnosis" ? (
+          <FormControl style={{ width: "100%" }} variant="outlined">
+            <SelectDiagnosis
+              labelId="demo-simple-select-readonly-label"
+              id="demo-simple-select-outlined"
+              value={conAccident}
+              inputProps={{ readOnly: true }}
+              name="Symthom"
+            >
+              <MenuItem value={"WORSE"}>แย่ลง</MenuItem>
+              <MenuItem value={"SAME"}>เท่าเดิม</MenuItem>
+              <MenuItem value={"BETTER"}>ดีขึ้น</MenuItem>
+            </SelectDiagnosis>
+          </FormControl>
+        ) : (
+          <FormControl style={{ width: "100%" }} variant="outlined">
+            <SelectDiagnosis
+              labelId="demo-simple-select-readonly-label"
+              id="demo-simple-select-outlined"
+              value={conAccident}
+              onChange={props.handleChangeAccident}
+              name="Symthom"
+            >
+              <MenuItem value={"WORSE"}>แย่ลง</MenuItem>
+              <MenuItem value={"SAME"}>เท่าเดิม</MenuItem>
+              <MenuItem value={"BETTER"}>ดีขึ้น</MenuItem>
+            </SelectDiagnosis>
+          </FormControl>
+        )}
       </Grid>
       <Grid item={"true"} xs={6}>
         {mode === "update" ? (
           <FormControlLabel
             label="ผู้ป่วยเบิกประกัน"
             control={
-              <Field name="isInsurance" component={Checkbox} type="checkbox" initialValue={defaultdata.treatmentById.isInsurance}/>
+              <Field
+                name="isInsurance"
+                component={Checkbox}
+                type="checkbox"
+                initialValue={defaultdata.treatmentById.isInsurance}
+              />
             }
           />
-        ) : (
+        ) : mode === "diagnosis" ? (
+          <FormControlLabel
+              disabled
+              control={<CheckboxDianosis name="medicalCertificate" />}
+              checked={defaultdata.treatmentById.isInsurance}
+              label="ผู้ป่วยเบิกประกัน"
+            />
+        ): (
           <FormControlLabel
             label="ผู้ป่วยเบิกประกัน"
             control={

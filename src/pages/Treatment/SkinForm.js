@@ -1,5 +1,10 @@
 import React from "react";
-import { Grid, FormControlLabel, Button } from "@material-ui/core";
+import {
+  Grid,
+  FormControlLabel,
+  Checkbox as CheckboxDianosis,
+  TextField as MuiTextField,
+} from "@material-ui/core";
 import { Form, Field } from "react-final-form";
 import { TextField, Checkbox, Radio, Select } from "final-form-material-ui";
 
@@ -28,6 +33,20 @@ const SkinForm = (props) => {
             multiline
             rows={2}
             initialValue={defaultdata.treatmentById.rashArea}
+          />
+        ) : mode === "diagnosis" ? (
+          <MuiTextField
+            id="standard-read-only-input"
+            label="บริเวณผื่น"
+            defaultValue={defaultdata.treatmentById.rashArea}
+            InputProps={{
+              readOnly: true,
+            }}
+            multiline
+            rows={2}
+            variant="outlined"
+            fullWidth
+            style={{ width: "100%" }}
           />
         ) : (
           <Field
@@ -60,6 +79,20 @@ const SkinForm = (props) => {
             parse={Rashdatenormalization}
             initialValue={defaultdata.treatmentById.rashDate}
           />
+        ) : mode === "diagnosis" ? (
+          <MuiTextField
+            id="standard-read-only-input"
+            label="เป็นมานาน (วัน)"
+            defaultValue={defaultdata.treatmentById.rashDate}
+            InputProps={{
+              readOnly: true,
+            }}
+            multiline
+            rows={2}
+            variant="outlined"
+            fullWidth
+            style={{ width: "100%" }}
+          />
         ) : (
           <Field
             fullWidth
@@ -91,6 +124,20 @@ const SkinForm = (props) => {
             rows={2}
             initialValue={defaultdata.treatmentById.rashDetail}
           />
+        ) : mode === "diagnosis" ? (
+          <MuiTextField
+            id="standard-read-only-input"
+            label="สัมผัสโดน"
+            defaultValue={defaultdata.treatmentById.rashDetail}
+            InputProps={{
+              readOnly: true,
+            }}
+            multiline
+            rows={2}
+            variant="outlined"
+            fullWidth
+            style={{ width: "100%" }}
+          />
         ) : (
           <Field
             fullWidth
@@ -120,6 +167,20 @@ const SkinForm = (props) => {
             multiline
             rows={2}
             initialValue={defaultdata.treatmentById.physicalExamination}
+          />
+        ) : mode === "diagnosis" ? (
+          <MuiTextField
+            id="standard-read-only-input"
+            label="การตรวจสอบทางกายภาพ"
+            defaultValue={defaultdata.treatmentById.physicalExamination}
+            InputProps={{
+              readOnly: true,
+            }}
+            multiline
+            rows={2}
+            variant="outlined"
+            fullWidth
+            style={{ width: "100%" }}
           />
         ) : (
           <Field
@@ -173,7 +234,7 @@ const SkinForm = (props) => {
               }
             />
             <FormControlLabel
-              label="มีอาการปวด"
+              label="มีอาการบวม"
               control={
                 <Field
                   name="isSwelling"
@@ -193,6 +254,42 @@ const SkinForm = (props) => {
                   initialValue={defaultdata.treatmentById.isFever}
                 />
               }
+            />
+          </React.Fragment>
+        ) 
+        //sssssssssssssssssssssssssss
+        
+        : mode === "diagnosis" ? (
+          <React.Fragment>
+            <FormControlLabel
+              disabled
+              control={<CheckboxDianosis name="medicalCertificate" />}
+              checked={defaultdata.treatmentById.isItching}
+              label="มีอาการคัน"
+            />
+            <FormControlLabel
+              disabled
+              control={<CheckboxDianosis name="medicalCertificate" />}
+              checked={defaultdata.treatmentById.isPain}
+              label="มีอาการปวด"
+            />
+            <FormControlLabel
+              disabled
+              control={<CheckboxDianosis name="medicalCertificate" />}
+              checked={defaultdata.treatmentById.isStinging}
+              label="มีอารการแสบ"
+            />
+            <FormControlLabel
+              disabled
+              control={<CheckboxDianosis name="medicalCertificate" />}
+              checked={defaultdata.treatmentById.isSwelling}
+              label="มีอารการบวม"
+            />
+            <FormControlLabel
+              disabled
+              control={<CheckboxDianosis name="medicalCertificate" />}
+              checked={defaultdata.treatmentById.isFever}
+              label="มีอารการไข้"
             />
           </React.Fragment>
         ) : (
@@ -216,7 +313,7 @@ const SkinForm = (props) => {
               }
             />
             <FormControlLabel
-              label="มีอาการปวด"
+              label="มีอาการบวม"
               control={
                 <Field name="isSwelling" component={Checkbox} type="checkbox" />
               }

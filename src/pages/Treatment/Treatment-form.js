@@ -7,6 +7,10 @@ import {
   InputLabel,
   Button,
   FormControlLabel,
+  Checkbox as CheckboxDianosis,
+  TextField as MuiTextField,
+  MenuItem,
+  Select as SelectDiagnosis,
 } from "@material-ui/core";
 import { Form, Field } from "react-final-form";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
@@ -33,6 +37,7 @@ import {
 } from "./GraphQL/Mutation";
 import { GET_TREATMENT_BY_ID, GET_TREATMENTS } from "./GraphQL/Querie";
 import { GET_PATIENT } from "../Patients/GraphQL/Querie";
+import {GET_TREATMENTS_DOAGNOSIS} from '../Dianosis/GraphQL/Querie'
 import GeneralForm from "./GenaralForm";
 import EyesForm from "./EyesForm";
 import SkinForm from "./SkinForm";
@@ -100,7 +105,6 @@ const BootstrapInput = withStyles((theme) => ({
 
 const TreatmentForm = (props) => {
   const { mode, defaultdata } = props;
-  // console.log(defaultdata.treatmentById.patientId)
   const classes = useStyles();
   let navigate = useNavigate();
   const [addGeneralForm] = useMutation(ADD_GENERAL_FORM);
@@ -120,14 +124,14 @@ const TreatmentForm = (props) => {
   const [updateEyesForm] = useMutation(UPDATE_EYES_FORM);
   const [updateDiarrheaForm] = useMutation(UPDATE_DIARRHEA_FORM);
   const [updatePainForm] = useMutation(UPDATE_PAIN_FORM);
-  
+
   let { id } = useParams();
   const [status, setStatus] = useState("DIAGNOSIS");
   const [form, setForm] = useState("General");
   const [conAccident, setConaccident] = useState("");
 
   useEffect(() => {
-    if (mode === "update") {
+    if (mode === "update" || mode === "diagnosis") {
       setForm(defaultdata.treatmentById.__typename);
       setStatus(defaultdata.treatmentById.status);
       if (defaultdata.treatmentById.lesion) {
@@ -224,7 +228,10 @@ const TreatmentForm = (props) => {
           },
         };
         try {
-          await addGeneralForm({ variables, refetchQueries: [{ query: GET_TREATMENTS }] });
+          await addGeneralForm({
+            variables,
+            refetchQueries: [{ query: GET_TREATMENTS }, {query: GET_TREATMENTS_DOAGNOSIS}],
+          });
           alert("บันทึกข้อมูลสำเร็จ");
           navigate(`/app/patients/detail/${id}`);
         } catch (err) {
@@ -264,7 +271,10 @@ const TreatmentForm = (props) => {
           },
         };
         try {
-          await addSkinForm({ variables, refetchQueries: [{ query: GET_TREATMENTS }] });
+          await addSkinForm({
+            variables,
+            refetchQueries: [{ query: GET_TREATMENTS }, {query: GET_TREATMENTS_DOAGNOSIS}],
+          });
           alert("บันทึกข้อมูลสำเร็จ");
           navigate(`/app/patients/detail/${id}`);
         } catch (err) {
@@ -303,7 +313,10 @@ const TreatmentForm = (props) => {
           },
         };
         try {
-          await addAccidentForm({ variables, refetchQueries: [{ query: GET_TREATMENTS }] });
+          await addAccidentForm({
+            variables,
+            refetchQueries: [{ query: GET_TREATMENTS }, {query: GET_TREATMENTS_DOAGNOSIS}],
+          });
           alert("บันทึกข้อมูลสำเร็จ");
           navigate(`/app/patients/detail/${id}`);
         } catch (err) {
@@ -334,7 +347,10 @@ const TreatmentForm = (props) => {
           },
         };
         try {
-          await addConAccidentForm({ variables, refetchQueries: [{ query: GET_TREATMENTS }] });
+          await addConAccidentForm({
+            variables,
+            refetchQueries: [{ query: GET_TREATMENTS }, {query: GET_TREATMENTS_DOAGNOSIS}],
+          });
           alert("บันทึกข้อมูลสำเร็จ");
           navigate(`/app/patients/detail/${id}`);
         } catch (err) {
@@ -387,7 +403,10 @@ const TreatmentForm = (props) => {
           },
         };
         try {
-          await addEyesForm({ variables, refetchQueries: [{ query: GET_TREATMENTS }] });
+          await addEyesForm({
+            variables,
+            refetchQueries: [{ query: GET_TREATMENTS }, {query: GET_TREATMENTS_DOAGNOSIS}],
+          });
           alert("บันทึกข้อมูลสำเร็จ");
           navigate(`/app/patients/detail/${id}`);
         } catch (err) {
@@ -438,7 +457,10 @@ const TreatmentForm = (props) => {
           },
         };
         try {
-          await addFeverForm({ variables, refetchQueries: [{ query: GET_TREATMENTS }] });
+          await addFeverForm({
+            variables,
+            refetchQueries: [{ query: GET_TREATMENTS }, {query: GET_TREATMENTS_DOAGNOSIS}],
+          });
           alert("บันทึกข้อมูลสำเร็จ");
           navigate(`/app/patients/detail/${id}`);
         } catch (err) {
@@ -475,7 +497,10 @@ const TreatmentForm = (props) => {
           },
         };
         try {
-          await addDiarrheaForm({ variables, refetchQueries: [{ query: GET_TREATMENTS }] });
+          await addDiarrheaForm({
+            variables,
+            refetchQueries: [{ query: GET_TREATMENTS }, {query: GET_TREATMENTS_DOAGNOSIS}],
+          });
           alert("บันทึกข้อมูลสำเร็จ");
           navigate(`/app/patients/detail/${id}`);
         } catch (err) {
@@ -508,7 +533,10 @@ const TreatmentForm = (props) => {
           },
         };
         try {
-          await addPainForm({ variables, refetchQueries: [{ query: GET_TREATMENTS }] });
+          await addPainForm({
+            variables,
+            refetchQueries: [{ query: GET_TREATMENTS },{query: GET_TREATMENTS_DOAGNOSIS}],
+          });
           alert("บันทึกข้อมูลสำเร็จ");
           navigate(`/app/patients/detail/${id}`);
         } catch (err) {
@@ -557,9 +585,11 @@ const TreatmentForm = (props) => {
           },
         };
         try {
-          await updateGeneralForm({ variables });
+          await updateGeneralForm({ variables, refetchQueries: [{ query: GET_TREATMENTS },{query: GET_TREATMENTS_DOAGNOSIS}] });
           alert("บันทึกข้อมูลสำเร็จ");
-          navigate(`/app/patients/detail/${defaultdata.treatmentById.patientId}`);
+          navigate(
+            `/app/patients/detail/${defaultdata.treatmentById.patientId}`
+          );
         } catch (err) {
           console.log(err);
           alert("เกิดข้อผิดพลาด" + err.message);
@@ -598,9 +628,11 @@ const TreatmentForm = (props) => {
           },
         };
         try {
-          await updateSkinForm({ variables });
+          await updateSkinForm({ variables, refetchQueries: [{ query: GET_TREATMENTS },{query: GET_TREATMENTS_DOAGNOSIS}] });
           alert("บันทึกข้อมูลสำเร็จ");
-          navigate(`/app/patients/detail/${defaultdata.treatmentById.patientId}`);
+          navigate(
+            `/app/patients/detail/${defaultdata.treatmentById.patientId}`
+          );
         } catch (err) {
           console.log(err);
           alert("เกิดข้อผิดพลาด" + err.message);
@@ -638,9 +670,11 @@ const TreatmentForm = (props) => {
           },
         };
         try {
-          await updateAccidentForm({ variables });
+          await updateAccidentForm({ variables, refetchQueries: [{ query: GET_TREATMENTS },{query: GET_TREATMENTS_DOAGNOSIS}] });
           alert("บันทึกข้อมูลสำเร็จ");
-          navigate(`/app/patients/detail/${defaultdata.treatmentById.patientId}`);
+          navigate(
+            `/app/patients/detail/${defaultdata.treatmentById.patientId}`
+          );
         } catch (err) {
           console.log(err);
           alert("เกิดข้อผิดพลาด" + err.message);
@@ -670,9 +704,11 @@ const TreatmentForm = (props) => {
           },
         };
         try {
-          await updateConAccidentForm({ variables });
+          await updateConAccidentForm({ variables, refetchQueries: [{ query: GET_TREATMENTS },{query: GET_TREATMENTS_DOAGNOSIS}] });
           alert("บันทึกข้อมูลสำเร็จ");
-          navigate(`/app/patients/detail/${defaultdata.treatmentById.patientId}`);
+          navigate(
+            `/app/patients/detail/${defaultdata.treatmentById.patientId}`
+          );
         } catch (err) {
           console.log(err);
           alert("เกิดข้อผิดพลาด" + err.message);
@@ -724,9 +760,11 @@ const TreatmentForm = (props) => {
           },
         };
         try {
-          await updateEyesForm({ variables });
+          await updateEyesForm({ variables, refetchQueries: [{ query: GET_TREATMENTS },{query: GET_TREATMENTS_DOAGNOSIS}] });
           alert("บันทึกข้อมูลสำเร็จ");
-          navigate(`/app/patients/detail/${defaultdata.treatmentById.patientId}`);
+          navigate(
+            `/app/patients/detail/${defaultdata.treatmentById.patientId}`
+          );
         } catch (err) {
           console.log(err);
           alert("เกิดข้อผิดพลาด" + err.message);
@@ -776,9 +814,11 @@ const TreatmentForm = (props) => {
           },
         };
         try {
-          await updateFeverForm({ variables });
+          await updateFeverForm({ variables, refetchQueries: [{ query: GET_TREATMENTS },{query: GET_TREATMENTS_DOAGNOSIS}] });
           alert("บันทึกข้อมูลสำเร็จ");
-          navigate(`/app/patients/detail/${defaultdata.treatmentById.patientId}`);
+          navigate(
+            `/app/patients/detail/${defaultdata.treatmentById.patientId}`
+          );
         } catch (err) {
           console.log(err);
           alert("เกิดข้อผิดพลาด" + err.message);
@@ -814,9 +854,11 @@ const TreatmentForm = (props) => {
           },
         };
         try {
-          await updateDiarrheaForm({ variables });
+          await updateDiarrheaForm({ variables, refetchQueries: [{ query: GET_TREATMENTS },{query: GET_TREATMENTS_DOAGNOSIS}] });
           alert("บันทึกข้อมูลสำเร็จ");
-          navigate(`/app/patients/detail/${defaultdata.treatmentById.patientId}`);
+          navigate(
+            `/app/patients/detail/${defaultdata.treatmentById.patientId}`
+          );
         } catch (err) {
           console.log(err);
           alert("เกิดข้อผิดพลาด" + err.message);
@@ -848,9 +890,11 @@ const TreatmentForm = (props) => {
           },
         };
         try {
-          await updatePainForm({ variables });
+          await updatePainForm({ variables, refetchQueries: [{ query: GET_TREATMENTS },{query: GET_TREATMENTS_DOAGNOSIS}] });
           alert("บันทึกข้อมูลสำเร็จ");
-          navigate(`/app/patients/detail/${defaultdata.treatmentById.patientId}`);
+          navigate(
+            `/app/patients/detail/${defaultdata.treatmentById.patientId}`
+          );
         } catch (err) {
           console.log(err);
           alert("เกิดข้อผิดพลาด" + err.message);
@@ -873,7 +917,7 @@ const TreatmentForm = (props) => {
       addPainForm,
     ]
   );
-  const onSubmit = mode === 'update' ? onSubmitUpdate : onSubmitCreate;
+  const onSubmit = mode === "update" ? onSubmitUpdate : onSubmitCreate;
   return (
     <React.Fragment>
       <Form
@@ -899,6 +943,18 @@ const TreatmentForm = (props) => {
                     style={{ width: "100%" }}
                     parse={normalizeweight}
                     initialValue={defaultdata.treatmentById.weight}
+                  />
+                ) : mode === "diagnosis" ? (
+                  <MuiTextField
+                    id="standard-read-only-input"
+                    label="น้ำหนัก"
+                    defaultValue={defaultdata.treatmentById.weight}
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                    variant="outlined"
+                    fullWidth
+                    style={{ width: "100%" }}
                   />
                 ) : (
                   <Field
@@ -928,6 +984,18 @@ const TreatmentForm = (props) => {
                     parse={normalizeheight}
                     initialValue={defaultdata.treatmentById.height}
                   />
+                ) : mode === "diagnosis" ? (
+                  <MuiTextField
+                    id="standard-read-only-input"
+                    label="ส่วนสูง"
+                    defaultValue={defaultdata.treatmentById.height}
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                    variant="outlined"
+                    fullWidth
+                    style={{ width: "100%" }}
+                  />
                 ) : (
                   <Field
                     fullWidth
@@ -955,6 +1023,18 @@ const TreatmentForm = (props) => {
                     style={{ width: "100%" }}
                     parse={normalizebloodpressure}
                     initialValue={defaultdata.treatmentById.bloodPressure}
+                  />
+                ) : mode === "diagnosis" ? (
+                  <MuiTextField
+                    id="standard-read-only-input"
+                    label="ความดันโลหิต"
+                    defaultValue={defaultdata.treatmentById.bloodPressure}
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                    variant="outlined"
+                    fullWidth
+                    style={{ width: "100%" }}
                   />
                 ) : (
                   <Field
@@ -984,6 +1064,18 @@ const TreatmentForm = (props) => {
                     parse={normalizepulserate}
                     initialValue={defaultdata.treatmentById.pulseRate}
                   />
+                ) : mode === "diagnosis" ? (
+                  <MuiTextField
+                    id="standard-read-only-input"
+                    label="อัตราชีพจร"
+                    defaultValue={defaultdata.treatmentById.pulseRate}
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                    variant="outlined"
+                    fullWidth
+                    style={{ width: "100%" }}
+                  />
                 ) : (
                   <Field
                     fullWidth
@@ -1011,6 +1103,18 @@ const TreatmentForm = (props) => {
                     style={{ width: "100%" }}
                     parse={normalizetempuraturet}
                     initialValue={defaultdata.treatmentById.tempurature}
+                  />
+                ) : mode === "diagnosis" ? (
+                  <MuiTextField
+                    id="standard-read-only-input"
+                    label="อุณหภูมิร่างกาย"
+                    defaultValue={defaultdata.treatmentById.tempurature}
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                    variant="outlined"
+                    fullWidth
+                    style={{ width: "100%" }}
                   />
                 ) : (
                   <Field
@@ -1040,6 +1144,18 @@ const TreatmentForm = (props) => {
                     parse={normalizerespiratoryrate}
                     initialValue={defaultdata.treatmentById.respiratoryRate}
                   />
+                ) : mode === "diagnosis" ? (
+                  <MuiTextField
+                    id="standard-read-only-input"
+                    label="อัตราการหายใจ"
+                    defaultValue={defaultdata.treatmentById.respiratoryRate}
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                    variant="outlined"
+                    fullWidth
+                    style={{ width: "100%" }}
+                  />
                 ) : (
                   <Field
                     fullWidth
@@ -1067,6 +1183,18 @@ const TreatmentForm = (props) => {
                     style={{ width: "100%" }}
                     parse={normalizebmi}
                     initialValue={defaultdata.treatmentById.bmi}
+                  />
+                ) : mode === "diagnosis" ? (
+                  <MuiTextField
+                    id="standard-read-only-input"
+                    label="ดัชนีมวลกาย"
+                    defaultValue={defaultdata.treatmentById.bmi}
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                    variant="outlined"
+                    fullWidth
+                    style={{ width: "100%" }}
                   />
                 ) : (
                   <Field
@@ -1096,6 +1224,18 @@ const TreatmentForm = (props) => {
                     parse={normalizeoxygensaturation}
                     initialValue={defaultdata.treatmentById.oxygenSaturation}
                   />
+                ) : mode === "diagnosis" ? (
+                  <MuiTextField
+                    id="standard-read-only-input"
+                    label="ออกซิเจนในเลือด"
+                    defaultValue={defaultdata.treatmentById.oxygenSaturation}
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                    variant="outlined"
+                    fullWidth
+                    style={{ width: "100%" }}
+                  />
                 ) : (
                   <Field
                     fullWidth
@@ -1111,47 +1251,77 @@ const TreatmentForm = (props) => {
                 )}
               </Grid>
               <Grid item xs={6}>
-                <FormControl style={{ width: "100%" }}>
-                  <InputLabel id="demo-mutiple-name-label">สถานะ</InputLabel>
-                  <NativeSelect
-                    id="demo-customized-select-native"
-                    input={<BootstrapInput />}
-                    value={status}
-                    onChange={handleChangeStatus}
-                    required={true}
-                  >
-                    <option aria-label="None" value=" " />
-                    <option value={"DIAGNOSIS"}>วินิจฉัย</option>
-                    <option value={"MEDICINE"}>จ่ายยา</option>
-                    <option value={"COMPLETE"}>สำเร็จ</option>
-                  </NativeSelect>
-                </FormControl>
+                {mode === "diagnosis" ? (
+                  <FormControl style={{ width: "100%" }} variant="outlined">
+                    <SelectDiagnosis
+                      labelId="demo-simple-select-readonly-label"
+                      id="demo-simple-select-outlined"
+                      value={status}
+                      inputProps={{ readOnly: true }}
+                    >
+                      <MenuItem value={"DIAGNOSIS"}>วินิจฉัย</MenuItem>
+                      <MenuItem value={"MEDICINE"}>จ่ายยา</MenuItem>
+                      <MenuItem value={"COMPLETE"}>สำเร็จ</MenuItem>
+                    </SelectDiagnosis>
+                  </FormControl>
+                ) : (
+                  <FormControl style={{ width: "100%" }} variant="outlined">
+                    <SelectDiagnosis
+                      labelId="demo-simple-select-readonly-label"
+                      id="demo-simple-select-outlined"
+                      value={status}
+                      onChange={handleChangeStatus}
+                    >
+                      <MenuItem value={"DIAGNOSIS"}>วินิจฉัย</MenuItem>
+                      <MenuItem value={"MEDICINE"}>จ่ายยา</MenuItem>
+                      <MenuItem value={"COMPLETE"}>สำเร็จ</MenuItem>
+                    </SelectDiagnosis>
+                  </FormControl>
+                )}
               </Grid>
               <Grid item xs={6}>
-                <FormControl style={{ width: "100%" }}>
-                  <InputLabel id="demo-mutiple-name-label">
-                    แบบฟอร์มการตรวจ
-                  </InputLabel>
-                  <NativeSelect
-                    id="demo-customized-select-native"
-                    input={<BootstrapInput />}
-                    value={form}
-                    onChange={handleChangeForm}
-                    required={true}
-                  >
-                    <option aria-label="None" value=" " />
-                    <option value={"General"}>ทั่วไป</option>
-                    <option value={"Skin"}>ผิวหนัง</option>
-                    <option value={"Accident"}>อุบัติเหตุ</option>
-                    <option value={"ContinueAccident"}>
-                      อุบัติเหตุต่อเนื่อง
-                    </option>
-                    <option value={"Eyes"}>อาการทางสายตา</option>
-                    <option value={"Fever"}>ไข้</option>
-                    <option value={"Diarrhea"}>ท้องร่วง</option>
-                    <option value={"Pain"}>เจ็บ-ปวด</option>
-                  </NativeSelect>
-                </FormControl>
+                {mode === "diagnosis" ? (
+                  <FormControl style={{ width: "100%" }} variant="outlined">
+                    <SelectDiagnosis
+                      labelId="demo-simple-select-readonly-label"
+                      id="demo-simple-select-outlined"
+                      value={form}
+                      onChange={handleChangeForm}
+                      inputProps={{ readOnly: true }}
+                    >
+                      <MenuItem value={"General"}>ทั่วไป</MenuItem>
+                      <MenuItem value={"Skin"}>ผิวหนัง</MenuItem>
+                      <MenuItem value={"Accident"}>อุบัติเหตุ</MenuItem>
+                      <MenuItem value={"ContinueAccident"}>
+                        อุบัติเหตุต่อเนื่อง
+                      </MenuItem>
+                      <MenuItem value={"Eyes"}>อาการทางสายตา</MenuItem>
+                      <MenuItem value={"Fever"}>ไข้</MenuItem>
+                      <MenuItem value={"Diarrhea"}>ท้องร่วง</MenuItem>
+                      <MenuItem value={"Pain"}>เจ็บ-ปวด</MenuItem>
+                    </SelectDiagnosis>
+                  </FormControl>
+                ) : (
+                  <FormControl style={{ width: "100%" }} variant="outlined">
+                    <SelectDiagnosis
+                      labelId="demo-simple-select-readonly-label"
+                      id="demo-simple-select-outlined"
+                      value={form}
+                      onChange={handleChangeForm}
+                    >
+                      <MenuItem value={"General"}>ทั่วไป</MenuItem>
+                      <MenuItem value={"Skin"}>ผิวหนัง</MenuItem>
+                      <MenuItem value={"Accident"}>อุบัติเหตุ</MenuItem>
+                      <MenuItem value={"ContinueAccident"}>
+                        อุบัติเหตุต่อเนื่อง
+                      </MenuItem>
+                      <MenuItem value={"Eyes"}>อาการทางสายตา</MenuItem>
+                      <MenuItem value={"Fever"}>ไข้</MenuItem>
+                      <MenuItem value={"Diarrhea"}>ท้องร่วง</MenuItem>
+                      <MenuItem value={"Pain"}>เจ็บ-ปวด</MenuItem>
+                    </SelectDiagnosis>
+                  </FormControl>
+                )}
               </Grid>
               <Grid container={"true"} item sx={12} spacing={2}>
                 {form === "General" ? (
@@ -1191,6 +1361,13 @@ const TreatmentForm = (props) => {
                         }
                       />
                     }
+                  />
+                ) : mode === "diagnosis" ? (
+                  <FormControlLabel
+                    disabled
+                    control={<CheckboxDianosis name="medicalCertificate" />}
+                    checked={defaultdata.treatmentById.medicalCertificate}
+                    label="ต้องการใบรับรองแพทย์"
                   />
                 ) : (
                   <FormControlLabel

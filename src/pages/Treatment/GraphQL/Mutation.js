@@ -428,8 +428,8 @@ export const UPDATE_DIARRHEA_FORM = gql`
 }
 `
 export const UPDATE_PAIN_FORM = gql`
- mutation updatePatientById($record: UpdateByIdPatientInput!, $id: MongoID!){
-  updatePatientById(record: $record, _id:$id){
+ mutation updatePainTreatmentById($record: UpdateByIdPainInput!, $id: MongoID!){
+  updatePainTreatmentById(record: $record, _id:$id){
     record{
       userId
       patientId

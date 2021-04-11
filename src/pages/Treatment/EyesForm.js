@@ -1,5 +1,10 @@
 import React from "react";
-import { Grid, FormControlLabel, Button } from "@material-ui/core";
+import {
+  Grid,
+  FormControlLabel,
+  Checkbox as CheckboxDianosis,
+  TextField as MuiTextField,
+} from "@material-ui/core";
 import { Form, Field } from "react-final-form";
 import { TextField, Checkbox, Radio, Select } from "final-form-material-ui";
 
@@ -21,6 +26,13 @@ const EyeForm = (props) => {
                     initialValue={defaultdata.treatmentById.leftEye}
                   />
                 }
+              />
+            ) : mode === "diagnosis" ? (
+              <FormControlLabel
+                disabled
+                control={<CheckboxDianosis name="medicalCertificate" />}
+                checked={defaultdata.treatmentById.leftEye}
+                label="ตาซ้าย"
               />
             ) : (
               <FormControlLabel
@@ -44,6 +56,13 @@ const EyeForm = (props) => {
                   />
                 }
               />
+            ) : mode === "diagnosis" ? (
+              <FormControlLabel
+                disabled
+                control={<CheckboxDianosis name="medicalCertificate" />}
+                checked={defaultdata.treatmentById.rightEye}
+                label="ตาขวา"
+              />
             ) : (
               <FormControlLabel
                 label="ตาขวา"
@@ -65,6 +84,13 @@ const EyeForm = (props) => {
                     initialValue={defaultdata.treatmentById.isPain}
                   />
                 }
+              />
+            ) : mode === "diagnosis" ? (
+              <FormControlLabel
+                disabled
+                control={<CheckboxDianosis name="medicalCertificate" />}
+                checked={defaultdata.treatmentById.isPain}
+                label="มีอาการปวด"
               />
             ) : (
               <FormControlLabel
@@ -88,7 +114,14 @@ const EyeForm = (props) => {
                   />
                 }
               />
-            ) : (
+            ) : mode === "diagnosis" ? (
+              <FormControlLabel
+                disabled
+                control={<CheckboxDianosis name="medicalCertificate" />}
+                checked={defaultdata.treatmentById.isItching}
+                label="มีอาการคัน"
+              />
+            ) :  (
               <FormControlLabel
                 label="มีอาการคัน"
                 control={
@@ -113,6 +146,13 @@ const EyeForm = (props) => {
                     initialValue={defaultdata.treatmentById.isConjunctivitis}
                   />
                 }
+              />
+            ) : mode === "diagnosis" ? (
+              <FormControlLabel
+                disabled
+                control={<CheckboxDianosis name="medicalCertificate" />}
+                checked={defaultdata.treatmentById.isConjunctivitis}
+                label="เป็นโรคตาแดง"
               />
             ) : (
               <FormControlLabel
@@ -140,6 +180,13 @@ const EyeForm = (props) => {
                   />
                 }
               />
+            ) : mode === "diagnosis" ? (
+              <FormControlLabel
+                disabled
+                control={<CheckboxDianosis name="medicalCertificate" />}
+                checked={defaultdata.treatmentById.isSore}
+                label="มีอาการเจ็บ"
+              />
             ) : (
               <FormControlLabel
                 label="มีอาการเจ็บ"
@@ -150,7 +197,27 @@ const EyeForm = (props) => {
             )}
           </Grid>
           <Grid style={{ marginLeft: "42%" }}>
-            <FormControlLabel
+            {mode === 'update' ? (
+              <FormControlLabel
+              label="มีอาการระคายเคือง"
+              control={
+                <Field
+                  name="isIrritation"
+                  component={Checkbox}
+                  type="checkbox"
+                  initialValue={defaultdata.treatmentById.isIrritation}
+                />
+              }
+            />
+            ): mode === "diagnosis" ? (
+              <FormControlLabel
+                disabled
+                control={<CheckboxDianosis name="medicalCertificate" />}
+                checked={defaultdata.treatmentById.isIrritation}
+                label="มีอาการระคายเคือง"
+              />
+            ) :(
+              <FormControlLabel
               label="มีอาการระคายเคือง"
               control={
                 <Field
@@ -160,8 +227,11 @@ const EyeForm = (props) => {
                 />
               }
             />
+            )}
           </Grid>
         </Grid>
+
+
         <Grid item={"true"} xs={6}>
           <Grid style={{ marginLeft: "42%" }}>
             {mode === "update" ? (
@@ -175,6 +245,13 @@ const EyeForm = (props) => {
                     initialValue={defaultdata.treatmentById.isSwelling}
                   />
                 }
+              />
+            ) : mode === "diagnosis" ? (
+              <FormControlLabel
+                disabled
+                control={<CheckboxDianosis name="medicalCertificate" />}
+                checked={defaultdata.treatmentById.isSwelling}
+                label="มีอาการบวม"
               />
             ) : (
               <FormControlLabel
@@ -202,6 +279,13 @@ const EyeForm = (props) => {
                   />
                 }
               />
+            ) : mode === "diagnosis" ? (
+              <FormControlLabel
+                disabled
+                control={<CheckboxDianosis name="medicalCertificate" />}
+                checked={defaultdata.treatmentById.isTear}
+                label="น้ำตาไหล"
+              />
             ) : (
               <FormControlLabel
                 label="น้ำตาไหล"
@@ -223,6 +307,13 @@ const EyeForm = (props) => {
                     initialValue={defaultdata.treatmentById.isBlurred}
                   />
                 }
+              />
+            ) : mode === "diagnosis" ? (
+              <FormControlLabel
+                disabled
+                control={<CheckboxDianosis name="medicalCertificate" />}
+                checked={defaultdata.treatmentById.isBlurred}
+                label="ตาพร่ามัว"
               />
             ) : (
               <FormControlLabel
@@ -250,7 +341,14 @@ const EyeForm = (props) => {
                   />
                 }
               />
-            ) : (
+            ) : mode === "diagnosis" ? (
+              <FormControlLabel
+                disabled
+                control={<CheckboxDianosis name="medicalCertificate" />}
+                checked={defaultdata.treatmentById.isGum}
+                label="ขี้ตาเยอะ"
+              />
+            ) :(
               <FormControlLabel
                 label="ขี้ตาเยอะ"
                 control={
@@ -271,6 +369,13 @@ const EyeForm = (props) => {
                     initialValue={defaultdata.treatmentById.isPurulent}
                   />
                 }
+              />
+            ) : mode === "diagnosis" ? (
+              <FormControlLabel
+                disabled
+                control={<CheckboxDianosis name="medicalCertificate" />}
+                checked={defaultdata.treatmentById.isPurulent}
+                label="เป็นหนอง"
               />
             ) : (
               <FormControlLabel
@@ -298,6 +403,13 @@ const EyeForm = (props) => {
                   />
                 }
               />
+            ) : mode === "diagnosis" ? (
+              <FormControlLabel
+                disabled
+                control={<CheckboxDianosis name="medicalCertificate" />}
+                checked={defaultdata.treatmentById.isMatter}
+                label="สิ่งเเปลกปลอมเข้าดวงตา"
+              />
             ) : (
               <FormControlLabel
                 label="สิ่งเเปลกปลอมเข้าดวงตา"
@@ -320,6 +432,18 @@ const EyeForm = (props) => {
               variant="outlined"
               style={{ width: "100%" }}
               initialValue={defaultdata.treatmentById.physicalExamination}
+            />
+          ) : mode === "diagnosis" ? (
+            <MuiTextField
+              id="standard-read-only-input"
+              label="การตรวจสอบทางกายภาพ"
+              defaultValue={defaultdata.treatmentById.physicalExamination}
+              InputProps={{
+                readOnly: true,
+              }}
+              variant="outlined"
+              fullWidth
+              style={{ width: "100%" }}
             />
           ) : (
             <Field

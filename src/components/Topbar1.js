@@ -243,19 +243,6 @@ const Layout = () => {
                 </ListItemIcon>
                 <ListItemText>Medicine</ListItemText>
               </ListItem>
-
-              <ListItem
-                button
-                component={Link}
-                className={classes.navTab}
-                to="/report"
-              >
-                <ListItemIcon>
-                  <EventNoteIcon />
-                </ListItemIcon>
-                <ListItemText>Report</ListItemText>
-              </ListItem>
-
               <ListItem
                 button
                 component={Link}
@@ -283,7 +270,6 @@ const Layout = () => {
               <Route exact path="/treatment" component={Treatment} />
               <Route exact path="/diagnosis" component={Diagnosis} />
               <Route exact path="/medicine" component={Medicine} />
-              <Route exact path="/report" component={Report} />
               <Route exact path="/administor" component={Administor} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/register" component={Register} />

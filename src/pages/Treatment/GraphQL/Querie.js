@@ -97,6 +97,14 @@ export const GET_TREATMENT_BY_ID = gql`
         crackDetail
         physicalExamination
       }
+      diagnosis{
+      _id
+      detail
+      advice
+      followUpDate
+      followUpDetail
+      treatmentId
+    }
     }
   }
 `;

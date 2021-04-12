@@ -35,9 +35,10 @@ import {
   UPDATE_DIARRHEA_FORM,
   UPDATE_PAIN_FORM,
 } from "./GraphQL/Mutation";
+import {CREATE_DIAGNOSIS} from '../Dianosis/GraphQL/Mutation'
 import { GET_TREATMENT_BY_ID, GET_TREATMENTS } from "./GraphQL/Querie";
 import { GET_PATIENT } from "../Patients/GraphQL/Querie";
-import {GET_TREATMENTS_DOAGNOSIS} from '../Dianosis/GraphQL/Querie'
+import { GET_TREATMENTS_DOAGNOSIS } from "../Dianosis/GraphQL/Querie";
 import GeneralForm from "./GenaralForm";
 import EyesForm from "./EyesForm";
 import SkinForm from "./SkinForm";
@@ -46,8 +47,7 @@ import ConAccidentForm from "./ConAccidentForm";
 import FeverForm from "./FeverForm";
 import DiarrheaForm from "./Diarrhea";
 import PainForm from "./PainForm";
-import moment from "moment";
-
+import DiagnosisForm from "../Dianosis/Diagnosis-form";
 const useStyles = makeStyles((theme) => ({
   root: {
     "& .MuiTextField-root": {
@@ -115,6 +115,8 @@ const TreatmentForm = (props) => {
   const [addEyesForm] = useMutation(ADD_EYES_FORM);
   const [addDiarrheaForm] = useMutation(ADD_DIARRHEA_FORM);
   const [addPainForm] = useMutation(ADD_PAIN_FORM);
+
+  const [addDiagnosis] = useMutation(CREATE_DIAGNOSIS)
 
   const [updateGeneralForm] = useMutation(UPDATE_GENERAL_FORM);
   const [updateSkinForm] = useMutation(UPDATE_SKIN_FORM);
@@ -230,7 +232,10 @@ const TreatmentForm = (props) => {
         try {
           await addGeneralForm({
             variables,
-            refetchQueries: [{ query: GET_TREATMENTS }, {query: GET_TREATMENTS_DOAGNOSIS}],
+            refetchQueries: [
+              { query: GET_TREATMENTS },
+              { query: GET_TREATMENTS_DOAGNOSIS },
+            ],
           });
           alert("บันทึกข้อมูลสำเร็จ");
           navigate(`/app/patients/detail/${id}`);
@@ -273,7 +278,10 @@ const TreatmentForm = (props) => {
         try {
           await addSkinForm({
             variables,
-            refetchQueries: [{ query: GET_TREATMENTS }, {query: GET_TREATMENTS_DOAGNOSIS}],
+            refetchQueries: [
+              { query: GET_TREATMENTS },
+              { query: GET_TREATMENTS_DOAGNOSIS },
+            ],
           });
           alert("บันทึกข้อมูลสำเร็จ");
           navigate(`/app/patients/detail/${id}`);
@@ -315,7 +323,10 @@ const TreatmentForm = (props) => {
         try {
           await addAccidentForm({
             variables,
-            refetchQueries: [{ query: GET_TREATMENTS }, {query: GET_TREATMENTS_DOAGNOSIS}],
+            refetchQueries: [
+              { query: GET_TREATMENTS },
+              { query: GET_TREATMENTS_DOAGNOSIS },
+            ],
           });
           alert("บันทึกข้อมูลสำเร็จ");
           navigate(`/app/patients/detail/${id}`);
@@ -349,7 +360,10 @@ const TreatmentForm = (props) => {
         try {
           await addConAccidentForm({
             variables,
-            refetchQueries: [{ query: GET_TREATMENTS }, {query: GET_TREATMENTS_DOAGNOSIS}],
+            refetchQueries: [
+              { query: GET_TREATMENTS },
+              { query: GET_TREATMENTS_DOAGNOSIS },
+            ],
           });
           alert("บันทึกข้อมูลสำเร็จ");
           navigate(`/app/patients/detail/${id}`);
@@ -405,7 +419,10 @@ const TreatmentForm = (props) => {
         try {
           await addEyesForm({
             variables,
-            refetchQueries: [{ query: GET_TREATMENTS }, {query: GET_TREATMENTS_DOAGNOSIS}],
+            refetchQueries: [
+              { query: GET_TREATMENTS },
+              { query: GET_TREATMENTS_DOAGNOSIS },
+            ],
           });
           alert("บันทึกข้อมูลสำเร็จ");
           navigate(`/app/patients/detail/${id}`);
@@ -459,7 +476,10 @@ const TreatmentForm = (props) => {
         try {
           await addFeverForm({
             variables,
-            refetchQueries: [{ query: GET_TREATMENTS }, {query: GET_TREATMENTS_DOAGNOSIS}],
+            refetchQueries: [
+              { query: GET_TREATMENTS },
+              { query: GET_TREATMENTS_DOAGNOSIS },
+            ],
           });
           alert("บันทึกข้อมูลสำเร็จ");
           navigate(`/app/patients/detail/${id}`);
@@ -499,7 +519,10 @@ const TreatmentForm = (props) => {
         try {
           await addDiarrheaForm({
             variables,
-            refetchQueries: [{ query: GET_TREATMENTS }, {query: GET_TREATMENTS_DOAGNOSIS}],
+            refetchQueries: [
+              { query: GET_TREATMENTS },
+              { query: GET_TREATMENTS_DOAGNOSIS },
+            ],
           });
           alert("บันทึกข้อมูลสำเร็จ");
           navigate(`/app/patients/detail/${id}`);
@@ -535,7 +558,10 @@ const TreatmentForm = (props) => {
         try {
           await addPainForm({
             variables,
-            refetchQueries: [{ query: GET_TREATMENTS },{query: GET_TREATMENTS_DOAGNOSIS}],
+            refetchQueries: [
+              { query: GET_TREATMENTS },
+              { query: GET_TREATMENTS_DOAGNOSIS },
+            ],
           });
           alert("บันทึกข้อมูลสำเร็จ");
           navigate(`/app/patients/detail/${id}`);
@@ -585,7 +611,13 @@ const TreatmentForm = (props) => {
           },
         };
         try {
-          await updateGeneralForm({ variables, refetchQueries: [{ query: GET_TREATMENTS },{query: GET_TREATMENTS_DOAGNOSIS}] });
+          await updateGeneralForm({
+            variables,
+            refetchQueries: [
+              { query: GET_TREATMENTS },
+              { query: GET_TREATMENTS_DOAGNOSIS },
+            ],
+          });
           alert("บันทึกข้อมูลสำเร็จ");
           navigate(
             `/app/patients/detail/${defaultdata.treatmentById.patientId}`
@@ -628,7 +660,13 @@ const TreatmentForm = (props) => {
           },
         };
         try {
-          await updateSkinForm({ variables, refetchQueries: [{ query: GET_TREATMENTS },{query: GET_TREATMENTS_DOAGNOSIS}] });
+          await updateSkinForm({
+            variables,
+            refetchQueries: [
+              { query: GET_TREATMENTS },
+              { query: GET_TREATMENTS_DOAGNOSIS },
+            ],
+          });
           alert("บันทึกข้อมูลสำเร็จ");
           navigate(
             `/app/patients/detail/${defaultdata.treatmentById.patientId}`
@@ -670,7 +708,13 @@ const TreatmentForm = (props) => {
           },
         };
         try {
-          await updateAccidentForm({ variables, refetchQueries: [{ query: GET_TREATMENTS },{query: GET_TREATMENTS_DOAGNOSIS}] });
+          await updateAccidentForm({
+            variables,
+            refetchQueries: [
+              { query: GET_TREATMENTS },
+              { query: GET_TREATMENTS_DOAGNOSIS },
+            ],
+          });
           alert("บันทึกข้อมูลสำเร็จ");
           navigate(
             `/app/patients/detail/${defaultdata.treatmentById.patientId}`
@@ -704,7 +748,13 @@ const TreatmentForm = (props) => {
           },
         };
         try {
-          await updateConAccidentForm({ variables, refetchQueries: [{ query: GET_TREATMENTS },{query: GET_TREATMENTS_DOAGNOSIS}] });
+          await updateConAccidentForm({
+            variables,
+            refetchQueries: [
+              { query: GET_TREATMENTS },
+              { query: GET_TREATMENTS_DOAGNOSIS },
+            ],
+          });
           alert("บันทึกข้อมูลสำเร็จ");
           navigate(
             `/app/patients/detail/${defaultdata.treatmentById.patientId}`
@@ -760,7 +810,13 @@ const TreatmentForm = (props) => {
           },
         };
         try {
-          await updateEyesForm({ variables, refetchQueries: [{ query: GET_TREATMENTS },{query: GET_TREATMENTS_DOAGNOSIS}] });
+          await updateEyesForm({
+            variables,
+            refetchQueries: [
+              { query: GET_TREATMENTS },
+              { query: GET_TREATMENTS_DOAGNOSIS },
+            ],
+          });
           alert("บันทึกข้อมูลสำเร็จ");
           navigate(
             `/app/patients/detail/${defaultdata.treatmentById.patientId}`
@@ -814,7 +870,13 @@ const TreatmentForm = (props) => {
           },
         };
         try {
-          await updateFeverForm({ variables, refetchQueries: [{ query: GET_TREATMENTS },{query: GET_TREATMENTS_DOAGNOSIS}] });
+          await updateFeverForm({
+            variables,
+            refetchQueries: [
+              { query: GET_TREATMENTS },
+              { query: GET_TREATMENTS_DOAGNOSIS },
+            ],
+          });
           alert("บันทึกข้อมูลสำเร็จ");
           navigate(
             `/app/patients/detail/${defaultdata.treatmentById.patientId}`
@@ -854,7 +916,13 @@ const TreatmentForm = (props) => {
           },
         };
         try {
-          await updateDiarrheaForm({ variables, refetchQueries: [{ query: GET_TREATMENTS },{query: GET_TREATMENTS_DOAGNOSIS}] });
+          await updateDiarrheaForm({
+            variables,
+            refetchQueries: [
+              { query: GET_TREATMENTS },
+              { query: GET_TREATMENTS_DOAGNOSIS },
+            ],
+          });
           alert("บันทึกข้อมูลสำเร็จ");
           navigate(
             `/app/patients/detail/${defaultdata.treatmentById.patientId}`
@@ -890,7 +958,13 @@ const TreatmentForm = (props) => {
           },
         };
         try {
-          await updatePainForm({ variables, refetchQueries: [{ query: GET_TREATMENTS },{query: GET_TREATMENTS_DOAGNOSIS}] });
+          await updatePainForm({
+            variables,
+            refetchQueries: [
+              { query: GET_TREATMENTS },
+              { query: GET_TREATMENTS_DOAGNOSIS },
+            ],
+          });
           alert("บันทึกข้อมูลสำเร็จ");
           navigate(
             `/app/patients/detail/${defaultdata.treatmentById.patientId}`
@@ -917,7 +991,31 @@ const TreatmentForm = (props) => {
       addPainForm,
     ]
   );
-  const onSubmit = mode === "update" ? onSubmitUpdate : onSubmitCreate;
+  const onSubmitDiagnosis = useCallback(
+    async (value) => {
+        const variables = {
+            record: {
+              userId: "6062eaf88849824480e01a4f",
+              treatmentId: defaultdata.treatmentById._id,
+              detail: value.detail,
+              advice: value.advice,
+              followUpDate : value.followUpDate,
+              followUpDetail : value.followUpDetail
+            }
+        }
+        try {
+          // refetchQueries: [{ query: GET_PATIENTS }]
+            await addDiagnosis({ variables })
+            alert('บันทึกข้อมูลสำเร็จ')
+            // navigate(`/app/patients`)
+        } catch (err) {
+            console.log(err)
+            alert('เกิดข้อผิดพลาด' + err.message)
+        }
+    },
+    []
+)
+  const onSubmit = mode === "update" ? onSubmitUpdate : mode ==='diagnosis' ? onSubmitDiagnosis : onSubmitCreate;
   return (
     <React.Fragment>
       <Form
@@ -1381,6 +1479,9 @@ const TreatmentForm = (props) => {
                     }
                   />
                 )}
+              </Grid>
+              <Grid container={"true"} item sx={12} spacing={2}>
+                {mode === "diagnosis" ? <DiagnosisForm /> : null}
               </Grid>
               <Grid
                 item

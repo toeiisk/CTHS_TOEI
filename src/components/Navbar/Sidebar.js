@@ -179,18 +179,6 @@ const Sidebar = ({ onMobileClose, openMobile }) => {
 							</ListItem>
 						</List>
 					</Collapse>
-
-					<ListItem button component={Link} className={classes.navTab} to="/app/report">
-						<ListItemIcon>
-							<IconContext.Provider value={{ color: 'white', size: '30' }}>
-								<HiDocumentReport />
-							</IconContext.Provider>
-						</ListItemIcon>
-						<ListItemText>
-							<Typography className={classes.textsidebar}>Report</Typography>
-						</ListItemText>
-					</ListItem>
-
 					<ListItem button component={Link} className={classes.navTab} to="/app/admin">
 						<ListItemIcon>
 							<IconContext.Provider value={{ color: 'white', size: '30' }}>

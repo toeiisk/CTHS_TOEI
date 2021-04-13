@@ -35,7 +35,7 @@ import {
   UPDATE_DIARRHEA_FORM,
   UPDATE_PAIN_FORM,
 } from "./GraphQL/Mutation";
-import {CREATE_DIAGNOSIS} from '../Dianosis/GraphQL/Mutation'
+import { CREATE_DIAGNOSIS } from "../Dianosis/GraphQL/Mutation";
 import { GET_TREATMENT_BY_ID, GET_TREATMENTS } from "./GraphQL/Querie";
 import { GET_PATIENT } from "../Patients/GraphQL/Querie";
 import { GET_TREATMENTS_DOAGNOSIS } from "../Dianosis/GraphQL/Querie";
@@ -48,6 +48,8 @@ import FeverForm from "./FeverForm";
 import DiarrheaForm from "./Diarrhea";
 import PainForm from "./PainForm";
 import DiagnosisForm from "../Dianosis/Diagnosis-form";
+import { useSession } from '../../context/auth'
+
 const useStyles = makeStyles((theme) => ({
   root: {
     "& .MuiTextField-root": {
@@ -106,6 +108,7 @@ const BootstrapInput = withStyles((theme) => ({
 const TreatmentForm = (props) => {
   const { mode, defaultdata } = props;
   const classes = useStyles();
+  const { user } = useSession()
   let navigate = useNavigate();
   const [addGeneralForm] = useMutation(ADD_GENERAL_FORM);
   const [addSkinForm] = useMutation(ADD_SKIN_FORM);
@@ -116,7 +119,7 @@ const TreatmentForm = (props) => {
   const [addDiarrheaForm] = useMutation(ADD_DIARRHEA_FORM);
   const [addPainForm] = useMutation(ADD_PAIN_FORM);
 
-  const [addDiagnosis] = useMutation(CREATE_DIAGNOSIS)
+  const [addDiagnosis] = useMutation(CREATE_DIAGNOSIS);
 
   const [updateGeneralForm] = useMutation(UPDATE_GENERAL_FORM);
   const [updateSkinForm] = useMutation(UPDATE_SKIN_FORM);
@@ -214,7 +217,7 @@ const TreatmentForm = (props) => {
         const variables = {
           record: {
             patientId: id,
-            userId: "6062eaf88849824480e01a4f",
+            userId: user._id,
             weight: value.weight,
             height: value.height,
             bloodPressure: value.bloodPressure,
@@ -253,7 +256,7 @@ const TreatmentForm = (props) => {
         const variables = {
           record: {
             patientId: id,
-            userId: "6062eaf88849824480e01a4f",
+            userId: user._id,
             weight: value.weight,
             height: value.height,
             bloodPressure: value.bloodPressure,
@@ -298,7 +301,7 @@ const TreatmentForm = (props) => {
         const variables = {
           record: {
             patientId: id,
-            userId: "6062eaf88849824480e01a4f",
+            userId: user._id,
             weight: value.weight,
             height: value.height,
             bloodPressure: value.bloodPressure,
@@ -340,7 +343,7 @@ const TreatmentForm = (props) => {
         const variables = {
           record: {
             patientId: id,
-            userId: "6062eaf88849824480e01a4f",
+            userId: user._id,
             weight: value.weight,
             height: value.height,
             bloodPressure: value.bloodPressure,
@@ -389,7 +392,7 @@ const TreatmentForm = (props) => {
         const variables = {
           record: {
             patientId: id,
-            userId: "6062eaf88849824480e01a4f",
+            userId: user._id,
             weight: value.weight,
             height: value.height,
             bloodPressure: value.bloodPressure,
@@ -447,7 +450,7 @@ const TreatmentForm = (props) => {
         const variables = {
           record: {
             patientId: id,
-            userId: "6062eaf88849824480e01a4f",
+            userId: user._id,
             weight: value.weight,
             height: value.height,
             bloodPressure: value.bloodPressure,
@@ -495,7 +498,7 @@ const TreatmentForm = (props) => {
         const variables = {
           record: {
             patientId: id,
-            userId: "6062eaf88849824480e01a4f",
+            userId: user._id,
             weight: value.weight,
             height: value.height,
             bloodPressure: value.bloodPressure,
@@ -535,7 +538,7 @@ const TreatmentForm = (props) => {
         const variables = {
           record: {
             patientId: id,
-            userId: "6062eaf88849824480e01a4f",
+            userId: user._id,
             weight: value.weight,
             height: value.height,
             bloodPressure: value.bloodPressure,
@@ -991,31 +994,33 @@ const TreatmentForm = (props) => {
       addPainForm,
     ]
   );
-  const onSubmitDiagnosis = useCallback(
-    async (value) => {
-        const variables = {
-            record: {
-              userId: "6062eaf88849824480e01a4f",
-              treatmentId: defaultdata.treatmentById._id,
-              detail: value.detail,
-              advice: value.advice,
-              followUpDate : value.followUpDate,
-              followUpDetail : value.followUpDetail
-            }
-        }
-        try {
-          // refetchQueries: [{ query: GET_PATIENTS }]
-            await addDiagnosis({ variables })
-            alert('บันทึกข้อมูลสำเร็จ')
-            // navigate(`/app/patients`)
-        } catch (err) {
-            console.log(err)
-            alert('เกิดข้อผิดพลาด' + err.message)
-        }
-    },
-    []
-)
-  const onSubmit = mode === "update" ? onSubmitUpdate : mode ==='diagnosis' ? onSubmitDiagnosis : onSubmitCreate;
+  const onSubmitDiagnosis = useCallback(async (value) => {
+    const variables = {
+      record: {
+        userId: user._id,
+        treatmentId: defaultdata.treatmentById._id,
+        detail: value.detail,
+        advice: value.advice,
+        followUpDate: value.followUpDate,
+        followUpDetail: value.followUpDetail,
+      },
+    };
+    try {
+      // refetchQueries: [{ query: GET_PATIENTS }]
+      await addDiagnosis({ variables });
+      alert("บันทึกข้อมูลสำเร็จ");
+      // navigate(`/app/patients`)
+    } catch (err) {
+      console.log(err);
+      alert("เกิดข้อผิดพลาด" + err.message);
+    }
+  }, []);
+  const onSubmit =
+    mode === "update"
+      ? onSubmitUpdate
+      : mode === "diagnosis"
+      ? onSubmitDiagnosis
+      : onSubmitCreate;
   return (
     <React.Fragment>
       <Form
@@ -1445,6 +1450,25 @@ const TreatmentForm = (props) => {
                   <PainForm mode={mode} defaultdata={defaultdata} />
                 ) : null}
               </Grid>
+              {status === "MEDICINE" ? (
+                <React.Fragment>
+                  <Grid item xs={6}>
+                    <Field
+                      fullWidth
+                      required
+                      name="detailPrescription"
+                      component={TextField}
+                      type="text"
+                      label="รายละเอียด"
+                      variant="outlined"
+                      style={{ width: "100%" }}
+                      multiline
+                      rows={5}
+                    />
+                  </Grid>
+                  
+                </React.Fragment>
+              ) : null}
               <Grid item xs={12}>
                 {mode === "update" ? (
                   <FormControlLabel

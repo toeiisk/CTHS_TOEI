@@ -10,6 +10,9 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Logouser from "../img/user.png";
+import { useCallback, useState } from 'react'
+import { useNavigate } from "react-router-dom";
+import { useSession } from '../context/auth' 
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,7 +49,31 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignInSide() {
   const classes = useStyles();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const { userLogin } = useSession()
+  let navigate = useNavigate();
 
+  const handleUsernameChange = useCallback(
+    (e) => {
+      setUsername(e.target.value)
+    },
+    [],
+  )
+  const handlePasswordChange = useCallback(
+    (e) => {
+      setPassword(e.target.value)
+    },
+    [],
+  )
+
+  const handleLogin = useCallback(
+    async (e) => {
+      e.preventDefault()
+      await userLogin(username, password)
+    },
+    [userLogin, password, username],
+  )
   return (
     <Grid container component="main" className={classes.root}>
       <fullWidthClassName />
@@ -72,18 +99,19 @@ export default function SignInSide() {
           <Typography component="h1" variant="h5" style={{margin: 30}}>
             Clinic Treatment History System
           </Typography>
-          <form className={classes.form} noValidate>
+          <form className={classes.form} noValidate  onSubmit={handleLogin}>
             <TextField
               variant="filled"
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
+              id="username"
+              label="Username"
+              name="username"
+              autoComplete="username"
               autoFocus
-              // style={{ boxShadow: "5px 10px #777" }}
+              value={username}
+              onChange={handleUsernameChange}
             />
             <TextField
               variant="filled"
@@ -95,6 +123,9 @@ export default function SignInSide() {
               type="password"
               id="password"
               autoComplete="current-password"
+              value={password}
+              onChange={handlePasswordChange}
+
             />
             <Button
               type="submit"
@@ -106,7 +137,7 @@ export default function SignInSide() {
                 Login
               </Typography>
             </Button>
-            <Grid container>
+            {/* <Grid container>
               <Grid item xs>
                 <FormControlLabel
                   control={<Checkbox value="remember" color="primary" />}
@@ -131,7 +162,7 @@ export default function SignInSide() {
                   </Typography>
                 </Link>
               </Grid>
-            </Grid>
+            </Grid> */}
           </form>
         </div>
       </Grid>

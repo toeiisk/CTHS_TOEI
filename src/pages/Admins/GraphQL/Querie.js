@@ -25,7 +25,7 @@ export const GET_USER = gql`
       phone
       roles
       address
-      
+      isStaff
     }
   }
 `

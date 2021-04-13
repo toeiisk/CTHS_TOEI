@@ -16,19 +16,17 @@ import { IoBandageSharp } from 'react-icons/io5';
 import { GiMedicines } from 'react-icons/gi';
 import { AiOutlineMedicineBox } from 'react-icons/ai';
 import { MdExpandLess, MdExpandMore } from 'react-icons/md';
+import { useSession } from '../../context/auth'
 
-const user = {
-	avatar: '',
-	jobTitle: 'Senior Developer',
-	name: 'Katarina Smith',
-};
+
+
 
 const useStyles = makeStyles(() => ({
 	mobileDrawer: {
 		width: 256,
 	},
 	desktopDrawer: {
-		width: 256,
+		width: 300,
 		top: 90,
 		height: 'calc(100% - 90px)',
 	},
@@ -57,6 +55,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const Sidebar = ({ onMobileClose, openMobile }) => {
+	const { loading, user, logout: handleLogout } = useSession()
 	const classes = useStyles();
 	const location = useLocation();
 	const [open, setOpen] = React.useState(true);
@@ -72,14 +71,14 @@ const Sidebar = ({ onMobileClose, openMobile }) => {
 	}, [location.pathname]);
 
 	const content = (
-		<Box height="120vh" display="flex" flexDirection="column" style={{ backgroundColor: '#0f123f' }} >
+		<Box height="200vh" display="flex" flexDirection="column" style={{ backgroundColor: '#0f123f' }} >
 			<Box alignItems="center" display="flex" flexDirection="column" p={5}>
 				<Avatar className={classes.avatar} component={RouterLink} src={user.avatar} to="" />
 				<Typography className={classes.name} color="textPrimary" variant="h6">
-					{user.name}
+					{user.firstname} {user.lastname}
 				</Typography>
 				<Typography className={classes.name} color="textSecondary" variant="body2">
-					{user.jobTitle}
+					{user.roles}
 				</Typography>
 			</Box>
 			<Divider style={{ backgroundColor: 'white' }} />
@@ -196,7 +195,6 @@ const Sidebar = ({ onMobileClose, openMobile }) => {
 				<Box display="flex" flexDirection="column" justifyContent="center" mt={2}>
 					<Button
 						component="a"
-						href="/login"
 						variant="contained"
 						style={{
 							marginBottom: 10,
@@ -204,11 +202,9 @@ const Sidebar = ({ onMobileClose, openMobile }) => {
 							backgroundColor: '#017efa',
 							color: 'white',
 						}}
+						onClick={handleLogout}
 					>
-						LOG IN
-					</Button>
-					<Button component="a" href="/register" className={classes.textsidebar}>
-						Don't Have an Account?
+						LOG OUT
 					</Button>
 				</Box>
 			</Box>

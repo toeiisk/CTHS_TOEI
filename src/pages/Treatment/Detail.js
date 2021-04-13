@@ -55,7 +55,6 @@ const DetailTreatmentPage = () => {
   if (error) return `Error! ${error}`;
   if (loadingPatient) return "...Loading";
   if (errorPatient) return `Error! ${error}`;
-  console.log(data.treatmentById);
 
   return (
     <React.Fragment>
@@ -91,7 +90,11 @@ const DetailTreatmentPage = () => {
                     <Button
                       variant="contained"
                       color="secondary"
-                      onClick={() => navigate(`/app/patients/detail/${data.treatmentById.patientId}`)}
+                      onClick={() =>
+                        navigate(
+                          `/app/patients/detail/${data.treatmentById.patientId}`
+                        )
+                      }
                       style={{ marginLeft: 20 }}
                       className={classes.create}
                     >
@@ -204,66 +207,66 @@ const DetailTreatmentPage = () => {
               </React.Fragment>
             }
           >
-            {data.treatmentById.diagnosis !== null ? (
+            {data.treatmentById.diagnosis.length > 0 ? (
               <React.Fragment>
-                  <Grid container spacing={2}>
-                <Grid item xs={6}>
-                  <MuiTextField
-                    id="standard-read-only-input"
-                    label="รายละเอียด"
-                    defaultValue={data.treatmentById.diagnosis.detail}
-                    InputProps={{
-                      readOnly: true,
-                    }}
-                    variant="outlined"
-                    fullWidth
-                    multiline
-                    rows={5}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <MuiTextField
-                    id="standard-read-only-input"
-                    label="คำแนะนำ"
-                    defaultValue={data.treatmentById.diagnosis.advice}
-                    InputProps={{
-                      readOnly: true,
-                    }}
-                    variant="outlined"
-                    fullWidth
-                    multiline
-                    rows={5}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <MuiTextField
-                    id="standard-read-only-input"
-                    label="วันนัดหมอ"
-                    defaultValue={`${moment(
-                        new Date(data.treatmentById.diagnosis.followUpDate)
+                <Grid container spacing={2}>
+                  <Grid item xs={6}>
+                    <MuiTextField
+                      id="standard-read-only-input"
+                      label="รายละเอียด"
+                      defaultValue={data.treatmentById.diagnosis[0].detail}
+                      InputProps={{
+                        readOnly: true,
+                      }}
+                      variant="outlined"
+                      fullWidth
+                      multiline
+                      rows={5}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <MuiTextField
+                      id="standard-read-only-input"
+                      label="คำแนะนำ"
+                      defaultValue={data.treatmentById.diagnosis[0].advice}
+                      InputProps={{
+                        readOnly: true,
+                      }}
+                      variant="outlined"
+                      fullWidth
+                      multiline
+                      rows={5}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <MuiTextField
+                      id="standard-read-only-input"
+                      label="วันนัดหมอ"
+                      defaultValue={`${moment(
+                        new Date(data.treatmentById.diagnosis[0].followUpDate)
                       ).format("DD-MM-YYYY")}`}
-                    InputProps={{
-                      readOnly: true,
-                    }}
-                    variant="outlined"
-                    fullWidth
-                  />
+                      InputProps={{
+                        readOnly: true,
+                      }}
+                      variant="outlined"
+                      fullWidth
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <MuiTextField
+                      id="standard-read-only-input"
+                      label="รายละเอียดการนัด"
+                      defaultValue={data.treatmentById.diagnosis[0].followUpDetail}
+                      InputProps={{
+                        readOnly: true,
+                      }}
+                      variant="outlined"
+                      fullWidth
+                      multiline
+                      rows={5}
+                    />
+                  </Grid>
                 </Grid>
-                <Grid item xs={6}>
-                  <MuiTextField
-                    id="standard-read-only-input"
-                    label="รายละเอียดการนัด"
-                    defaultValue={data.treatmentById.diagnosis.followUpDetail}
-                    InputProps={{
-                      readOnly: true,
-                    }}
-                    variant="outlined"
-                    fullWidth
-                    multiline
-                    rows={5}
-                  />
-                </Grid>
-              </Grid>
               </React.Fragment>
             ) : null}
           </InfoCard>

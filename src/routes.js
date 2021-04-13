@@ -2,7 +2,6 @@ import React from 'react';
 import { Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import NavbarMain from './components/Navbar/Main/index';
-// Page
 import Homepage from './pages/Homepage';
 
 import Patients from './pages/Patients/Patients';
@@ -30,10 +29,10 @@ import Report from './pages/Report';
 import Login from './pages/Login';
 import Register from './pages/Register';
 
-const routes = [
+const routes = (user) => [
 	{
 		path: 'app',
-		element: <Navbar />,
+		element: user === null ? <Navigate to="/login" /> : <Navbar />,
 		children: [
 			{ path: 'medicine', element: <Prescription /> },
 			{ path: 'medicine/drugstore', element: <Medicine /> },
@@ -56,7 +55,7 @@ const routes = [
 	},
 	{
 		path: '/',
-		element: <NavbarMain />,
+		element:  user === null ? <NavbarMain /> : <Navigate to="/app/homepage" />,
 		children: [
 			{ path: 'login', element: <Login /> },
 			{ path: 'register', element: <Register /> },

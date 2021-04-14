@@ -20,6 +20,14 @@ export const GET_TREATMENTS_MEDICINE = gql`
         lastname
         idcardNumber
       }
+      prescription {
+        _id
+        creatorId
+        detail
+        status
+        dispensaryId
+        treatmentId
+      }
       type
       status
     }

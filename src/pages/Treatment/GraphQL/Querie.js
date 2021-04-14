@@ -97,14 +97,22 @@ export const GET_TREATMENT_BY_ID = gql`
         crackDetail
         physicalExamination
       }
-      diagnosis{
-      _id
-      detail
-      advice
-      followUpDate
-      followUpDetail
-      treatmentId
-    }
+      diagnosis {
+        _id
+        detail
+        advice
+        followUpDate
+        followUpDetail
+        treatmentId
+      }
+      prescription {
+        _id
+        creatorId
+        detail
+        status
+        dispensaryId
+        treatmentId
+      }
     }
   }
 `;
@@ -128,6 +136,14 @@ export const GET_TREATMENTS = gql`
         firstname
         lastname
         idcardNumber
+      }
+      prescription {
+        _id
+        creatorId
+        detail
+        status
+        dispensaryId
+        treatmentId
       }
       type
       status

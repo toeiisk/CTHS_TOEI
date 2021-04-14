@@ -16,6 +16,7 @@ import { Form, Field } from "react-final-form";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { TextField, Checkbox, Radio, Select } from "final-form-material-ui";
 import { useMutation } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   ADD_GENERAL_FORM,
@@ -37,7 +38,8 @@ import {
 } from "./GraphQL/Mutation";
 import { CREATE_DIAGNOSIS } from "../Dianosis/GraphQL/Mutation";
 import { GET_TREATMENT_BY_ID, GET_TREATMENTS } from "./GraphQL/Querie";
-import { GET_PATIENT } from "../Patients/GraphQL/Querie";
+import { GET_TREATMENTS_MEDICINE } from "../Medicine/Prescription/GraphQL/Querie";
+import { GET_MEDICINES } from "../Medicine/DrugStore/graphql/Queries";
 import { GET_TREATMENTS_DOAGNOSIS } from "../Dianosis/GraphQL/Querie";
 import GeneralForm from "./GenaralForm";
 import EyesForm from "./EyesForm";
@@ -48,8 +50,7 @@ import FeverForm from "./FeverForm";
 import DiarrheaForm from "./Diarrhea";
 import PainForm from "./PainForm";
 import DiagnosisForm from "../Dianosis/Diagnosis-form";
-import { useSession } from '../../context/auth'
-
+import { useSession } from "../../context/auth";
 const useStyles = makeStyles((theme) => ({
   root: {
     "& .MuiTextField-root": {
@@ -67,6 +68,10 @@ const useStyles = makeStyles((theme) => ({
   },
   chip: {
     margin: 2,
+  },
+  gridList: {
+    width: 500,
+    height: 450,
   },
 }));
 
@@ -108,7 +113,9 @@ const BootstrapInput = withStyles((theme) => ({
 const TreatmentForm = (props) => {
   const { mode, defaultdata } = props;
   const classes = useStyles();
-  const { user } = useSession()
+  const { user } = useSession();
+  const { loading, error, data } = useQuery(GET_MEDICINES);
+
   let navigate = useNavigate();
   const [addGeneralForm] = useMutation(ADD_GENERAL_FORM);
   const [addSkinForm] = useMutation(ADD_SKIN_FORM);
@@ -238,6 +245,7 @@ const TreatmentForm = (props) => {
             refetchQueries: [
               { query: GET_TREATMENTS },
               { query: GET_TREATMENTS_DOAGNOSIS },
+              { query: GET_TREATMENTS_MEDICINE },
             ],
           });
           alert("บันทึกข้อมูลสำเร็จ");
@@ -284,6 +292,7 @@ const TreatmentForm = (props) => {
             refetchQueries: [
               { query: GET_TREATMENTS },
               { query: GET_TREATMENTS_DOAGNOSIS },
+              { query: GET_TREATMENTS_MEDICINE },
             ],
           });
           alert("บันทึกข้อมูลสำเร็จ");
@@ -329,6 +338,7 @@ const TreatmentForm = (props) => {
             refetchQueries: [
               { query: GET_TREATMENTS },
               { query: GET_TREATMENTS_DOAGNOSIS },
+              { query: GET_TREATMENTS_MEDICINE },
             ],
           });
           alert("บันทึกข้อมูลสำเร็จ");
@@ -366,6 +376,7 @@ const TreatmentForm = (props) => {
             refetchQueries: [
               { query: GET_TREATMENTS },
               { query: GET_TREATMENTS_DOAGNOSIS },
+              { query: GET_TREATMENTS_MEDICINE },
             ],
           });
           alert("บันทึกข้อมูลสำเร็จ");
@@ -425,6 +436,7 @@ const TreatmentForm = (props) => {
             refetchQueries: [
               { query: GET_TREATMENTS },
               { query: GET_TREATMENTS_DOAGNOSIS },
+              { query: GET_TREATMENTS_MEDICINE },
             ],
           });
           alert("บันทึกข้อมูลสำเร็จ");
@@ -482,6 +494,7 @@ const TreatmentForm = (props) => {
             refetchQueries: [
               { query: GET_TREATMENTS },
               { query: GET_TREATMENTS_DOAGNOSIS },
+              { query: GET_TREATMENTS_MEDICINE },
             ],
           });
           alert("บันทึกข้อมูลสำเร็จ");
@@ -525,6 +538,7 @@ const TreatmentForm = (props) => {
             refetchQueries: [
               { query: GET_TREATMENTS },
               { query: GET_TREATMENTS_DOAGNOSIS },
+              { query: GET_TREATMENTS_MEDICINE },
             ],
           });
           alert("บันทึกข้อมูลสำเร็จ");
@@ -564,6 +578,7 @@ const TreatmentForm = (props) => {
             refetchQueries: [
               { query: GET_TREATMENTS },
               { query: GET_TREATMENTS_DOAGNOSIS },
+              { query: GET_TREATMENTS_MEDICINE },
             ],
           });
           alert("บันทึกข้อมูลสำเร็จ");
@@ -619,6 +634,7 @@ const TreatmentForm = (props) => {
             refetchQueries: [
               { query: GET_TREATMENTS },
               { query: GET_TREATMENTS_DOAGNOSIS },
+              { query: GET_TREATMENTS_MEDICINE },
             ],
           });
           alert("บันทึกข้อมูลสำเร็จ");
@@ -668,6 +684,7 @@ const TreatmentForm = (props) => {
             refetchQueries: [
               { query: GET_TREATMENTS },
               { query: GET_TREATMENTS_DOAGNOSIS },
+              { query: GET_TREATMENTS_MEDICINE },
             ],
           });
           alert("บันทึกข้อมูลสำเร็จ");
@@ -716,6 +733,7 @@ const TreatmentForm = (props) => {
             refetchQueries: [
               { query: GET_TREATMENTS },
               { query: GET_TREATMENTS_DOAGNOSIS },
+              { query: GET_TREATMENTS_MEDICINE },
             ],
           });
           alert("บันทึกข้อมูลสำเร็จ");
@@ -756,6 +774,7 @@ const TreatmentForm = (props) => {
             refetchQueries: [
               { query: GET_TREATMENTS },
               { query: GET_TREATMENTS_DOAGNOSIS },
+              { query: GET_TREATMENTS_MEDICINE },
             ],
           });
           alert("บันทึกข้อมูลสำเร็จ");
@@ -818,6 +837,7 @@ const TreatmentForm = (props) => {
             refetchQueries: [
               { query: GET_TREATMENTS },
               { query: GET_TREATMENTS_DOAGNOSIS },
+              { query: GET_TREATMENTS_MEDICINE },
             ],
           });
           alert("บันทึกข้อมูลสำเร็จ");
@@ -878,6 +898,7 @@ const TreatmentForm = (props) => {
             refetchQueries: [
               { query: GET_TREATMENTS },
               { query: GET_TREATMENTS_DOAGNOSIS },
+              { query: GET_TREATMENTS_MEDICINE },
             ],
           });
           alert("บันทึกข้อมูลสำเร็จ");
@@ -924,6 +945,7 @@ const TreatmentForm = (props) => {
             refetchQueries: [
               { query: GET_TREATMENTS },
               { query: GET_TREATMENTS_DOAGNOSIS },
+              { query: GET_TREATMENTS_MEDICINE },
             ],
           });
           alert("บันทึกข้อมูลสำเร็จ");
@@ -966,6 +988,7 @@ const TreatmentForm = (props) => {
             refetchQueries: [
               { query: GET_TREATMENTS },
               { query: GET_TREATMENTS_DOAGNOSIS },
+              { query: GET_TREATMENTS_MEDICINE },
             ],
           });
           alert("บันทึกข้อมูลสำเร็จ");
@@ -1006,10 +1029,8 @@ const TreatmentForm = (props) => {
       },
     };
     try {
-      // refetchQueries: [{ query: GET_PATIENTS }]
       await addDiagnosis({ variables });
       alert("บันทึกข้อมูลสำเร็จ");
-      // navigate(`/app/patients`)
     } catch (err) {
       console.log(err);
       alert("เกิดข้อผิดพลาด" + err.message);
@@ -1021,6 +1042,8 @@ const TreatmentForm = (props) => {
       : mode === "diagnosis"
       ? onSubmitDiagnosis
       : onSubmitCreate;
+  if (loading) return "Loading...";
+  if (error) return `Error! ${error.message}`;
   return (
     <React.Fragment>
       <Form
@@ -1450,25 +1473,6 @@ const TreatmentForm = (props) => {
                   <PainForm mode={mode} defaultdata={defaultdata} />
                 ) : null}
               </Grid>
-              {status === "MEDICINE" ? (
-                <React.Fragment>
-                  <Grid item xs={6}>
-                    <Field
-                      fullWidth
-                      required
-                      name="detailPrescription"
-                      component={TextField}
-                      type="text"
-                      label="รายละเอียด"
-                      variant="outlined"
-                      style={{ width: "100%" }}
-                      multiline
-                      rows={5}
-                    />
-                  </Grid>
-                  
-                </React.Fragment>
-              ) : null}
               <Grid item xs={12}>
                 {mode === "update" ? (
                   <FormControlLabel
@@ -1504,6 +1508,7 @@ const TreatmentForm = (props) => {
                   />
                 )}
               </Grid>
+
               <Grid container={"true"} item sx={12} spacing={2}>
                 {mode === "diagnosis" ? <DiagnosisForm /> : null}
               </Grid>

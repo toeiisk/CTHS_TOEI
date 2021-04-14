@@ -35,15 +35,10 @@ const useStyles = makeStyles((theme) => ({
 const columns = [
   { field: "id", headerName: "ID", width: 250, resizable: true },
   {
-    field: "createdAt",
-    headerName: "Date",
+    field: "status",
+    headerName: "Status",
     width: 200,
     resizable: true,
-  },
-  {
-    field: "type",
-    headerName: "Type",
-    width: 200,
   },
   {
     field: "name",
@@ -64,12 +59,13 @@ const columns = [
   },
 ];
 
-const Dianosispage = () => {
+const Prescription = () => {
   const classes = useStyles();
   let navigate = useNavigate();
   const { loading, error, data } = useQuery(GET_TREATMENTS_MEDICINE);
   if (loading) return "Loading...";
   if (error) return `Error! ${error.message}`;
+  console.log(data)
   return (
     <React.Fragment className={classes.root}>
       <Box className={classes.boxAdmin}>
@@ -99,13 +95,10 @@ const Dianosispage = () => {
               <DataGrid
                 rows={data.allTreatments.map((item) => ({
                   id: item._id,
-                  createdAt: moment(new Date(item.createdAt)).format(
-                    "DD/MM/YYYY"
-                  ),
+                  status: item.prescription[0].status,
                   name: item.patient.firstname,
                   lastname: item.patient.lastname,
                   idcardNumber: item.patient.idcardNumber,
-                  type: item.type,
                 }))}
                 columns={columns}
                 pagination
@@ -120,4 +113,4 @@ const Dianosispage = () => {
   );
 };
 
-export default Dianosispage;
+export default Prescription;

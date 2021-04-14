@@ -20,7 +20,6 @@ import {
       async (username, password) => {
         try {
           const res = await userLogin({ variables: { username, password } })
-          console.log(res.data.userLogin?.token)
           if (res?.data?.userLogin?.token) {
             setCookie('token', res?.data?.userLogin?.token, { maxAge: 86400 })
             setUser(res?.data?.userLogin?.user)
@@ -52,7 +51,6 @@ import {
         const loadData = async () => {
           try {
             await loadMe()
-            console.log(data)
           } catch (err) {
             removeCookie('token', { maxAge: 86400 })
           }

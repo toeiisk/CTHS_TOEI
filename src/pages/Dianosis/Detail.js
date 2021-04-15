@@ -16,6 +16,8 @@ import { GET_TREATMENT_BY_ID } from "../Treatment/GraphQL/Querie";
 import { GET_PATIENT } from "../Patients/GraphQL/Querie";
 import moment from "moment";
 import TreatmentForm from "../Treatment/Treatment-form";
+import CreatePrescription from '../Medicine/Prescription/Create'
+import PrescriptionByID from '../Medicine/Prescription/PrescriptionMyId'
 
 const useStyles = makeStyles((theme) => ({
   create: {
@@ -36,9 +38,7 @@ const DetailDiagnosisPage = () => {
     },
     fetchPolicy: "cache-and-network",
   });
-
   const PatientId = data?.treatmentById?.patientId;
-
   const {
     loading: loadingPatient,
     error: errorPatient,
@@ -47,14 +47,12 @@ const DetailDiagnosisPage = () => {
     variables: {
       id: PatientId,
     },
-    fetchPolicy: "cache-and-network",
   });
 
   if (loading) return "...Loading";
   if (error) return `Error! ${error}`;
   if (loadingPatient) return "...Loading";
   if (errorPatient) return `Error! ${error}`;
-
   return (
     <React.Fragment>
       <Box>
@@ -90,9 +88,7 @@ const DetailDiagnosisPage = () => {
                       variant="contained"
                       color="secondary"
                       onClick={() =>
-                        navigate(
-                          `/app/patients/detail/${PatientId}`
-                        )
+                        navigate(`/app/patients/detail/${PatientId}`)
                       }
                       style={{ marginLeft: 20 }}
                       className={classes.create}
@@ -187,6 +183,46 @@ const DetailDiagnosisPage = () => {
             }
           >
             <TreatmentForm defaultdata={data} mode={"diagnosis"} />
+          </InfoCard>
+        </Grid>
+        <Grid item xs={12} style={{ marginTop: 20 }}>
+          <InfoCard
+            title={
+              <React.Fragment>
+                <Box
+                  display="flex "
+                  style={{
+                    fontSize: "1em",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <h4>สร้างใบสั่งยา</h4>
+                </Box>
+              </React.Fragment>
+            }
+          >
+            <CreatePrescription  treatmentId={data}/>
+          </InfoCard>
+        </Grid>
+        <Grid item xs={12} style={{ marginTop: 20 }}>
+          <InfoCard
+            title={
+              <React.Fragment>
+                <Box
+                  display="flex "
+                  style={{
+                    fontSize: "1em",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <h4>รายการใบสั่งยา</h4>
+                </Box>
+              </React.Fragment>
+            }
+          >
+           {data.treatmentById.prescription.length > 0 ?  <PrescriptionByID data={data.treatmentById}/>: null }
           </InfoCard>
         </Grid>
       </Box>

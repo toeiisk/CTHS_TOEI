@@ -1,35 +1,31 @@
 import { gql } from "@apollo/client";
 
 export const GET_TREATMENTS_MEDICINE = gql`
-  query GetTreatments {
-    allTreatments(filter: {status: MEDICINE} ) {
+  query allPrescriptions {
+    allPrescriptions {
       _id
-      patientId
-      weight
-      height
-      bloodPressure
-      pulseRate
-      tempurature
-      respiratoryRate
-      bmi
-      oxygenSaturation
-      medicalCertificate
-      createdAt
-      patient {
-        firstname
-        lastname
-        idcardNumber
-      }
-      prescription {
-        _id
-        creatorId
-        detail
-        status
-        dispensaryId
-        treatmentId
-      }
-      type
+      detail
       status
+      creatorId
+      dispensaryId
+      treatmentId
+    }
+  }
+`;
+
+export const GET_PRESCRIPTION_BY_ID = gql`
+  query GetPrecriptionById($id: MongoID!) {
+    prescriptionById(_id: $id) {
+      _id
+      creatorId
+      detail
+      status
+      treatmentId
+      dispensaryId
+      dispenseItemId {
+        dispenseId
+        amount
+      }
     }
   }
 `;

@@ -17,7 +17,7 @@ import MedicineDetail from './pages/Medicine/DrugStore/Detail';
 import CreateMedicine from './pages/Medicine/DrugStore/Create';
 
 import Prescription from './pages/Medicine/Prescription/Prescription';
-
+import DetailPrescription from './pages/Medicine/Prescription/Detail';
 import Treatment from './pages/Treatment/Treatments';
 import CreateTreatment from './pages/Treatment/Create';
 import DetailTreatment from './pages/Treatment/Detail'
@@ -36,6 +36,7 @@ const routes = (user) => [
 		children: [
 			{ path: 'medicine', element: <Prescription /> },
 			{ path: 'medicine/drugstore', element: <Medicine /> },
+			{ path: 'medicine/detail/:id', element: <DetailPrescription /> },
 			{ path: 'medicine/drugstore/detail/:id', element: <MedicineDetail /> },
 			{ path: 'medicine/drugstore/create', element: <CreateMedicine /> },
 			{ path: 'homepage', element: <Homepage /> },

@@ -37,25 +37,26 @@ const columns = [
   {
     field: "status",
     headerName: "Status",
-    width: 200,
+    width: 100,
     resizable: true,
   },
   {
-    field: "name",
-    headerName: "Name",
-    width: 200,
+    field: "treatmentId",
+    headerName: "Treatment ID",
+    width: 250,
     resizable: true,
   },
   {
-    field: "lastname",
-    headerName: "Lastname",
-    width: 200,
+    field: "creatorId",
+    headerName: "Creator ID",
+    width: 250,
     resizable: true,
   },
   {
-    field: "idcardNumber",
-    headerName: "Idcard Number",
-    width: 200,
+    field: "dispensaryId",
+    headerName: "Dispensary ID",
+    width: 250,
+    resizable: true,
   },
 ];
 
@@ -65,7 +66,7 @@ const Prescription = () => {
   const { loading, error, data } = useQuery(GET_TREATMENTS_MEDICINE);
   if (loading) return "Loading...";
   if (error) return `Error! ${error.message}`;
-  console.log(data)
+  console.log(data.allPrescriptions[0])
   return (
     <React.Fragment className={classes.root}>
       <Box className={classes.boxAdmin}>
@@ -93,17 +94,17 @@ const Prescription = () => {
               style={{ height: 500, width: "100%", backgroundColor: "white" }}
             >
               <DataGrid
-                rows={data.allTreatments.map((item) => ({
+                rows={data.allPrescriptions.map((item) => ({
                   id: item._id,
-                  status: item.prescription[0].status,
-                  name: item.patient.firstname,
-                  lastname: item.patient.lastname,
-                  idcardNumber: item.patient.idcardNumber,
+                  status: item.status,
+                  treatmentId: item.treatmentId,
+                  creatorId: item.creatorId,
+                  dispensaryId: item.dispensaryId,
                 }))}
                 columns={columns}
                 pagination
                 pageSize={10}
-                // onRowClick={(row) => navigate(`/app/treatment/detail/${row.row.id}`)}
+                onRowClick={(row) => navigate(`/app/medicine/detail/${row.row.id}`)}
               />
             </div>
           </Grid>

@@ -61,6 +61,7 @@ const PrescriptionByID = (props) => {
   const classes = useStyles();
   let navigate = useNavigate();
   const {data} = props
+  console.log(data)
   return (
     <React.Fragment className={classes.root}>
       <Grid
@@ -74,17 +75,18 @@ const PrescriptionByID = (props) => {
           <div style={{ height: 500, width: "100%", backgroundColor: "white" }}>
             <DataGrid
               rows={data.prescription.map((item) => ({
-                id: item.treatmentId,
+                id: item._id,
                 status: item.status,
                 creatorId: item.creatorId,
                 detail: item.detail,
                 dispensary: item.dispensary,
+                dispensaryId: item.dispensaryId
               }))}
               columns={columns}
               pagination
               pageSize={10}
               onRowClick={(row) =>
-                navigate(`/app/treatment/detail/${row.row.id}`)
+                navigate(`/app/medicine/detail/${row.row.id}`)
               }
             />
           </div>

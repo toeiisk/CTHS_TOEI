@@ -16,6 +16,7 @@ import mc from '../img/mc.jpg'
 import pc from '../img/pc.jpg'
 import Paper from '@material-ui/core/Paper';
 import { Link } from 'react-router-dom';
+import { useSession } from "../context/auth";
 
 
 const useStyles = makeStyles(() => ({
@@ -34,6 +35,7 @@ const useStyles = makeStyles(() => ({
 
 const Homepage = () => {
   const classes = useStyles();
+  const {user} = useSession()
   return (
     <React.Fragment className={classes.root}>
       <Box className={classes.boxAdmin}>

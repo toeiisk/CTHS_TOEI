@@ -3,12 +3,33 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink} from "@apollo/client";
 import { SessionProvider } from "./context/auth";
+import { setContext } from '@apollo/client/link/context';
+
+
+const httpLink = createHttpLink({
+  uri: 'http://localhost:3001/graphql',
+});
+
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem('token');
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : "",
+    }
+  }
+});
 
 const client = new ApolloClient({
-  uri: "http://localhost:3001/graphql",
+  link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
+  headers: {
+    authorization: localStorage.getItem('token') ? "Bearer " + localStorage.getItem('token') : undefined,
+    'client-name': 'WidgetX Ecom [web]',
+    'client-version': '1.0.0'
+  }
 });
 
 ReactDOM.render(

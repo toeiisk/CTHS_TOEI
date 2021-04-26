@@ -22,6 +22,7 @@ import {
           const res = await userLogin({ variables: { username, password } })
           if (res?.data?.userLogin?.token) {
             setCookie('token', res?.data?.userLogin?.token, { maxAge: 86400 })
+            localStorage.setItem('token', res?.data?.userLogin?.token)
             setUser(res?.data?.userLogin?.user)
           }
         } catch (err) {
@@ -35,6 +36,7 @@ import {
       () => {
         setUser(null)
         removeCookie('token', { maxAge: 86400 })
+        localStorage.removeItem('token')
       },
       [removeCookie],
     )

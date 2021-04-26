@@ -76,19 +76,12 @@ const CreatePrescription = (props) => {
 
   const onUpdate = useCallback(async (value) => {
     const variables = {
-      id: dataPrescription.prescriptionById._id,
-      record: {
-        treatmentId: dataPrescription.prescriptionById.treatmentId,
-        creatorId: dataPrescription.prescriptionById.creatorId,
-        detail: value.detail,
-        status: "COMPLETE",
-        dispensaryId: user._id,
-      },
+      prescriptionId: dataPrescription.prescriptionById._id,
     };
     try {
       await updatePrescription({
         variables,
-        refetchQueries: [{ query: GET_TREATMENTS_MEDICINE }],
+        refetchQueries: [{ query: GET_TREATMENTS_MEDICINE }, { query: GET_MEDICINES }],
       });
       alert("บันทึกข้อมูลสำเร็จ");
     } catch (err) {

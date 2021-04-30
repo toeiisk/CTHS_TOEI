@@ -13,7 +13,7 @@ import {
   export const SessionProvider = (props) => {
     const { children } = props
     const [user, setUser] = useState(null)
-    const [, setCookie, removeCookie] = useCookies(['token'])
+    const [, setCookie, removeCookie] = useCookies(['cths_token'])
     const [loadMe, { loading, data }] = useLazyQuery(ME_QUERY, { fetchPolicy: 'network-only' })
     const [userLogin] = useMutation(LOGIN_MUTATION)
     const handleLogin = useCallback(
@@ -21,13 +21,14 @@ import {
         try {
           const res = await userLogin({ variables: { username, password } })
           if (res?.data?.userLogin?.token) {
-            setCookie('token', res?.data?.userLogin?.token, { maxAge: 86400 })
-            localStorage.setItem('token', res?.data?.userLogin?.token)
+            setCookie('cths_token', res?.data?.userLogin?.token, { maxAge: 86400 })
+            localStorage.setItem('cths_token', res?.data?.userLogin?.token)
             setUser(res?.data?.userLogin?.user)
           }
         } catch (err) {
           alert('Username หรือ Password ผิดพลาด')
-          removeCookie('token', { maxAge: 86400 })
+          removeCookie('cths_token', { maxAge: 86400 })
+          localStorage.removeItem('cths_token')
         }
       },
       [userLogin, removeCookie, setCookie],
@@ -35,8 +36,8 @@ import {
     const handleLogout = useCallback(
       () => {
         setUser(null)
-        removeCookie('token', { maxAge: 86400 })
-        localStorage.removeItem('token')
+        removeCookie('cths_token', { maxAge: 86400 })
+        localStorage.removeItem('cths_token')
       },
       [removeCookie],
     )
@@ -54,7 +55,8 @@ import {
           try {
             await loadMe()
           } catch (err) {
-            removeCookie('token', { maxAge: 86400 })
+            removeCookie('cths_token', { maxAge: 86400 })
+            localStorage.removeItem('cths_token')
           }
         }
         loadData()

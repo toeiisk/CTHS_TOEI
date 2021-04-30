@@ -13,7 +13,7 @@ const httpLink = createHttpLink({
 });
 
 const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('cths_token');
   return {
     headers: {
       ...headers,
@@ -26,7 +26,7 @@ const client = new ApolloClient({
   link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
   headers: {
-    authorization: localStorage.getItem('token') ? "Bearer " + localStorage.getItem('token') : undefined,
+    authorization: localStorage.getItem('cths_token') ? "Bearer " + localStorage.getItem('cths_token') : undefined,
     'client-name': 'WidgetX Ecom [web]',
     'client-version': '1.0.0'
   }
